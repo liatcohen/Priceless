@@ -25,6 +25,8 @@ export default class DatePicker extends React.Component {
     handleDayClick(day) {
         const range = DateUtils.addDayToRange(day, this.state);
         this.setState(range);
+        console.log(range)
+        this.props.handleDateChange(range)
     }
 
     handleResetClick() {

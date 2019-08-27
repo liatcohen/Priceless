@@ -9,9 +9,7 @@ import DatePicker from './DatePicker'
 @inject("ConcertsStore")
 @observer
 class SearchBar extends Component {
-   state = {
-      value: 10
-   }
+  
    handleInput = (e) => {
       this.props.ConcertsStore.handleInput(e.target.name, e.target.value)
    }
@@ -20,6 +18,11 @@ class SearchBar extends Component {
       this.props.ConcertsStore.handleInput('priceTo', value)
    }
 
+   handleDateChange = (range)=>{
+      this.props.ConcertsStore.handleInput("dateFrom", range.from)
+      this.props.ConcertsStore.handleInput("dateTo", range.to)
+
+   }
    render() {
       let store = this.props.ConcertsStore.formInputs
       return (
@@ -47,7 +50,7 @@ class SearchBar extends Component {
                <div className='value'>${store.priceTo}</div>
             </div>
             <div>
-               number of tickets<input type="number" id="minTickets" name="minTickets"
+               number of tickets<input type="number" id="minTickets" name="minTickets" min="1"
                   value={store.minTickets}
                   onChange={this.handleInput} />
             </div>
@@ -55,7 +58,7 @@ class SearchBar extends Component {
             <div>range of dates:
 
 
-               <DatePicker/>
+               <DatePicker handleDateChange={this.handleDateChange}/>
             </div>
          
             <button onClick={this.props.ConcertsStore.search}>search</button>
