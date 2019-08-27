@@ -5,6 +5,10 @@ export class UserStore {
     @observable name
     @observable favorites
 
+    constructor() {
+        this.userId="333"
+        this.name="liat cohen"
+    }
     @action get = (concertId) =>{
         // get(‘/concert:/concertId’)
         // Return specific concert
