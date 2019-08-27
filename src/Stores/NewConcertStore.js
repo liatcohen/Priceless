@@ -1,6 +1,8 @@
 import { observable, computed, action } from 'mobx'
 import axios from 'axios'
+import { UserStore } from './UserStore'
 
+let User= new UserStore
 
 export class NewConcertStore {
    @observable newConcert
@@ -17,24 +19,14 @@ export class NewConcertStore {
          asked_price: Number,
          original_price: Number,
          additional_info: "",
+         seller: User.userId
+//         seller: User.userId
       }
    }
    @action saveConcert = async (concertInfo) => {
-      console.log("@action saveConcert")
-      let concert = {
-         artist: concertInfo.artist,
-         date: concertInfo.date,
-         hour: concertInfo.hour,
-         city: concertInfo.city,
-         venue: concertInfo.venue,
-         num_of_tickets: concertInfo.num_of_tickets,
-         asked_price: concertInfo.asked_price,
-         original_price: concertInfo.original_price,
-         additional_info: concertInfo.additional_info,
-      }
-      console.log(1 + concert)
+      console.log(this.newConcert.seller)
+      let concert = { ...concertInfo }
       await axios.post(`http://localhost:5000/concert`, concert)
-      console.log(2 + concert)
       this.newConcert = {
          artist: "",
          date: Date,
@@ -46,6 +38,7 @@ export class NewConcertStore {
          asked_price: Number,
          original_price: Number,
          additional_info: "",
+         // seller: UserStore.userId
       }
    }
 
@@ -53,7 +46,6 @@ export class NewConcertStore {
       this.newConcert[name] = value
    }
 }
-
 
 
 
