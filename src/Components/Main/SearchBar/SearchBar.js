@@ -3,7 +3,7 @@ import { observer, inject } from 'mobx-react'
 // import './SearchBar.css'
 import Slider from 'react-rangeslider'
 import 'react-rangeslider/lib/index.css'
-const slider = require('react-rangeslider')
+// const slider = require('react-rangeslider')
 
 @inject("ConcertsStore")
 @observer
@@ -46,7 +46,7 @@ class SearchBar extends Component {
                <div className='value'>${store.priceTo}</div>
             </div>
             <div>
-               Minimum number of tickets<input type="number" id="minTickets" name="minTickets"
+               number of tickets<input type="number" id="minTickets" name="minTickets"
                   value={store.minTickets}
                   onChange={this.handleInput} />
             </div>
