@@ -34,12 +34,11 @@ router.post('/concert', function (req, res) {
 router.get('/concerts', function (req, res) {
     let query = req.query || {}
     const queries = []
-    let artist = query.artist ? queries.push(`artist = '${query.artist}'`) : null
-    let city = query.city ?  queries.push(`city = '${query.city}'`) : null
-    let date = query.dateFrom && query.dateTo ?  queries.push(`DATE(date) BETWEEN '${query.dateFrom}' AND '${query.dateTo}' `) : null
-    let priceF = query.priceFrom ?  queries.push(`asked_price >= ${query.priceFrom} `) : null
-    let priceT = query.priceTo ?  queries.push(`asked_price <= ${query.priceTo} `) : null
-    let minTickets = query.minTickets ?  queries.push(`num_of_tickets >= ${query.minTickets}`) : null 
+    query.artist ? queries.push(`artist = '${query.artist}'`) : null
+    query.city ?  queries.push(`city = '${query.city}'`) : null
+    query.dateFrom && query.dateTo ?  queries.push(`DATE(date) BETWEEN '${query.dateFrom}' AND '${query.dateTo}' `) : null
+    query.priceTo ?  queries.push(`asked_price <= ${query.priceTo} `) : null
+    query.minTickets ?  queries.push(`num_of_tickets >= ${query.minTickets}`) : null 
 
 
       let dataQuery = `
@@ -53,7 +52,7 @@ router.get('/concerts', function (req, res) {
       FROM concert` 
     
     sequelize
-      .query( Object.keys(query).length ? dataQuery : getAll )
+      .query( queries.length ? dataQuery : getAll )
       .spread(function (results, metadata) {
         console.log(results);
             res.send(results)
