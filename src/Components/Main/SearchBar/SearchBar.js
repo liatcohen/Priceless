@@ -4,6 +4,7 @@ import './SearchBar.css'
 import Slider from 'react-rangeslider'
 import 'react-rangeslider/lib/index.css'
 import DatePicker from './DatePicker'
+
 // const slider = require('react-rangeslider')
 
 @inject("ConcertsStore")
