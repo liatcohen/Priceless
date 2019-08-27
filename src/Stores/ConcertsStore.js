@@ -3,8 +3,18 @@ import { observable, computed, action } from 'mobx'
 
 export class ConcertsStore {
     @observable concerts = []
+    @observable formInputs = {}
 
     constructor() {
+        this.formInputs = {
+            artist: '',
+            city: '',
+            dateFrom: '',
+            dateTo: '',
+            priceFrom: '',
+            priceTo: '',
+            minTickets: ''
+        }
         let concert1 = {
             id: 111,
             artist: "Lola marsh",
@@ -41,7 +51,7 @@ export class ConcertsStore {
     }
 
     @action getConcerts = (query) => {
-        
+
         //     Sends get request getConcerts(‘/concerts’) 
         //     Get all concerts,array of objects.
         //     Each contains: {concertId, artists, number of tickets,date,price,image}
@@ -56,7 +66,24 @@ export class ConcertsStore {
     @action addToFavorite = (concertId) => {
         // (post “/favorite/:userId/:concertId”)
     }
-    @action Search = (query) => {
+    @action handleInput = (name, value) => {
+        this.formInputs[name] = value
+    }
+    @action search = () => {
+        console.log(`SEARCH: 
+         artist: ${this.formInputs["artist"]}, 
+         city: ${this.formInputs["city"]}, 
+         dateFrom: ${this.formInputs["dateFrom"]}, 
+         dateTo: ${this.formInputs["dateTo"]}
+         minTickets: ${this.formInputs["minTickets"]}, 
+         priceFrom: ${this.formInputs["priceFrom"]}, 
+         priceTo: ${this.formInputs["priceTo"]}, `)
+        // this.formInputs={...formInputs}
+
+
+
+      
+        // console.log(this.formInputs)
         // get(“/concerts”, body)
         // Sends get request getConcerts(‘/concerts’) with query: artist, city, dateFrom, dateTo, priceFrom, priceTo, minTickets
 
