@@ -1,16 +1,16 @@
 import React, { Component } from 'react'
 import { observer, inject } from 'mobx-react'
-// import './SearchBar.css'
+import './SearchBar.css'
 import Slider from 'react-rangeslider'
 import 'react-rangeslider/lib/index.css'
+import DatePicker from './DatePicker'
+const moment = require('moment')
 // const slider = require('react-rangeslider')
 
 @inject("ConcertsStore")
 @observer
 class SearchBar extends Component {
-   state = {
-      value: 10
-   }
+  
    handleInput = (e) => {
       this.props.ConcertsStore.handleInput(e.target.name, e.target.value)
    }
@@ -19,6 +19,11 @@ class SearchBar extends Component {
       this.props.ConcertsStore.handleInput('priceTo', value)
    }
 
+   handleDateChange = (range)=>{
+      this.props.ConcertsStore.handleInput("dateFrom", moment(range.from).format('YYYY-MM-DD  00:00:00'))
+      this.props.ConcertsStore.handleInput("dateTo", moment(range.to).format('YYYY-MM-DD  23:59:59') )
+
+   }
    render() {
       let store = this.props.ConcertsStore.formInputs
       return (
@@ -46,12 +51,16 @@ class SearchBar extends Component {
                <div className='value'>${store.priceTo}</div>
             </div>
             <div>
-               Minimum number of tickets<input type="number" id="minTickets" name="minTickets"
+               number of tickets<input type="number" id="minTickets" name="minTickets" min="1"
                   value={store.minTickets}
                   onChange={this.handleInput} />
             </div>
 
-            <div>range of dates:</div>
+            <div>range of dates:
+
+
+               <DatePicker handleDateChange={this.handleDateChange}/>
+            </div>
          
             <button onClick={this.props.ConcertsStore.search}>search</button>
          </div>)

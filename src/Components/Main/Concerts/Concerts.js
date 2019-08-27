@@ -9,6 +9,7 @@ import ConcertBox from '../ConcertBox/ConcertBox'
 class Concerts extends Component {
 
    componentDidMount () {
+      console.log("componentDidMount")
       this.props.ConcertsStore.getConcerts()
    }
 
@@ -16,7 +17,7 @@ class Concerts extends Component {
    render() {
       return (
          <div className="concerts">
-            {this.props.ConcertsStore.concerts.map(c => <ConcertBox concert={c} />)}
+            {this.props.ConcertsStore.concerts.map(c => <ConcertBox key={c.id} concert={c} />)}
             {/* <Link to="/concertpage" className="Concerts"> specifiec Concert </Link> */}
          </div>)
    }

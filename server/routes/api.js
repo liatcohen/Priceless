@@ -22,7 +22,8 @@ const sequelize = new Sequelize('mysql://root:root@localhost/priceless')
 router.post('/concert', async (req, res) => {
     let data = req.body
     const images = await axios.get(`https://api.cognitive.microsoft.com/bing/v7.0/images/search/?q=${data.artist}&20concert&imageType=Photo&minHeight=1500&minWidth=2000`)
-    
+    console.log(data.date)
+    console.log(data.hour)
     let img_url = images.value[0].contentUrl
     sequelize
     .query(`INSERT INTO concert ( artist, date, country, city , venue, num_of_tickets, asked_price, original_price, additional_info, seller, status, img_url, uploaded_at)

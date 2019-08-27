@@ -26,10 +26,10 @@
 -- --     phone_number INT
 -- -- );
 
--- CREATE TABLE favorite (
---     user_id INT,
---     concert_id INT,
+CREATE TABLE favorite (
+    user_id INT,
+    concert_id INT,
 
---     FOREIGN KEY (user_id) REFERENCES user (id),
---     FOREIGN KEY (concert_id) REFERENCES concert (id)
--- );
+    FOREIGN KEY (user_id) REFERENCES user (id),
+    FOREIGN KEY (concert_id) REFERENCES concert (id)
+);
