@@ -13,13 +13,13 @@ export class UserStore {
         // get(‘/concert:/concertId’)
         // Return specific concert
     }
-    @computed get userId() {
-        return this.userId
-    }
+    // @computed get userId() {
+    //     return this.userId
+    // }
    
-    @computed get userName() {
-        return this.name
-    }
+    // @computed get userName() {
+    //     return this.name
+    // }
    
 }
 
