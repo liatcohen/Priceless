@@ -1,0 +1,23 @@
+import { observable, computed, action } from  'mobx'
+
+export class UserStore {
+    @observable userId
+    @observable name
+    @observable favorites
+
+    @action get = (concertId) =>{
+        // get(‘/concert:/concertId’)
+        // Return specific concert
+    }
+    @computed get userId() {
+        return this.userId
+    }
+   
+    @computed get userName() {
+        return this.name
+    }
+   
+}
+
+
+
