@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { observer, inject } from 'mobx-react'
-// import './SearchBar.css'
+import './SearchBar.css'
 import Slider from 'react-rangeslider'
 import 'react-rangeslider/lib/index.css'
 import DatePicker from './DatePicker'
