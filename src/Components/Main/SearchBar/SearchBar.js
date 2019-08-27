@@ -4,7 +4,7 @@ import './SearchBar.css'
 import Slider from 'react-rangeslider'
 import 'react-rangeslider/lib/index.css'
 import DatePicker from './DatePicker'
-
+const moment = require('moment')
 // const slider = require('react-rangeslider')
 
 @inject("ConcertsStore")
@@ -20,8 +20,8 @@ class SearchBar extends Component {
    }
 
    handleDateChange = (range)=>{
-      this.props.ConcertsStore.handleInput("dateFrom", range.from)
-      this.props.ConcertsStore.handleInput("dateTo", range.to)
+      this.props.ConcertsStore.handleInput("dateFrom", moment(range.from).format('YYYY-MM-DD  00:00:01'))
+      this.props.ConcertsStore.handleInput("dateTo", moment(range.to).format('YYYY-MM-DD  23:59:59') )
 
    }
    render() {
