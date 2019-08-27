@@ -1,4 +1,6 @@
 import { observable, computed, action } from 'mobx'
+import axios from 'axios'
+
 
 export class NewConcertStore {
    @observable newConcert
@@ -9,7 +11,7 @@ export class NewConcertStore {
          date: Date,
          hour: Date,
          country: "Israel",
-         city: "Tel aviv",
+         city: "",
          venue: "",
          num_of_tickets: Number,
          asked_price: Number,
@@ -17,8 +19,8 @@ export class NewConcertStore {
          additional_info: "",
       }
    }
-   @action saveConcert = (concertInfo) => {
-      let concert={
+   @action saveConcert = async (concertInfo) => {
+      let concert = {
          artist: concertInfo.artist,
          date: concertInfo.date,
          hour: concertInfo.hour,
@@ -29,8 +31,21 @@ export class NewConcertStore {
          original_price: concertInfo.original_price,
          additional_info: concertInfo.additional_info,
       }
-      // post(‘/concerts’)
-      console.log(concert)
+      console.log(1 + concert)
+      await axios.post(`http://localhost:5000/concert/`, concert)
+      console.log(2 + concert)
+      this.newConcert = {
+         artist: "",
+         date: Date,
+         hour: Date,
+         country: "Israel",
+         city: "",
+         venue: "",
+         num_of_tickets: Number,
+         asked_price: Number,
+         original_price: Number,
+         additional_info: "",
+      }
    }
 
    @action handleInput = (name, value) => {

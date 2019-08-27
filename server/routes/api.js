@@ -2,7 +2,7 @@ const Sequelize = require('sequelize')
 const express = require('express')
 const router = express.Router()
 const moment = require('moment')
-const sequelize = new Sequelize('mysql://root:@localhost/priceless')
+const sequelize = new Sequelize('mysql://root:Guprd214!@localhost/priceless')
 
 
 // *****checking the connect******
@@ -29,7 +29,7 @@ router.post('/concert', function (req, res) {
 
     })
 })
-
+//
 // ******get all or filter******
 router.get('/concerts', function (req, res) {
     let query = req.query || {}
