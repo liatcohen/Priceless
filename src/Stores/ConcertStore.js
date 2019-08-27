@@ -1,4 +1,5 @@
 import { observable, computed, action } from 'mobx'
+import axios from 'axios';
 
 export class ConcertStore {
     @observable concert
@@ -21,9 +22,16 @@ export class ConcertStore {
         }
 
     }
-    @action getConcert = (concertId) => {
+    @action getConcert = async (concertId) => {
+        console.log("@action getConcert")
         // get(‘/concert:/concertId’)
         // Return specific concert
+
+        const response = await axios.get(`http://localhost:5000/concert/${concertId}`)
+            console.log(response);
+            console.log(response.data);
+
+             this.concert = {...response.data}
     }
 
 

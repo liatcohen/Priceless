@@ -6,7 +6,9 @@ export class UserStore {
     @observable favorites
 
     constructor() {
-        this.userId="333"
+        this.userId="2"
+        // -- VALUES ('Liat Cohen', 'liatcohen9@gmail.com', 0504211600);
+
         this.name="Shoobert"
     }
     @action get = (concertId) =>{
