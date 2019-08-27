@@ -2,17 +2,17 @@ USE priceless;
 
 -- CREATE DEMI USERS
 
--- INSERT INTO user (name, email, phone_number)
--- VALUES ('Hadar Alon', 'hadaralon3@gmail.com', 0528528402);
+INSERT INTO user (name, email, phone_number)
+VALUES ('Hadar Alon', 'hadaralon3@gmail.com', 0528528402);
 
--- INSERT INTO user (name, email, phone_number)
--- VALUES ('Zohar Pfeffer', 'pfzohar@gmail.com', 0526052344);
+INSERT INTO user (name, email, phone_number)
+VALUES ('Zohar Pfeffer', 'pfzohar@gmail.com', 0526052344);
 
--- INSERT INTO user (name, email, phone_number)
--- VALUES ('Ofer Gilboa', 'ofer1gilboa@gmail.com', 0528283312);
+INSERT INTO user (name, email, phone_number)
+VALUES ('Ofer Gilboa', 'ofer1gilboa@gmail.com', 0528283312);
 
--- INSERT INTO user (name, email, phone_number)
--- VALUES ('Liat Cohen', 'liatcohen9@gmail.com', 0504211600);
+INSERT INTO user (name, email, phone_number)
+VALUES ('Liat Cohen', 'liatcohen9@gmail.com', 0504211600);
 
 -- /CREATE DEMI USERS
 
