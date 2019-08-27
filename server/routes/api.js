@@ -107,7 +107,7 @@ router.post('/favorite/:userID/:concertID', (req, res) => {
         VALUES(${user}, ${concert})
     ;`)
         .spread((result, metadata) => {
-            res.send(result)
+            res.end(result)
         })
 })
 
