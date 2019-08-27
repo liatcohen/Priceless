@@ -20,6 +20,7 @@ export class NewConcertStore {
          original_price: Number,
          additional_info: "",
          seller: User.userId
+//         seller: User.userId
       }
    }
    @action saveConcert = async (concertInfo) => {
