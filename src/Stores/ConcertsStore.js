@@ -19,11 +19,16 @@ export class ConcertsStore {
     }
 
     @action getConcerts = async () => {
-        const response = await axios.get(`http://localhost:5000/concerts/`)
-        // console.log(response);
-        // console.log(response.data);
+      //   console.log("getConcerts")
+            const response = await axios.get(`http://localhost:5000/concerts/`)
+            // console.log(response);
+            // console.log(response.data);
 
-        this.concerts = [...response.data]
+             this.concerts = [...response.data]
+        //     Sends get request getConcerts(‘/concerts’) 
+        //     Get all concerts,array of objects.
+        //     Each contains: {concertId, artists, number of tickets,date,price,image}
+        // Optional query: artist, city, dateFrom, dateTo, priceFrom, priceTo, minTickets
     }
 
     @action postConcert = (concertInfo) => {
