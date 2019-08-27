@@ -1,8 +1,16 @@
-USE priceless;
-
--- CREATE DEMI USERS
+-- USE priceless;
 
 -- INSERT INTO user (name, email, phone_number)
+-- VALUES ('Hadar Alon', 'hadaralon3@gmail.com', 0528528402);
+
+-- INSERT INTO user (name, email, phone_number)
+-- VALUES ('Zohar Pfeffer', 'pfzohar@gmail.com', 0526052344);
+
+-- INSERT INTO user (name, email, phone_number)
+-- VALUES ('Ofer Gilboa', 'ofer1gilboa@gmail.com', 0528283312);
+
+-- INSERT INTO user (name, email, phone_number)
+-- VALUES ('Liat Cohen', 'liatcohen9@gmail.com', 0504211600);
 -- VALUES ('Hadar Alon', 'hadaralon3@gmail.com', 0528528402);
 
 -- INSERT INTO user (name, email, phone_number)
@@ -24,6 +32,7 @@ USE priceless;
 -- INSERT INTO concert
 -- VALUES(null, 'Beyonce', '2019-09-14 20:15:00', 'USA', 'New York City', 'Hard Rock Cafe', 2, 200, 300, 'The one and only, BEYONCE', 1, 'active', 'https://static.standard.co.uk/s3fs-public/thumbnails/image/2017/09/04/13/beyonce.jpg', '2019-08-27 13:44:00');
 
+-- INSERT INTO favorite VALUES(1, 1);
 -- /CREATE DEMI CONCERTS
 
 -- CREATE DEMI FAVORITES
@@ -33,10 +42,6 @@ USE priceless;
 -- INSERT INTO favorite VALUES(2, 2);
 -- INSERT INTO favorite VALUES(4, 4);
 
--- /CREATE DEMI FAVORITES
-
--- CHECK TABLES
-
--- SELECT * FROM user
--- SELECT * FROM concert
--- SELECT * FROM favorite
+-- SELECT * FROM user;
+-- SELECT * FROM concert;
+-- SELECT * FROM favorite;
