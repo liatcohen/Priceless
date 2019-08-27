@@ -7,6 +7,12 @@ import ConcertBox from '../ConcertBox/ConcertBox'
 @inject("ConcertsStore")
 @observer
 class Concerts extends Component {
+
+   componentDidMount () {
+      this.props.ConcertsStore.getConcerts()
+   }
+
+
    render() {
       return (
          <div className="concerts">

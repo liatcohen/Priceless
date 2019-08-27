@@ -21,10 +21,10 @@
 -- VALUES(null, 'Beyonce', '2019-09-14 20:15:00', 'USA', 'New York City', 'Hard Rock Cafe', 2, 200, 300, 'The one and only, BEYONCE', 1, 'active', 'https://static.standard.co.uk/s3fs-public/thumbnails/image/2017/09/04/13/beyonce.jpg', '2019-08-27 13:44:00');
 
 
--- INSERT INTO favorite VALUES(1, 1);
 -- INSERT INTO favorite VALUES(1, 2);
+-- INSERT INTO favorite VALUES(1, 3);
 -- INSERT INTO favorite VALUES(2, 2);
--- INSERT INTO favorite VALUES(4, 1);
+-- INSERT INTO favorite VALUES(4, 4);
 
 
 
