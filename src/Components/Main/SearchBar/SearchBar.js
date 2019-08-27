@@ -3,6 +3,7 @@ import { observer, inject } from 'mobx-react'
 // import './SearchBar.css'
 import Slider from 'react-rangeslider'
 import 'react-rangeslider/lib/index.css'
+import DatePicker from './DatePicker'
 // const slider = require('react-rangeslider')
 
 @inject("ConcertsStore")
@@ -51,7 +52,11 @@ class SearchBar extends Component {
                   onChange={this.handleInput} />
             </div>
 
-            <div>range of dates:</div>
+            <div>range of dates:
+
+
+               <DatePicker/>
+            </div>
          
             <button onClick={this.props.ConcertsStore.search}>search</button>
          </div>)
