@@ -111,6 +111,24 @@ router.post('/favorite/:userID/:concertID', (req, res) => {
         })
 })
 
-router.get('/favorites/:userID', )
+router.get('/favorites/:userID', (req, res) => {
+    const user = req.params.userID
+    sequelize.query(`
+        SELECT c.id, c.date, c.country, c.city, c.venue, c.num_of_tickets, c.asked_price, c.original_price, c.additional_info, c.seller, c.img_url
+        FROM
+            favorite f
+            INNER JOIN
+            user u ON u.id = f.user_id
+            INNER JOIN
+            concert c ON c.id = f.concert_id
+        WHERE
+            status = 'active'
+            AND
+            f.user_id = ${user}
+    ;`)
+        .spread((result, metadata) => {
+            res.send(result)
+        })
+})
 
 module.exports = router
