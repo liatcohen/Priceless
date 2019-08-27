@@ -9,6 +9,7 @@ import ConcertBox from '../ConcertBox/ConcertBox'
 class Concerts extends Component {
 
    componentDidMount () {
+      console.log("componentDidMount")
       this.props.ConcertsStore.getConcerts()
    }
 

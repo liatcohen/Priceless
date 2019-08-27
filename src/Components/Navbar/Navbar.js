@@ -10,6 +10,7 @@ class Navbar extends Component {
             Navbar
             <Link to="/" className="Main"> Home </Link>
             <Link to="/newitem" className="NewItem"> Add Concert </Link>
+            <Link to="/concert" className="NewItem"> Consert </Link>
 
         </div>)
    }

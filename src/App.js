@@ -18,12 +18,11 @@ class App extends Component {
          <Router >
             <div className="App">
                <Navbar />
-
                <Route exact path="/" render={() => <Main />} />
                {/* <Main /> */}
                <Route exact path="/newitem" render={() => <NewItem />} />
                {/* <NewItem /> */}
-               <Route exact path="/concert/:id" render={() => <ConcertPage />} />
+               <Route exact path="/concert" render={() => <ConcertPage />} />
                {/* <ConcertPage /> */}
             </div>
          </Router>

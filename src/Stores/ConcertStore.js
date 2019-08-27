@@ -8,7 +8,7 @@ export class ConcertStore {
             id: 111,
             artist: "Lola marsh",
             date: "13/03/20",
-            country: "israel",
+            country: "Israel",
             city: "Tel aviv",
             venue: "Barbi",
             num_of_tickets: 2,

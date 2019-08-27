@@ -1,0 +1,17 @@
+.concertPhoto {
+  margin-top: 20px;
+}
+
+.concertSection{
+  text-align: center
+}
+
+.ticketSection{
+  display: grid;
+  grid-template-columns: 1fr 2fr; 
+}
+
+.ticketData{
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr; 
+}
