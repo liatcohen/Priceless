@@ -20,7 +20,7 @@ class SearchBar extends Component {
    }
 
    handleDateChange = (range)=>{
-      this.props.ConcertsStore.handleInput("dateFrom", moment(range.from).format('YYYY-MM-DD  00:00:01'))
+      this.props.ConcertsStore.handleInput("dateFrom", moment(range.from).format('YYYY-MM-DD  00:00:00'))
       this.props.ConcertsStore.handleInput("dateTo", moment(range.to).format('YYYY-MM-DD  23:59:59') )
 
    }
