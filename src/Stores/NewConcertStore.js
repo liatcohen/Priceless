@@ -20,6 +20,7 @@ export class NewConcertStore {
       }
    }
    @action saveConcert = async (concertInfo) => {
+      console.log("@action saveConcert")
       let concert = {
          artist: concertInfo.artist,
          date: concertInfo.date,
