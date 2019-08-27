@@ -1,30 +1,29 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import { observer } from 'mobx-react'
+import  Navbar  from './Components/Navbar/Navbar'
+import Main from './Components/Main/Main';
+import NewItem from './Components/NewItem/NewItem';
+import Concerts from './Components/Main/Concerts/Concerts';
+import ConcertBox from './Components/Main/ConcertBox/ConcertBox';
+import ConcertPage from './Components/ConcertPage/ConcertPage';
+import SearchBar from './Components/Main/SearchBar/SearchBar';
 
 @observer
 class App extends Component {
-  render() {
+   render() {
 
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-        </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-        </a>
-        </header>
-      </div>
-    );
-  }
+      return (
+         <div className="App">
+            <Navbar />
+            <Main />
+            <NewItem />
+            <Concerts />
+            <ConcertBox />
+            <ConcertPage />
+            <SearchBar />
+         </div>
+      );
+   }
 }
 export default App;
