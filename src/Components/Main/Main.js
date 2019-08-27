@@ -1,14 +1,17 @@
 import React, { Component } from 'react'
 import ConcertBox from './ConcertBox/ConcertBox';
 import SearchBar from './SearchBar/SearchBar';
+import Concerts from './Concerts/Concerts'
+import './Main.css'
 
 class Main extends Component {
    render() {
       return (
-         <div>
-            "Concerts.forEch(c=><ConcertBox/>)"
+         <div className="main">
             <SearchBar />
-         </div>)
+            <Concerts/>
+         </div>
+         )
    }
 }
 export default Main
