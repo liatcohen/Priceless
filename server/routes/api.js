@@ -2,8 +2,8 @@ const Sequelize = require('sequelize')
 const express = require('express')
 const router = express.Router()
 const moment = require('moment')
+const axios = require('axios')
 const sequelize = new Sequelize('mysql://root:root@localhost/priceless')
-
 
 // *****checking the connection******
 
@@ -18,20 +18,24 @@ const sequelize = new Sequelize('mysql://root:root@localhost/priceless')
 
 // *********post new concert*********
 
-router.post('/concert', function (req, res) {
+
+router.post('/concert', async (req, res) => {
     let data = req.body
-    let img_url = "https://dl1.cbsistatic.com/i/r/2018/08/09/b6ca69f8-f123-408c-9b1f-ea3f9cf1fb17/resize/620xauto/8787947d1d00135d3f2ed512e56bee72/concert-crowd.jpg"
+    const images = await axios.get(`https://api.cognitive.microsoft.com/bing/v7.0/images/search/?q=${data.artist}&20concert&imageType=Photo&minHeight=1500&minWidth=2000`)
+    
+    let img_url = images.value[0].contentUrl
     sequelize
     .query(`INSERT INTO concert ( artist, date, country, city , venue, num_of_tickets, asked_price, original_price, additional_info, seller, status, img_url, uploaded_at)
-           VALUES ( '${data.artist}', '${data.date}' , '${data.country}', '${data.city}', '${data.venue}', ${data.tickets}, ${data.askedPrice}, ${data.originalPrice}, '${data.info}', ${data.seller} , 'active', '${img_url}', '${moment().format('YYYY-MM-DD  HH:mm:ss')}');`)
+           VALUES ( '${data.artist}', '${data.date}' , '${data.country}', '${data.city}', '${data.venue}', ${data.num_of_tickets}, ${data.asked_price}, ${data.original_price}, '${data.additional_info}', ${data.seller} , 'active', '${img_url}', '${moment().format('YYYY-MM-DD  HH:mm:ss')}');`)
     .then(function (result) {
-        res.send("completed adding Concert")
+        res.send(result)
 
     })
 })
 //
 // ******get all or filter******
 router.get('/concerts', function (req, res) {
+
     let query = req.query || {}
     const queries = []
     query.artist ? queries.push(`artist = '${query.artist}'`) : null
