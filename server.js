@@ -14,5 +14,5 @@ app.use(function (req, res, next) {
 })
 app.use('/', api)
 
-port = 3000
+port = 5000
 app.listen(port, ()=>console.log('Server running on port ' + port))
