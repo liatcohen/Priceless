@@ -37,8 +37,8 @@ export class ConcertsStore {
         this.concerts = []
         this.concerts.push(concert1)
         this.concerts.push(concert2)
-
     }
+    
     @action getConcerts = (query) => {
         
         //     Sends get request getConcerts(‘/concerts’) 

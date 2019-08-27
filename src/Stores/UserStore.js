@@ -7,7 +7,7 @@ export class UserStore {
 
     constructor() {
         this.userId="333"
-        this.name="liat cohen"
+        this.name="Shoobert"
     }
     @action get = (concertId) =>{
         // get(‘/concert:/concertId’)
