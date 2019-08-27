@@ -3,6 +3,7 @@ import { observable, computed, action } from 'mobx'
 
 export class ConcertsStore {
     @observable concerts = []
+
     constructor() {
         let concert1 = {
             id: 111,
@@ -38,7 +39,7 @@ export class ConcertsStore {
         this.concerts.push(concert1)
         this.concerts.push(concert2)
     }
-    
+
     @action getConcerts = (query) => {
         
         //     Sends get request getConcerts(‘/concerts’) 
