@@ -12,7 +12,7 @@ export class ConcertsStore {
             dateFrom: '',
             dateTo: '',
             priceFrom: '',
-            priceTo: '',
+            priceTo: 20,
             minTickets: ''
         }
         let concert1 = {
