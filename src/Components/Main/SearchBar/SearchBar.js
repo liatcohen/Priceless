@@ -3,7 +3,7 @@ import { observer, inject } from 'mobx-react'
 // import './SearchBar.css'
 import Slider from 'react-rangeslider'
 import 'react-rangeslider/lib/index.css'
-const slider = require('react-rangeslider')
+// const slider = require('react-rangeslider')
 
 @inject("ConcertsStore")
 @observer
