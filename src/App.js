@@ -23,7 +23,8 @@ class App extends Component {
                {/* <Main /> */}
                <Route exact path="/newitem" render={() => <NewItem />} />
                {/* <NewItem /> */}
-               <Route exact path="/concert/:id" render={() => <ConcertPage />} />
+               <Route path="/concert/:id" render={({ match }) => <ConcertPage match={match}/>} />
+
                {/* <ConcertPage /> */}
             </div>
          </Router>

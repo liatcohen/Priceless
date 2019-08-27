@@ -4,7 +4,8 @@ class ConcertPage extends Component {
    render() {
       return (
          <div>
-            ConcertPage
+            ConcertPage!  
+            id: {this.props.match.params.id}
         </div>)
    }
 }
