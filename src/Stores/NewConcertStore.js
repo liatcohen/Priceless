@@ -32,7 +32,7 @@ export class NewConcertStore {
          additional_info: concertInfo.additional_info,
       }
       console.log(1 + concert)
-      await axios.post(`http://localhost:5000/concert/`, concert)
+      await axios.post(`http://localhost:5000/concert`, concert)
       console.log(2 + concert)
       this.newConcert = {
          artist: "",
