@@ -22,7 +22,7 @@ export class UserStore {
     // @computed get userName() {
     //     return this.name
     // }
-   
+   //
 }
 
 
