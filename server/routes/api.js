@@ -2,10 +2,10 @@ const Sequelize = require('sequelize')
 const express = require('express')
 const router = express.Router()
 const moment = require('moment')
-const sequelize = new Sequelize('mysql://root:@localhost/priceless')
+const sequelize = new Sequelize('mysql://root:root@localhost/priceless')
 
 
-// *****checking the connect******
+// *****checking the connection******
 
 // sequelize
 //     .authenticate()
@@ -16,6 +16,7 @@ const sequelize = new Sequelize('mysql://root:@localhost/priceless')
 //         console.error('Unable to connect to the database:', err);
 //     })
 
+// *********post new concert*********
 
 router.post('/concert', function (req, res) {
     let data = req.body
@@ -24,7 +25,6 @@ router.post('/concert', function (req, res) {
     .query(`INSERT INTO concert ( artist, date, country, city , venue, num_of_tickets, asked_price, original_price, additional_info, seller, status, img_url, uploaded_at)
            VALUES ( '${data.artist}', '${data.date}' , '${data.country}', '${data.city}', '${data.venue}', ${data.tickets}, ${data.askedPrice}, ${data.originalPrice}, '${data.info}', ${data.seller} , 'active', '${img_url}', '${moment().format('YYYY-MM-DD  HH:mm:ss')}');`)
     .then(function (result) {
-        console.log(result)
         res.send("completed adding Concert")
 
     })
@@ -54,7 +54,6 @@ router.get('/concerts', function (req, res) {
     sequelize
       .query( queries.length ? dataQuery : getAll )
       .spread(function (results, metadata) {
-        console.log(results);
             res.send(results)
       })
 })
@@ -70,14 +69,33 @@ router.get('/concert/:concertID', function (req, res) {
         FROM concert
         WHERE id = ${ID}`)
       .spread(function (results, metadata) {
-        console.log(results[0]);
             res.send(results[0])
       }) 
 })
 
+router.put('/sold/:concertID', (req, res) => {
+    const concertID = req.params.concertID
+    sequelize.query(`
+        UPDATE concert
+        SET status = 'sold'
+        WHERE id = ${concertID}
+    ;`)
+        .spread((result, metadata) => {
+            res.send(result)
+        })
+})
 
-
-
-
+router.get('/user-concerts/:userID', (req, res) => {
+    const user = req.params.userID
+    sequelize.query(`
+        SELECT
+            id, artist, date, country, city, venue, num_of_tickets, asked_price, original_price, additional_info, status, img_url
+        FROM concert
+        WHERE seller = ${user}
+    ;`)
+        .spread((result, metadata) => {
+            res.send(result)
+        })
+})
 
 module.exports = router
