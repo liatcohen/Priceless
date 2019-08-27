@@ -2,7 +2,7 @@ const Sequelize = require('sequelize')
 const express = require('express')
 const router = express.Router()
 const moment = require('moment')
-const sequelize = new Sequelize('mysql://root:@localhost/priceless')	
+const sequelize = new Sequelize('mysql://root:Guprd214!@localhost/priceless')	
 
 // *****checking the connection******
 
