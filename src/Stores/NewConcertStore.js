@@ -10,7 +10,7 @@ export class NewConcertStore {
          artist: "",
          date: Date,
          hour: Date,
-         country: "Israel",
+         country: "",
          city: "",
          venue: "",
          num_of_tickets: Number,
