@@ -98,4 +98,19 @@ router.get('/user-concerts/:userID', (req, res) => {
         })
 })
 
+router.post('/favorite/:userID/:concertID', (req, res) => {
+    const user = req.params.userID,
+    concert = req.params.concertID
+
+    sequelize.query(`
+        INSERT INTO favorite (user_id, concert_id)
+        VALUES(${user}, ${concert})
+    ;`)
+        .spread((result, metadata) => {
+            res.send(result)
+        })
+})
+
+router.get('/favorites/:userID', )
+
 module.exports = router
