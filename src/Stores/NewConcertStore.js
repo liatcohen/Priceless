@@ -2,6 +2,8 @@ import { observable, computed, action } from 'mobx'
 import axios from 'axios'
 import { UserStore } from './UserStore'
 
+
+
 let User= new UserStore
 
 export class NewConcertStore {
@@ -23,9 +25,11 @@ export class NewConcertStore {
 //         seller: User.userId
       }
    }
+
    @action saveConcert = async (concertInfo) => {
-      console.log(this.newConcert.seller)
       let concert = { ...concertInfo }
+      concert.seller= this.newConcert.seller
+      console.log(this.newConcert.seller)
       await axios.post(`http://localhost:5000/concert`, concert)
       this.newConcert = {
          artist: "",
