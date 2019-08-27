@@ -31,8 +31,9 @@ router.post('/concert', function (req, res) {
 })
 
 // ******get all or filter******
-router.get('/concerts', function (req, res) {
-    let query = req.query || {}
+router.get('/concerts', async function (req, res) {
+    let query = await req.query || {}
+    
     const queries = []
     query.artist ? queries.push(`artist = '${query.artist}'`) : null
     query.city ?  queries.push(`city = '${query.city}'`) : null
@@ -53,7 +54,7 @@ router.get('/concerts', function (req, res) {
     
     sequelize
       .query( queries.length ? dataQuery : getAll )
-      .spread(function (results, metadata) {
+      .spread( function async (results, metadata) {
         console.log(results);
             res.send(results)
       })
