@@ -22,9 +22,9 @@ export class NewConcertStore {
          original_price: Number,
          additional_info: "",
          seller: User.user.id,
-         idBid: false,
-         bid_end_date: Date,
-         bid_end_hour: Date,
+         isBid: false,
+         bid_end_date: "10:00",//Date,
+         bid_end_hour: "10:00"//Date,
       }
       // this.bid = {
       //    idBid: false,
@@ -49,6 +49,8 @@ export class NewConcertStore {
 
       concert.seller = this.newConcert.seller
       console.log(this.newConcert.seller)
+      console.log("######concert")
+      console.log(concert)
       await axios.post(`http://localhost:5000/concert`, concert)
       this.newConcert = {
          artist: "",
