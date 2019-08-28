@@ -36,7 +36,9 @@ export class NewConcertStore {
       let concert = { ...concertInfo }
       concert.seller = this.newConcert.seller
       console.log(this.newConcert.seller)
-      await axios.post(`http://localhost:5000/concert`, concert)
+      await axios.post(`http://localhost:5000/concert`,
+      // {concert: concert, bid:bid})
+          concert)
       this.newConcert = {
          artist: "",
          date: Date,

@@ -3,6 +3,7 @@ import { observer, inject } from 'mobx-react'
 import Modal from 'react-awesome-modal';
 
 import './ConcertPage.css'
+import ConcertBid from './ConcertBid/ConcertBid';
 
 const moment = require('moment')
 @inject("UserStore")
@@ -95,6 +96,7 @@ class ConcertPage extends Component {
                   <div className="iconBar"><i class="fas fa-info-circle iconConcert"></i>{this.props.ConcertStore.concert.additional_info} </div>
                </div>
             </div>
+            <ConcertBid></ConcertBid>
          </div>)
    }
 }
