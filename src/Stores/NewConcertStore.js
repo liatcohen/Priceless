@@ -36,14 +36,14 @@ export class NewConcertStore {
 
    @action saveConcert = async (concertInfo) => {
       let concert = { ...concertInfo }
-      // console.log(concert.artist)
-      // console.log(concert.date)
-      // console.log(concert.hour)
-      // console.log(concert.country)
-      // console.log(concert.city)
-      // console.log(concert.venue)
-      // console.log(concert.asked_price)
-      // console.log(concert.num_of_tickets)
+      console.log(concert.artist)
+      console.log(concert.date)
+      console.log(concert.hour)
+      console.log(concert.country)
+      console.log(concert.city)
+      console.log(concert.venue)
+      console.log(concert.asked_price)
+      console.log(concert.num_of_tickets)
       // if (!concert.artist) return alert("Artist field is empty")
       // if (!concert.date) return alert("Date field is empty")
       // if (!concert.hour) return alert("Hour field is empty")
@@ -56,18 +56,18 @@ export class NewConcertStore {
       concert.seller = this.newConcert.seller
       console.log(this.newConcert.seller)
       await axios.post(`http://localhost:5000/concert`, concert)
-      this.newConcert = {
-         artist: "",
-         date: Date,
-         hour: Date,
-         country: "Israel",
-         city: "",
-         venue: "",
-         num_of_tickets: Number,
-         asked_price: Number,
-         original_price: Number,
-         additional_info: "",
-      }
+      // this.newConcert = {
+      //    artist: "",
+      //    date: Date,
+      //    hour: Date,
+      //    country: "Israel",
+      //    city: "",
+      //    venue: "",
+      //    num_of_tickets: Number,
+      //    asked_price: Number,
+      //    original_price: Number,
+      //    additional_info: "",
+      // }
    }
 
    @action handleInput = (name, value) => {
