@@ -5,13 +5,15 @@ import { observer, inject } from 'mobx-react'
 const moment = require('moment')
 
 @inject("UserStore")
+@inject("ConcertStore")
+
 @observer
 
 class ConcertBox extends Component {
 
-   addToFavorites = () => {
-      this.props.UserStore.addToFavorites(this.props.concert.id)
-   }
+   // addToFavorites = () => {
+   //    this.props.UserStore.addToFavorites(this.props.concert.id)
+   // }
 
    render() {
       return (
@@ -32,7 +34,6 @@ class ConcertBox extends Component {
                   </div>
                </div>
                <div id="concert-box-price">$ {this.props.concert.asked_price}
-                  {/* <button onClick={this.addToFavorites}>save</button> */}
                </div>
             </div>
          </Link>)

@@ -114,7 +114,9 @@ router.post('/favorite/:userID/:concertID', (req, res) => {
 })
 
 router.get('/favorites/:userID', (req, res) => {
+   console.log(999)
     const user = req.params.userID
+    console.log(user)
     sequelize.query(`
         SELECT c.id, c.date, c.country, c.city, c.venue, c.num_of_tickets, c.asked_price, c.original_price, c.additional_info, c.seller, c.img_url
         FROM

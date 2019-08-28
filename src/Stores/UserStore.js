@@ -5,13 +5,15 @@ import axios from 'axios'
 export class UserStore {
    @observable userId
    @observable name
-   @observable favorites
+   @observable favorites = []
 
    constructor() {
-      this.userId = "2"
+      this.userId = 3
       // -- VALUES ('Liat Cohen', 'liatcohen9@gmail.com', 0504211600);
 
       this.name = "Shoobert"
+      this.favorites = []
+
    }
    @action get = (concertId) => {
       // get(‘/concert:/concertId’)
@@ -27,9 +29,12 @@ export class UserStore {
    //
 
    @action addToFavorites = async (concertId) => {
-      console.log(this.userId)
-      console.log(concertId)
-      axios.post(`http://localhost:5000/favorite/:${this.userId}/:${concertId}`)
+      await axios.post(`http://localhost:5000/favorite/${this.userId}/${concertId}`)
+   }
+
+   @action getFavorites = async () => {
+      const response = await axios.get(`http://localhost:5000/favorites/${this.userId}`)
+      this.favorites = [...response.data]
    }
 
 

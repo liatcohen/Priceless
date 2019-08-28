@@ -7,18 +7,21 @@ import SearchBar from '../SearchBar/SearchBar';
 
 
 @inject("ConcertsStore")
+@inject("UserStore")
 @observer
 class Favorites extends Component {
 
    componentDidMount() {
-      this.props.ConcertsStore.getConcerts()
+      this.props.UserStore.getFavorites()
+      console.log(8)
    }
+   
 
    render() {
       return (
          <div className="main">
             <SearchBar />
-            {this.props.ConcertsStore.concerts.map(c => !c.Favorites ? <ConcertBox key={c.id} concert={c} /> : null)}
+            {this.props.UserStore.favorites.map(c => <ConcertBox key={c.id} concert={c} /> )}
             {/* <Link to="/concertpage" className="Concerts"> specifiec Concert </Link> */}
          </div>)
 

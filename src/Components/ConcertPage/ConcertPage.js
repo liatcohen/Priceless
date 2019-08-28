@@ -5,13 +5,22 @@ import './ConcertPage.css'
 
 const moment = require('moment')
 
+@inject("UserStore")
 @inject("ConcertStore")
 @observer
+
 class ConcertPage extends Component {
 
    componentDidMount() {
       this.props.ConcertStore.getConcert(this.props.match.params.id)
    }
+
+   addToFavorites = () => {
+      // console.log(this.props)
+      this.props.UserStore.addToFavorites(this.props.match.params.id)
+      // this.props.UserStore.addToFavorites(5)
+   }
+
    render() {
 
       return (
@@ -25,7 +34,7 @@ class ConcertPage extends Component {
                      <div id="hour">{moment(this.props.ConcertStore.concert.date).format('LT')} </div>
                      <div id="month">{moment(this.props.ConcertStore.concert.date).format("MMM Do")} </div>
                      <div id="day">{moment(this.props.ConcertStore.concert.date).format("YYYY")} </div>
-                     
+
                   </div>
                   <div className="place">
                      <div>{this.props.ConcertStore.concert.venue}</div>
@@ -39,6 +48,8 @@ class ConcertPage extends Component {
                   <div>{this.props.ConcertStore.concert.num_of_tickets} Tickets Available</div>
 
                   <div>{this.props.ConcertStore.concert.additional_info}</div>
+                  <button onClick={this.addToFavorites}>save</button>
+
                </div>
             </div>
          </div>)

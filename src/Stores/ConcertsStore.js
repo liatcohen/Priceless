@@ -35,9 +35,11 @@ export class ConcertsStore {
         // Sends new concert to the server
     }
 
+    //in UserStore
     @action addToFavorite = (concertId) => {
         // (post “/favorite/:userId/:concertId”)
     }
+    
     @action handleInput = (name, value) => {
         this.formInputs[name] = value
     }
