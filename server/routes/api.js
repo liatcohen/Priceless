@@ -18,17 +18,29 @@ const sequelize = new Sequelize('mysql://root:root@localhost/priceless')
 
 // *********post new concert*********
 
+const findArtistImg = async artist => {
+    let images = await axios.get(`https://api.cognitive.microsoft.com/bing/v7.0/images/search/?q=${artist}%20concert&minHeight=1500&aspect=Wide&maxFileSize=200000`, { headers: {"Ocp-Apim-Subscription-Key": '48662c45baf24c069aa00b0f1cff2222'}})
+    if(!images.data.value.length){
+        images = await axios.get(`https://api.cognitive.microsoft.com/bing/v7.0/images/search/?q=${artist}%20concert&minHeight=1200&aspect=Wide&maxFileSize=200000`, { headers: {"Ocp-Apim-Subscription-Key": '48662c45baf24c069aa00b0f1cff2222'}})
+        if(!images.data.value.length){
+            images = await axios.get(`https://api.cognitive.microsoft.com/bing/v7.0/images/search/?q=${artist}%20concert&minHeight=900&aspect=Wide&maxFileSize=200000`, { headers: {"Ocp-Apim-Subscription-Key": '48662c45baf24c069aa00b0f1cff2222'}})
+            if(!images.data.value.length){
+                images = await axios.get(`https://api.cognitive.microsoft.com/bing/v7.0/images/search/?q=${artist}&maxFileSize=300000`, { headers: {"Ocp-Apim-Subscription-Key": '48662c45baf24c069aa00b0f1cff2222'}})
+            }
+        }
+    }
+    return images.data.value.length ? images.data.value[0].contentUrl : 'https://assets.visitphilly.com/wp-content/uploads/2019/01/Fillmore-Philadelphia-concert-crowd-2200x1237.jpg'
+}
 
 router.post('/concert', async (req, res) => {
     let data = req.body
-    const images = await axios.get(`https://api.cognitive.microsoft.com/bing/v7.0/images/search/?q=${data.artist}&20concert&imageType=Photo&minHeight=1500&minWidth=2000`, { headers: {"Ocp-Apim-Subscription-Key": '48662c45baf24c069aa00b0f1cff2222'}})
-    let img_url = images.data.value.length ? images.data.value[0].contentUrl : 'https://assets.visitphilly.com/wp-content/uploads/2019/01/Fillmore-Philadelphia-concert-crowd-2200x1237.jpg'
-    sequelize
-    .query(`INSERT INTO concert ( artist, date, country, city , venue, num_of_tickets, asked_price, original_price, additional_info, seller, status, img_url, uploaded_at)
+    const img_url = await findArtistImg(data.artist)
+    sequelize.query(`INSERT INTO concert ( artist, date, country, city , venue, num_of_tickets, asked_price, original_price, additional_info, seller, status, img_url, uploaded_at)
            VALUES ( '${data.artist}', '${data.date} ${data.hour}:00' , '${data.country}', '${data.city}', '${data.venue}', ${data.num_of_tickets}, ${data.asked_price}, ${data.original_price}, '${data.additional_info}', ${data.seller} , 'active', '${img_url}', '${moment().format('YYYY-MM-DD  HH:mm:ss')}');`)
-    .then(function (result) {
-        res.send(result)
-    })
+        .then(function (result) {
+            res.send(result)
+        }
+    )
 })
 //
 // ******get all or filter******
@@ -53,10 +65,6 @@ router.get('/concerts', function (req, res) {
             ${queries.length ? ' AND ' + queries.join(' AND ') : ''}
         ORDER BY date
     ;`
-
-    //   let getAll =`
-    //   SELECT id, artist, num_of_tickets, date, asked_price, original_price, img_url
-    //   FROM concert` 
     
     sequelize
       .query(dataQuery)
@@ -89,6 +97,30 @@ router.put('/sold/:concertID', (req, res) => {
     ;`)
         .spread((result, metadata) => {
             res.send(result)
+        })
+})
+
+router.put('/delete-concert/:concertID', (req, res) => {
+    const concertID = req.params.concertID
+    sequelize.query(`
+        UPDATE concert
+        SET status = 'deleted'
+        WHERE id = ${concertID}
+    ;`)
+        .spread((result, metadata) => {
+            res.send(result)
+        })
+})
+
+router.get('/user-info/:userID', (req, res) => {
+    const userID = req.params.userID
+    sequelize.query(`
+        SELECT *
+        FROM user
+        WHERE id = ${userID}
+    ;`)
+        .spread((result, metadata) => {
+            res.send(result[0])
         })
 })
 
