@@ -4,7 +4,6 @@ const router = express.Router()
 const moment = require('moment')
 const axios = require('axios')
 const sequelize = new Sequelize('mysql://root:@localhost/priceless')
-const nodemailer = require("nodemailer")
 const sendMailFunc = require("../send-email")
 
 // sendMailFunc("hadaralon3@gmail.com")
