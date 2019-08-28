@@ -35,20 +35,18 @@
 -- );
 
 -- CREATE TABLE biddable (
---     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+--     concert_id INT PRIMARY KEY,
 --     initial_amount FLOAT,
 --     end_at DATETIME,
---     concert_id INT,
 
 --     FOREIGN KEY (concert_id) REFERENCES concert (id)
 -- );
 
 -- CREATE TABLE bid (
---     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 --     amount INT,
---     biddable INT,
+--     concert_id INT,
 --     bidder INT,
 
---     FOREIGN KEY (biddable) REFERENCES biddable (id),
+--     FOREIGN KEY (biddable) REFERENCES biddable (concert_id),
 --     FOREIGN KEY (bidder) REFERENCES user (id)
 -- );

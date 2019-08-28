@@ -32,6 +32,7 @@ export class NewConcertStore {
       }
    }
 
+   
    @action saveConcert = async (concertInfo) => {
       let concert = { ...concertInfo }
       concert.seller = this.newConcert.seller
