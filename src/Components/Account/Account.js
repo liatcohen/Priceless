@@ -29,7 +29,8 @@ class Account extends Component {
                     <div>Email: {this.props.UserStore.user.email}</div>
                 </div>
                 <div className="user-concerts">Your concerts
-                <div>{this.props.UserStore.userConcerts.map(c=> <UserConcertBox concert={c} 
+                <div>{this.props.UserStore.userConcerts.map(c=> <UserConcertBox key={c.id}
+                                                concert={c} 
                                                 deleteConcert={this.deleteConcert}
                                                 markAsSold={this.markAsSold}/>)}</div>
 
