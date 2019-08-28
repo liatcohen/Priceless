@@ -16,11 +16,11 @@ class NewItem extends Component {
    saveConcert = () => {
       this.props.NewConcertStore.saveConcert(this.props.NewConcertStore.newConcert)
    }
-   radioButtonChanged = (e) => {
-      e.target.value === "fixed_price" ?
-         this.props.NewConcertStore.chooseFixedPrice() :
-         this.props.NewConcertStore.chooseBid()
-   }
+   // radioButtonChanged = (e) => {
+   //    e.target.value === "fixed_price" ?
+   //       this.props.NewConcertStore.chooseFixedPrice() :
+   //       this.props.NewConcertStore.chooseBid()
+   // }
 
    render() {
       const store = this.props.NewConcertStore.newConcert
@@ -66,14 +66,14 @@ class NewItem extends Component {
                         <input name="city" type="text" placeholder="City" value={store.city} onChange={this.inputHandler} />
                      </div>
                      <input name="venue" type="text" placeholder="Venue" value={store.venue} onChange={this.inputHandler} />
-                     <div className="radio-buttons">
+                     {/* <div className="radio-buttons">
                         <input type="radio" id="fixed_price" name="drone" value="fixed_price"
                            checked={!this.props.NewConcertStore.bid.isBid} onChange={this.radioButtonChanged} />
                         <label for="fixed_price"> I want fixed price</label>
                         <input type="radio" id="bid" name="drone" value="bid"
                            checked={this.props.NewConcertStore.bid.isBid} onChange={this.radioButtonChanged} />
                         <label for="bid"> I want bid</label>
-                     </div>
+                     </div> */}
                      {!this.props.NewConcertStore.bid.isBid ?
                         fixedPriceComponent
                         :
