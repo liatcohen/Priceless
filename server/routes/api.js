@@ -36,7 +36,22 @@ const findArtistImg = async artist => {
     return images.data.value.length ? images.data.value[0].contentUrl : 'http://freshlytechy.com/wp-content/uploads/2013/04/EVNTLIVE-Offers-Live-Concert-Streaming-Platform.jpg'
 }
 
-const startCronJob = (jobNum, endTime, endDate) => {
+const findSeller = async concertID => {
+    sequelize.query(`
+        SELECT seller
+        FROM concert
+        WHERE id = ${concertID}
+    ;`)
+        .spread((result, metadata) => {
+            return result
+        })
+}
+
+const checkWinner = concertID => {
+
+}
+
+const startCronJob = (concertID, endTime, endDate, seller) => {
     endTime = endTime.split(':')
     endDate = endDate.split('-')
     
@@ -44,12 +59,13 @@ const startCronJob = (jobNum, endTime, endDate) => {
     hours = endTime[0] == '00' ? '23' : Number(endTime[0]) - 1,
     day = endDate[2],
     month = endDate[1]
-    cronJobs[jobNum] = cron.schedule(`${mins} ${hours} ${day} ${month} *`, () => {
-        console.log('email sent')
-        sendMailFunc("hadaralon3@gmail.com")
+    cronJobs[concert_id] = cron.schedule(`${mins} ${hours} ${day} ${month} *`, () => {
+        // sendMailFunc(seller, winner)
     }, {timezone: 'Asia/Jerusalem'})
 }
 
+// startCronJob(1, '18:00' )
+console.log(findSeller(1))
 // POST NEW CONCERT + BIDDABLE (IF NEEDED)
 router.post('/concert', async (req, res) => {
     // Put bid values along with concert values in body unnested
@@ -134,10 +150,7 @@ router.get('/concert/:concertID', function (req, res) {
     let ID = req.params.concertID
     sequelize.query(`
         SELECT artist, date, country, city, venue, num_of_tickets, asked_price, original_price, additional_info, seller, img_url
-        FROM
-            concert
-            INNER JOIN
-
+        FROM concert
         WHERE id = ${ID}`)
       .spread(function (results, metadata) {
             res.send(results[0])
