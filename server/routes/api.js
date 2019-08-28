@@ -16,6 +16,9 @@ const cron = require('node-cron')
 //     .catch(err => {
 //         console.error('Unable to connect to the database:', err);
 //     })
+const sendMailFunc = require("../send-email")
+
+// sendMailFunc("hadaralon3@gmail.com")
 
 // *********post new concert*********
 
