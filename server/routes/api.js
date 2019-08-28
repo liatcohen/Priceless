@@ -4,7 +4,6 @@ const router = express.Router()
 const moment = require('moment')
 const axios = require('axios')
 const sequelize = new Sequelize('mysql://root:@localhost/priceless')
-const sequelize = new Sequelize('mysql://root:root@localhost/priceless')
 
 
 // *****checking the connection******
