@@ -101,7 +101,7 @@ router.get('/concerts', function (req, res) {
 
     let dataQuery = `
         SELECT
-            id, artist, num_of_tickets, date, asked_price, original_price, img_url
+            id, artist, num_of_tickets, date, asked_price, original_price, img_url, city
         FROM concert
         WHERE
             status = 'active'
@@ -233,7 +233,7 @@ router.post('/favorite/:userID/:concertID', (req, res) => {
 router.get('/favorites/:userID', (req, res) => {
     const user = req.params.userID
     sequelize.query(`
-        SELECT c.id, c.date, c.country, c.city, c.venue, c.num_of_tickets, c.asked_price, c.original_price, c.additional_info, c.seller, c.img_url
+        SELECT c.id, artist, c.date, c.country, c.city, c.venue, c.num_of_tickets, c.asked_price, c.original_price, c.additional_info, c.seller, c.img_url
         FROM
             favorite f
             INNER JOIN
