@@ -14,9 +14,9 @@ class NewItem extends Component {
    }
 
    render() {
-      const img="https://dressings-sauces.org/wp-content/uploads/2018/10/Crowd-at-concert6.jpg"
+      const img = "https://dressings-sauces.org/wp-content/uploads/2018/10/Crowd-at-concert6.jpg"
       let store = this.props.NewConcertStore.newConcert
-      
+
       return (
          <div>
             <div className="new-item">
@@ -35,6 +35,17 @@ class NewItem extends Component {
                         <input name="city" type="text" placeholder="City" value={store.city} onChange={this.inputHandler} />
                      </div>
                      <input name="venue" type="text" placeholder="Venue" value={store.venue} onChange={this.inputHandler} />
+
+                     <div className="radio-buttons">
+                        <input type="radio" id="fixed_price" name="drone" value="fixed_price" checked />
+                        <label for="fixed_price"> I want fixed price</label>
+                    
+
+
+
+                     <input type="radio" id="bid" name="drone" value="bid" />
+                     <label for="bid"> I want bid</label>
+ </div>
                      <input name="asked_price" type="Number" placeholder="Asked price in $" value={store.asked_price} onChange={this.inputHandler} />
                      <input name="original_price" type="Number" placeholder="Original price in $" value={store.original_price} onChange={this.inputHandler} />
                      <input name="additional_info" type="text" placeholder="Additional info" value={store.additional_info} onChange={this.inputHandler} />
@@ -50,7 +61,7 @@ class NewItem extends Component {
 
                </div>
                <div className="image-container">
-                  <img src={img}/>
+                  <img src={img} />
                </div>
             </div>
          </div>)

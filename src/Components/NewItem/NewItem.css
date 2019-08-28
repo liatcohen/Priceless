@@ -35,13 +35,10 @@ body {
 h2 {
   padding: 10px;
   font-weight: lighter;
-  text-transform: uppercase;
   color: #414141;
 }
 input {
   display: block;
-  height: 50px;
-  width: 90%;
   margin: 0 auto;
   border: none;
 }
@@ -66,6 +63,14 @@ input:active:focus::placeholder {
   -webkit-transform: translateY(-20px);
   transform: translateY(-20px);
 }
+input[type=text] {
+  width: 90%;
+  height: 50px;
+}
+input[type=number] {
+  width: 50%;
+  height: 50px;
+}
 #date-time-input {
   display: flex;
 }
@@ -78,9 +83,25 @@ input {
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   padding-left: 20px;
   font-family: 'Open Sans', sans-serif;
-  text-transform: uppercase;
   color: #858585;
   font-weight: lighter;
   -webkit-transition: .5s;
   transition: .5s;
+}
+label {
+  font-family: 'Open Sans', sans-serif;
+  color: #858585;
+  font-weight: lighter;
+  -webkit-transition: .5s;
+  transition: .5s;
+  font-size: 12px;
+  display: inline;
+  width: 10px;
+}
+input[type=radio] {
+  background-color: #414141;
+  display: none;
+  font-size: 30px;
+  display: inline;
+  color: red;
 }
