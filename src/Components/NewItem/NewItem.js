@@ -10,9 +10,9 @@ class NewItem extends Component {
       this.props.NewConcertStore.handleInput(e.target.name, e.target.value)
    }
 
-   bidInputHandler = (e) => {
-      this.props.NewConcertStore.handleBidInput(e.target.name, e.target.value)
-   }
+   // bidInputHandler = (e) => {
+   //    this.props.NewConcertStore.handleInput(e.target.name, e.target.value)
+   // }
    saveConcert = () => {
       this.props.NewConcertStore.saveConcert(this.props.NewConcertStore.newConcert)
    }
@@ -37,9 +37,9 @@ class NewItem extends Component {
          <div>
             <div id="date-time-input">
                <input name="bid_end_date" type="Date" placeholder="Date"
-                  value={this.props.NewConcertStore.bid.bid_end_date} onChange={this.bidInputHandler} />
+                  value={store.bid_end_date} onChange={this.inputHandler} />
                <input name="bid_end_hour" type="time" placeholder="Hour"
-                  value={this.props.NewConcertStore.bid.bid_end_hour} onChange={this.bidInputHandler} />
+                  value={store.bid_end_hour} onChange={this.inputHandler} />
             </div>
             <div id="price-container">
                <input id="price" name="asked_price" type="Number" placeholder="min price in $"
@@ -55,7 +55,7 @@ class NewItem extends Component {
             <div className="new-item">
                <div class="container">
                   <h2>Get rid of your ticket now!</h2>
-                  <form>
+                  <form >
                      <input name="artist" type="text" placeholder="Artist" value={store.artist} onChange={this.inputHandler} />
                      <div id="date-time-input">
                         <input name="date" type="Date" placeholder="Date" value={store.date} onChange={this.inputHandler} />
@@ -74,7 +74,7 @@ class NewItem extends Component {
                            checked={this.props.NewConcertStore.bid.isBid} onChange={this.radioButtonChanged} />
                         <label for="bid"> I want bid</label>
                      </div> */}
-                     {!this.props.NewConcertStore.bid.isBid ?
+                     {!store.isBid ?
                         fixedPriceComponent
                         :
                         bidComponent

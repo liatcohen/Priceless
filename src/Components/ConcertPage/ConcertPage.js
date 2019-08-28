@@ -4,6 +4,7 @@ import Modal from 'react-awesome-modal';
 
 
 import './ConcertPage.css'
+import ConcertBid from './ConcertBid/ConcertBid';
 
 const moment = require('moment')
 @inject("UserStore")
@@ -102,6 +103,7 @@ class ConcertPage extends Component {
                   
                </div>
             </div>
+            <ConcertBid></ConcertBid>
          </div>)
    }
 }
