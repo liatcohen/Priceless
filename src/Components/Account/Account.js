@@ -15,7 +15,9 @@ class Account extends Component {
     deleteConcert=(concertId)=>{
         this.props.UserStore.deleteConcert(concertId)
     }
-
+    markAsSold=(concertId)=>{
+        this.props.UserStore.markAsSold(concertId)
+    }
     render() {
 
         return (
@@ -28,7 +30,8 @@ class Account extends Component {
                 </div>
                 <div className="user-concerts">Your concerts
                 <div>{this.props.UserStore.userConcerts.map(c=> <UserConcertBox concert={c} 
-                                                deleteConcert={this.deleteConcert}/>)}</div>
+                                                deleteConcert={this.deleteConcert}
+                                                markAsSold={this.markAsSold}/>)}</div>
 
                 </div>
 

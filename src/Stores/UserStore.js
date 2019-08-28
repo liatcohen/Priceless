@@ -31,11 +31,11 @@ export class UserStore {
       const response = await axios.put(`http://localhost:5000/delete-concert/${concertId}`);
       this.getUserConcerts()
    }
-   // @action markAsSold = async () => {
-   //    console.log("getUserConcerts")
-   //    const response = await axios.get(`http://localhost:5000/user-concerts/${this.user.id}`)
-   //    this.userConcerts = [...response.data]
-   // }
+   @action markAsSold = async (concertId) => {
+      console.log("markAsSold")
+      const response = await axios.put(`http://localhost:5000/sold/${concertId}`);
+      this.getUserConcerts()
+   }
    @action addToFavorites = async (concertId) => {
       console.log(this.userId)
       console.log(concertId)
