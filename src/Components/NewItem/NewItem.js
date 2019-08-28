@@ -10,9 +10,6 @@ class NewItem extends Component {
       this.props.NewConcertStore.handleInput(e.target.name, e.target.value)
    }
 
-   // bidInputHandler = (e) => {
-   //    this.props.NewConcertStore.handleInput(e.target.name, e.target.value)
-   // }
    saveConcert = () => {
       this.props.NewConcertStore.saveConcert(this.props.NewConcertStore.newConcert)
    }
