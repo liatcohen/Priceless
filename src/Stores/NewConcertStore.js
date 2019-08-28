@@ -14,7 +14,7 @@ export class NewConcertStore {
          artist: "",
          date: Date,
          hour: Date,
-         country: "Israel",
+         country: "",
          city: "",
          venue: "",
          num_of_tickets: Number,
@@ -47,6 +47,7 @@ export class NewConcertStore {
    }
 
    @action handleInput = (name, value) => {
+      console.log(value)
       this.newConcert[name] = value
    }
 }
