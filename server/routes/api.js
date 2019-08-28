@@ -36,8 +36,8 @@ const findArtistImg = async artist => {
     return images.data.value.length ? images.data.value[0].contentUrl : 'http://freshlytechy.com/wp-content/uploads/2013/04/EVNTLIVE-Offers-Live-Concert-Streaming-Platform.jpg'
 }
 
-const findSeller = async concertID => {
-    sequelize.query(`
+const findSeller = concertID => {
+    return sequelize.query(`
         SELECT seller
         FROM concert
         WHERE id = ${concertID}
@@ -65,20 +65,25 @@ const startCronJob = (concertID, endTime, endDate, seller) => {
 }
 
 // startCronJob(1, '18:00' )
-console.log(findSeller(1))
+
 // POST NEW CONCERT + BIDDABLE (IF NEEDED)
 router.post('/concert', async (req, res) => {
     // Put bid values along with concert values in body unnested
-    const { artist, date, hour, country, city, venue, num_of_tickets, asked_price, original_price, additional_info, seller, is_bid, bid_end_date, bid_end_time } = req.body
+    const { artist, date, hour, country, city, venue, num_of_tickets, asked_price, original_price, additional_info, seller, isBid, bid_end_date, bid_end_time } = req.body
 
     const img_url = await findArtistImg(artist)
-    sequelize.query(`INSERT INTO concert ( artist, date, country, city , venue, num_of_tickets, asked_price, original_price, additional_info, seller, status, img_url, uploaded_at, is_bid, ends_at)
-           VALUES ( '${artist}', '${date} ${hour}:00' , '${country}', '${city}', '${venue}', ${num_of_tickets}, ${asked_price}, ${original_price}, '${additional_info}', ${seller} , 'active', '${img_url}', '${moment().format('YYYY-MM-DD  HH:mm:ss')}'), ${is_bid}, ${is_bid ? `${bid_end_date} ${bid_end_time}:00` : `${date} ${hour}:00`};`)
-        .then((newConcert) => {
-            if(is_bid) startCronJob(newConcert, bid_end_time, bid_end_date);
-            res.send(newConcert)
-        }
-    )
+    const newConcert = await sequelize.query(`
+        INSERT INTO concert ( artist, date, country, city , venue, num_of_tickets, asked_price, original_price, additional_info, seller, status, img_url, uploaded_at, is_bid, ends_at)
+        VALUES ( '${artist}', '${date} ${hour}:00' , '${country}', '${city}', '${venue}', ${num_of_tickets}, ${asked_price}, ${original_price}, '${additional_info}', ${seller} , 'active', '${img_url}', '${moment().format('YYYY-MM-DD  HH:mm:ss')}', ${isBid}, '${isBid ? `${bid_end_date} ${bid_end_time}:00` : `${date} ${hour}:00`}')
+        ;`)
+
+    const concertID = newConcert[0]
+    if(isBid){
+        const seller = await findSeller(concertID)
+        startCronJob(concertID, bid_end_time, bid_end_date, seller);
+    }
+    res.send(newConcert)
+    
 })
 
 // GET ALL/FILTERED CONCERTS
