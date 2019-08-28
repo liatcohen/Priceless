@@ -3,7 +3,7 @@ const express = require('express')
 const router = express.Router()
 const moment = require('moment')
 const axios = require('axios')
-const sequelize = new Sequelize('mysql://root:root@localhost/priceless')
+const sequelize = new Sequelize('mysql://root:@localhost/priceless')
 const cron = require('node-cron')
 const sendMailFunc = require("./../send-email")
 
@@ -252,6 +252,7 @@ router.get('/favorites/:userID', (req, res) => {
 })
 
 router.post('/bid', (req, res) => {
+    console.log("router bid")
     const { amount, concertID, bidder } = req.body
     sequelize.query(`
         INSERT INTO bid (amount, concert_id, bidder)
