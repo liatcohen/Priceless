@@ -3,7 +3,7 @@ const express = require('express')
 const router = express.Router()
 const moment = require('moment')
 const axios = require('axios')
-const sequelize = new Sequelize('mysql://root@localhost/priceless')
+const sequelize = new Sequelize('mysql://root:root@localhost/priceless')
 
 
 // *****checking the connection******
@@ -127,11 +127,15 @@ router.get('/user-info/:userID', (req, res) => {
 
 router.get('/user-concerts/:userID', (req, res) => {
     const user = req.params.userID
+
     sequelize.query(`
         SELECT
             id, artist, date, country, city, venue, num_of_tickets, asked_price, original_price, additional_info, status, img_url
         FROM concert
-        WHERE seller = ${user}
+        WHERE
+            seller = ${user}
+            AND
+            status != 'deleted'
     ;`)
         .spread((result, metadata) => {
             res.send(result)
@@ -165,6 +169,9 @@ router.get('/favorites/:userID', (req, res) => {
             status = 'active'
             AND
             f.user_id = ${user}
+            AND
+            DATE(date) > NOW()
+        ORDER BY date
     ;`)
         .spread((result, metadata) => {
             res.send(result)
