@@ -36,19 +36,6 @@ const findArtistImg = async artist => {
     return images.data.value.length ? images.data.value[0].contentUrl : 'http://freshlytechy.com/wp-content/uploads/2013/04/EVNTLIVE-Offers-Live-Concert-Streaming-Platform.jpg'
 }
 
-router.post('/biddable/:concertID', (req, res) => {
-    const concertID = req.params.concertID
-    const { is_bid, bid_end_time } = req.body
-    sequelize.query(`
-        INSERT INTO biddable (initial_amount, end_at, concert_id)
-        VALUES (${initial_amount}, '${end_at}', ${concertID})
-    ;`)
-        .then(result => {
-            startCronJob()
-            res.send(result)
-        })
-})
-
 const startCronJob = (jobNum, endTime, endDate) => {
     endTime = endTime.split(':')
     endDate = endDate.split('-')
@@ -63,34 +50,22 @@ const startCronJob = (jobNum, endTime, endDate) => {
     }, {timezone: 'Asia/Jerusalem'})
 }
 
-startCronJob(1, '19:27', '2019-08-28')
-
-// sendMailFunc("hadaralon3@gmail.com")
-
+// POST NEW CONCERT + BIDDABLE (IF NEEDED)
 router.post('/concert', async (req, res) => {
-    const { artist, date, hour, country, city, venue, num_of_tickets, asked_price, original_price, additional_info, seller} = req.body.concert
+    // Put bid values along with concert values in body unnested
+    const { artist, date, hour, country, city, venue, num_of_tickets, asked_price, original_price, additional_info, seller, is_bid, bid_end_date, bid_end_time } = req.body
+
     const img_url = await findArtistImg(artist)
-    sequelize.query(`INSERT INTO concert ( artist, date, country, city , venue, num_of_tickets, asked_price, original_price, additional_info, seller, status, img_url, uploaded_at)
-           VALUES ( '${artist}', '${date} ${hour}:00' , '${country}', '${city}', '${venue}', ${num_of_tickets}, ${asked_price}, ${original_price}, '${additional_info}', ${seller} , 'active', '${img_url}', '${moment().format('YYYY-MM-DD  HH:mm:ss')}');`)
+    sequelize.query(`INSERT INTO concert ( artist, date, country, city , venue, num_of_tickets, asked_price, original_price, additional_info, seller, status, img_url, uploaded_at, is_bid, ends_at)
+           VALUES ( '${artist}', '${date} ${hour}:00' , '${country}', '${city}', '${venue}', ${num_of_tickets}, ${asked_price}, ${original_price}, '${additional_info}', ${seller} , 'active', '${img_url}', '${moment().format('YYYY-MM-DD  HH:mm:ss')}'), ${is_bid}, ${is_bid ? `${bid_end_date} ${bid_end_time}:00` : `${date} ${hour}:00`};`)
         .then((newConcert) => {
-            const { is_bid, bid_end_date, bid_end_time } = req.body.bid
-            if(is_bid){
-                sequelize.query(`
-                INSERT INTO biddable (ends_at, concert_id)
-                VALUES ('${bid_end_date} ${bid_end_time}:00', ${newConcert[0]})
-            ;`)
-                .then(newBiddable => {
-                    startCronJob(newConcert, bid_end_time, bid_end_date)
-                    res.send({newConcert, newBiddable})
-                })
-            } else {
-                res.send(newConcert)
-            }
+            if(is_bid) startCronJob(newConcert, bid_end_time, bid_end_date);
+            res.send(newConcert)
         }
     )
 })
-//
-// ******get all or filter******
+
+// GET ALL/FILTERED CONCERTS
 router.get('/concerts', function (req, res) {
     let query = req.query
     const queries = []
@@ -159,7 +134,10 @@ router.get('/concert/:concertID', function (req, res) {
     let ID = req.params.concertID
     sequelize.query(`
         SELECT artist, date, country, city, venue, num_of_tickets, asked_price, original_price, additional_info, seller, img_url
-        FROM concert
+        FROM
+            concert
+            INNER JOIN
+
         WHERE id = ${ID}`)
       .spread(function (results, metadata) {
             res.send(results[0])
