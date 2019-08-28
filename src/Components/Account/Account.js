@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { observer, inject } from 'mobx-react'
 import './Account.css'
+import UserConcertBox from './UserConcertBox/UserConcertBox'
 const moment = require('moment')
 
 @inject("UserStore")
@@ -8,6 +9,7 @@ const moment = require('moment')
 class Account extends Component {
 
     componentDidMount() {
+        this.props.UserStore.getUserConcerts()
     }
     render() {
 
@@ -20,7 +22,7 @@ class Account extends Component {
                     <div>Email: {this.props.UserStore.user.email}</div>
                 </div>
                 <div className="user-concerts">Your concerts
-                {/* <div>{this.props.UserStore.user.favorite}</div> */}
+                <div>{this.props.UserStore.userConcerts.map(c=> <UserConcertBox concert={c}/>)}</div>
 
                 </div>
 
