@@ -20,6 +20,8 @@ const sendMailFunc = require("./../send-email")
 
 // *********post new concert*********
 
+// sendMailFunc("hadaralon3@gmail.com")
+
 const cronJobs = {}
 
 const findArtistImg = async artist => {
@@ -65,7 +67,6 @@ const startCronJob = (jobNum, endTime, endDate) => {
 
 startCronJob(1, '19:27', '2019-08-28')
 
-// sendMailFunc("hadaralon3@gmail.com")
 
 router.post('/concert', async (req, res) => {
     const { artist, date, hour, country, city, venue, num_of_tickets, asked_price, original_price, additional_info, seller} = req.body.concert
