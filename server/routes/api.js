@@ -3,7 +3,7 @@ const express = require('express')
 const router = express.Router()
 const moment = require('moment')
 const axios = require('axios')
-const sequelize = new Sequelize('mysql://root:root@localhost/priceless')
+const sequelize = new Sequelize('mysql://root:@localhost/priceless')
 const cron = require('node-cron')
 const sendMailFunc = require("./../send-email")
 
@@ -64,8 +64,7 @@ const startCronJob = (jobNum, endTime, endDate) => {
         sendMailFunc("hadaralon3@gmail.com")
     }, {timezone: 'Asia/Jerusalem'})
 }
-
-startCronJob(1, '19:27', '2019-08-28')
+startCronJob(1, '19:45', '2019-08-28')
 
 
 router.post('/concert', async (req, res) => {
@@ -104,7 +103,7 @@ router.get('/concerts', function (req, res) {
 
     let dataQuery = `
         SELECT
-            id, artist, num_of_tickets, date, asked_price, original_price, img_url
+            id, artist, num_of_tickets, date, asked_price, original_price, img_url, city
         FROM concert
         WHERE
             status = 'active'
@@ -236,7 +235,7 @@ router.post('/favorite/:userID/:concertID', (req, res) => {
 router.get('/favorites/:userID', (req, res) => {
     const user = req.params.userID
     sequelize.query(`
-        SELECT c.id, c.date, c.country, c.city, c.venue, c.num_of_tickets, c.asked_price, c.original_price, c.additional_info, c.seller, c.img_url
+        SELECT c.id, artist, c.date, c.country, c.city, c.venue, c.num_of_tickets, c.asked_price, c.original_price, c.additional_info, c.seller, c.img_url
         FROM
             favorite f
             INNER JOIN

@@ -1,3 +1,8 @@
 .account {
   margin-top: 60px;
 }
+.user-concerts {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  margin: 2vw;
+}
