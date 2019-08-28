@@ -11,6 +11,11 @@ class Account extends Component {
     componentDidMount() {
         this.props.UserStore.getUserConcerts()
     }
+
+    deleteConcert=(concertId)=>{
+        this.props.UserStore.deleteConcert(concertId)
+    }
+
     render() {
 
         return (
@@ -22,7 +27,8 @@ class Account extends Component {
                     <div>Email: {this.props.UserStore.user.email}</div>
                 </div>
                 <div className="user-concerts">Your concerts
-                <div>{this.props.UserStore.userConcerts.map(c=> <UserConcertBox concert={c}/>)}</div>
+                <div>{this.props.UserStore.userConcerts.map(c=> <UserConcertBox concert={c} 
+                                                deleteConcert={this.deleteConcert}/>)}</div>
 
                 </div>
 

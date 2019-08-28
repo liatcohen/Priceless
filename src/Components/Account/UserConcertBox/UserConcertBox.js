@@ -10,7 +10,9 @@ const moment = require('moment')
 
 class UserConcertBox extends Component {
 
- 
+    deleteConcert=()=>{
+        this.props.deleteConcert(this.props.concert.id)
+    }
 
    render() {
       return (
@@ -29,7 +31,7 @@ class UserConcertBox extends Component {
                <div id="concert-box-price">$ {this.props.concert.asked_price}
                   {/* <button onClick={this.addToFavorites}>save</button> */}
                </div>
-               <button>Delete</button>
+               <button onClick={this.deleteConcert}>Delete</button>
                <button>Mark as sold</button>
             </div>
        )

@@ -23,11 +23,19 @@ export class UserStore {
    }
 
    @action getUserConcerts = async () => {
-      console.log("getUserConcerts")
       const response = await axios.get(`http://localhost:5000/user-concerts/${this.user.id}`)
       this.userConcerts = [...response.data]
    }
 
+   @action deleteConcert = async (concertId) => {
+      const response = await axios.put(`http://localhost:5000/delete-concert/${concertId}`);
+      this.getUserConcerts()
+   }
+   // @action markAsSold = async () => {
+   //    console.log("getUserConcerts")
+   //    const response = await axios.get(`http://localhost:5000/user-concerts/${this.user.id}`)
+   //    this.userConcerts = [...response.data]
+   // }
    @action addToFavorites = async (concertId) => {
       console.log(this.userId)
       console.log(concertId)
