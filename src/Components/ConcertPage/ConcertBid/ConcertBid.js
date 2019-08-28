@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { observer, inject } from 'mobx-react'
 import { runInThisContext } from 'vm';
-// import './ConcertBid.css'
+import './ConcertBid.css'
 
 const moment = require('moment')
 @inject("UserStore")
