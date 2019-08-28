@@ -154,7 +154,7 @@ router.get('/concerts', function (req, res) {
 router.get('/concert/:concertID', function (req, res) {
     let ID = req.params.concertID
     sequelize.query(`
-        SELECT artist, date, country, city, venue, num_of_tickets, asked_price, original_price, additional_info, seller, img_url
+        SELECT *
         FROM concert
         WHERE id = ${ID}`)
       .spread(function (results, metadata) {

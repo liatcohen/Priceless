@@ -107,6 +107,7 @@ class ConcertPage extends Component {
                   
                </div>
             </div>
+            <div>concert id: {this.props.match.params.id}</div>
             <ConcertBid></ConcertBid>
          </div>)
    }
