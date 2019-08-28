@@ -5,6 +5,7 @@ const moment = require('moment')
 const axios = require('axios')
 const sequelize = new Sequelize('mysql://root@localhost/priceless')
 
+
 // *****checking the connection******
 
 // sequelize
@@ -21,15 +22,13 @@ const sequelize = new Sequelize('mysql://root@localhost/priceless')
 
 router.post('/concert', async (req, res) => {
     let data = req.body
-    // const images = await axios.get(`https://api.cognitive.microsoft.com/bing/v7.0/images/search/?q=${data.artist}&20concert&imageType=Photo&minHeight=1500&minWidth=2000`)
-    // let img_url = images.value[0].contentUrl
-    let img_url = 'https://assets.visitphilly.com/wp-content/uploads/2019/01/Fillmore-Philadelphia-concert-crowd-2200x1237.jpg'
+    const images = await axios.get(`https://api.cognitive.microsoft.com/bing/v7.0/images/search/?q=${data.artist}&20concert&imageType=Photo&minHeight=1500&minWidth=2000`, { headers: {"Ocp-Apim-Subscription-Key": '48662c45baf24c069aa00b0f1cff2222'}})
+    let img_url = images.data.value.length ? images.data.value[0].contentUrl : 'https://assets.visitphilly.com/wp-content/uploads/2019/01/Fillmore-Philadelphia-concert-crowd-2200x1237.jpg'
     sequelize
     .query(`INSERT INTO concert ( artist, date, country, city , venue, num_of_tickets, asked_price, original_price, additional_info, seller, status, img_url, uploaded_at)
            VALUES ( '${data.artist}', '${data.date} ${data.hour}:00' , '${data.country}', '${data.city}', '${data.venue}', ${data.num_of_tickets}, ${data.asked_price}, ${data.original_price}, '${data.additional_info}', ${data.seller} , 'active', '${img_url}', '${moment().format('YYYY-MM-DD  HH:mm:ss')}');`)
     .then(function (result) {
         res.send(result)
-
     })
 })
 //

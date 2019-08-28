@@ -12,8 +12,7 @@ export class ConcertsStore {
             city: '',
             dateFrom: '',
             dateTo: '',
-            priceFrom: '',
-            priceTo: 20,
+            priceTo: '',
             minTickets: ''
         }
     }
@@ -42,24 +41,27 @@ export class ConcertsStore {
     @action handleInput = (name, value) => {
         this.formInputs[name] = value
     }
-    @action search = () => {
-        // console.log(`SEARCH: 
-        //  artist: ${this.formInputs["artist"]}, 
-        //  city: ${this.formInputs["city"]}, 
-        //  dateFrom: ${this.formInputs["dateFrom"]}, 
-        //  dateTo: ${this.formInputs["dateTo"]}
-        //  minTickets: ${this.formInputs["minTickets"]}, 
-        //  priceFrom: ${this.formInputs["priceFrom"]}, 
-        //  priceTo: ${this.formInputs["priceTo"]}, `)
-        // this.formInputs={...formInputs}
+    @action search = async () => {
+        
+        const response = await axios.get(`http://localhost:5000/concerts`, { params : {
+            artist: this.formInputs["artist"],
+            city: this.formInputs["city"],
+            dateFrom: this.formInputs["dateFrom"],
+            dateTo: this.formInputs["dateTo"],
+            priceTo: this.formInputs["priceTo"],
+            minTickets: this.formInputs["minTickets"]
+        }} )
+            console.log(response.data);
 
+             this.concerts = [...response.data]
 
-
-
-        // console.log(this.formInputs)
-        // get(“/concerts”, body)
-        // Sends get request getConcerts(‘/concerts’) with query: artist, city, dateFrom, dateTo, priceFrom, priceTo, minTickets
-
+        console.log(`SEARCH: 
+         artist: ${this.formInputs["artist"]}, 
+         city: ${this.formInputs["city"]}, 
+         dateFrom: ${this.formInputs["dateFrom"]}, 
+         dateTo: ${this.formInputs["dateTo"]}
+         minTickets: ${this.formInputs["minTickets"]},  
+         priceTo: ${this.formInputs["priceTo"]}, `)
     }
 
 }
