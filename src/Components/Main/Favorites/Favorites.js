@@ -5,20 +5,20 @@ import { observer, inject } from 'mobx-react'
 import ConcertBox from '../ConcertBox/ConcertBox'
 import SearchBar from '../SearchBar/SearchBar';
 
-
+@inject("UserStore")
 @inject("ConcertsStore")
 @observer
 class Favorites extends Component {
 
    componentDidMount() {
-      this.props.ConcertsStore.getConcerts()
+      this.props.UserStore.getFavorites()
    }
 
    render() {
       return (
-         <div className="main">
+         <div className="main concerts">
             <SearchBar />
-            {this.props.ConcertsStore.concerts.map(c => !c.Favorites ? <ConcertBox key={c.id} concert={c} /> : null)}
+            {this.props.UserStore.favorites.map(c => <ConcertBox key={c.id} concert={c} /> )}
             {/* <Link to="/concertpage" className="Concerts"> specifiec Concert </Link> */}
          </div>)
 

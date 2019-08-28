@@ -4,18 +4,21 @@ import axios from 'axios'
 
 export class UserStore {
    @observable user = {}
+   @observable name
+  
    @observable userConcerts=[]
+   @observable favorites=[]
+
 
    constructor() {
-      // this.userId = "2"
+   
       this.user = {
          id: '2',
          name: 'Liat Cohen',
          email: 'liatcohen9@gmail.com',
-         phone_number: '0504211600'
+         phone_number: '050-4211600'
       }
-      // this.userConcerts.push(1)
-      // this.name = "Shoobert"
+      
    }
    @action get = (concertId) => {
       // get(‘/concert:/concertId’)
@@ -37,10 +40,12 @@ export class UserStore {
       this.getUserConcerts()
    }
    @action addToFavorites = async (concertId) => {
-      console.log(this.userId)
-      console.log(concertId)
-      axios.post(`http://localhost:5000/favorite/:${this.userId}/:${concertId}`)
+      await axios.post(`http://localhost:5000/favorite/${this.user.id}/${concertId}`)
    }
 
+   @action getFavorites = async () => {
+      const response = await axios.get(`http://localhost:5000/favorites/${this.user.id}`)
+      this.favorites = [...response.data]
+   }
 
 }

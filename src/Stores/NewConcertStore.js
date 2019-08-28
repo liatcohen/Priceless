@@ -23,12 +23,9 @@ export class NewConcertStore {
          original_price: Number,
          additional_info: "",
          seller: User.userId
-         //         seller: User.userId
       }
       this.bid = {
          idBid: false,
-         // initial_amount - float.
-         // concert_id - Int (ref.).
          bid_end_date: Date,
          bid_end_hour: Date,
 
@@ -51,7 +48,6 @@ export class NewConcertStore {
          asked_price: Number,
          original_price: Number,
          additional_info: "",
-         // seller: UserStore.userId
       }
    }
 
