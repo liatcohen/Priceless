@@ -256,6 +256,7 @@ router.get('/favorites/:userID', (req, res) => {
 })
 
 router.post('/bid', (req, res) => {
+    console.log("router bid")
     const { amount, concertID, bidder } = req.body
     sequelize.query(`
         INSERT INTO bid (amount, concert_id, bidder)

@@ -49,10 +49,12 @@ export class ConcertStore {
 
     @action makeBid = async () => {
         console.log("store makeBid")
-        await axios.post(`http://localhost:5000/bid/`, {
+        // await axios.post(`http://localhost:5000/concert`, concert)
+
+        await axios.post(`http://localhost:5000/bid`, {
             amount: this.bid,
             concertId: this.concert.id,
-            bidder: this.User.user.id
+            bidder: User.user.id
         })
     }
 

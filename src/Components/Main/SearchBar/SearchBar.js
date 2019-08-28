@@ -27,16 +27,16 @@ class SearchBar extends Component {
    render() {
       let store = this.props.ConcertsStore.formInputs
       return (
-         <div className="search-bar">
+         <div className="search-bar search-container">
             <div id="search-bar-header">Search By</div>
-            <div>
-               Artist<input className="input-type" type="text" name="artist"
+            <div className="input-container">
+               <div>Artist </div><input className="input-type" type="text" name="artist"
                   placeholder="Enter Artist.."
                   value={store.artist}
                   onChange={this.handleInput} />
             </div>
-            <div>
-               City<input className="input-type" type="text" id="city" name="city" placeholder="Enter city.."
+            <div className="input-container">
+            <div>City</div><input className="input-type" type="text" id="city" name="city" placeholder="Enter city.."
                   value={store.city}
                   onChange={this.handleInput} />
             </div>
@@ -45,13 +45,12 @@ class SearchBar extends Component {
 
                <Slider
                   min={0}
-                  max={200}
+                  max={400}
                   value={store.priceTo}
                   onChange={this.handlePriceChange}
                />
             </div>
-            <div>
-               number of tickets<input className="input-type" type="number" id="minTickets" name="minTickets" min="1"
+            <div className="input-container">number of tickets<input className="input-type" type="number" id="minTickets" name="minTickets" min="1"
                   value={store.minTickets}
                   onChange={this.handleInput} />
             </div>
