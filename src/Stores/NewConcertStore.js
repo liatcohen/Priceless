@@ -23,15 +23,9 @@ export class NewConcertStore {
          additional_info: "",
          seller: User.user.id,
          isBid: false,
-         bid_end_date: "10:00",//Date,
-         bid_end_hour: "10:00"//Date,
+         bid_end_date: Date,
+         bid_end_hour: Date,
       }
-      // this.bid = {
-      //    idBid: false,
-      //    bid_end_date: Date,
-      //    bid_end_hour: Date,
-
-      // }
    }
 
 
@@ -63,7 +57,7 @@ export class NewConcertStore {
          asked_price: Number,
          original_price: Number,
          additional_info: "",
-         idBid: false,
+         idBid: true,
          bid_end_date: Date,
          bid_end_hour: Date,
       }
@@ -80,11 +74,19 @@ export class NewConcertStore {
    // }
 
    @action chooseBid = () => {
-      this.newConcert.isBid = true
+      console.log("chooseBid")
+      let concert = { ...this.newConcert }
+      concert.isBid = true
+      this.newConcert = { ...concert }
    }
 
    @action chooseFixedPrice = () => {
-      this.newConcert.isBid = false
+      console.log("chooseFixedPrice")
+
+      let concert = { ...this.newConcert }
+      concert.isBid = false
+      this.newConcert = { ...concert }
+
    }
 }
 
