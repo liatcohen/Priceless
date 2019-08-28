@@ -23,12 +23,13 @@ class Account extends Component {
         return (
             <div className="account">
                 <div className="user-info">
-                    <div>Hello {this.props.UserStore.user.name.split(" ")[0]}!</div>
+                    <div >Hello {this.props.UserStore.user.name.split(" ")[0]}!</div>
                     <div>Full name: {this.props.UserStore.user.name}</div>
                     <div>Phone number: {this.props.UserStore.user.phone_number}</div>
                     <div>Email: {this.props.UserStore.user.email}</div>
                 </div>
-                <div className="user-concerts">Your concerts
+                <div>Your Concerts</div>
+                <div className="user-concerts">
                 <div>{this.props.UserStore.userConcerts.map(c=> <UserConcertBox key={c.id}
                                                 concert={c} 
                                                 deleteConcert={this.deleteConcert}

@@ -1,27 +1,20 @@
 .search-bar {
   background-color: antiquewhite;
-  width: 300px;
-  box-shadow: 10px 10px 5px grey;
   margin: 10px;
-  margin-top: 55px;
+  margin-top: 30px;
+  top: 100px;
+  height: 41vw;
+  margin-bottom: 80px;
+  width: 18vw;
+  background: #fff;
+  overflow: hidden;
+  padding-left: 15px;
+  border-radius: 7px;
 }
 #search-bar-header {
   font-size: 25px;
   font-weight: 700;
   margin: 3px;
-}
-.input-type {
-  padding: 12px 20px;
-  margin: 8px 0;
-  border: none;
-  border-bottom: 2px solid #4A90E2;
-  background-color: transparent;
-  outline: 0ch;
-  outline-style: hidden;
-  font-size: 1rem;
-}
-.input-type[type=number] {
-  width: 40px;
 }
 .DayPicker-wrapper {
   font-size: 0.9rem;
@@ -51,4 +44,50 @@
 .slider {
   width: 230px;
 }
-
+input {
+  display: block;
+  margin: 0 auto;
+  border: none;
+}
+input::placeholder {
+  -webkit-transform: translateY(0px);
+  transform: translateY(0px);
+  -webkit-transition: .5s;
+  transition: .5s;
+}
+input:hover,
+input:focus,
+input:active:focus {
+  color: #ff5722;
+  outline: none;
+  border-bottom: 1px solid #ff5722;
+}
+input:hover::placeholder,
+input:focus::placeholder,
+input:active:focus::placeholder {
+  color: #ff5722;
+  position: relative;
+  -webkit-transform: translateY(-20px);
+  transform: translateY(-20px);
+}
+.search-bar input[type=text] {
+  width: 180px;
+  height: 50px;
+}
+.search-bar input[type=number] {
+  width: 60px;
+  height: 50px;
+}
+input[type=date] {
+  width: 160px;
+  height: 50px;
+}
+input[type=time] {
+  width: 160px;
+  height: 50px;
+}
+.input-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

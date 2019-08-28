@@ -18,8 +18,11 @@ class Favorites extends Component {
       return (
          <div className="main concerts">
             <SearchBar />
-            {this.props.UserStore.favorites.map(c => <ConcertBox key={c.id} concert={c} /> )}
-            {/* <Link to="/concertpage" className="Concerts"> specifiec Concert </Link> */}
+            <div className="favoriteTitle">Favorites</div>
+            <div className="concerts">
+               {this.props.UserStore.favorites.map(c => <ConcertBox key={c.id} concert={c} />)}
+               {/* <Link to="/concertpage" className="Concerts"> specifiec Concert </Link> */}
+            </div>
          </div>)
 
    }

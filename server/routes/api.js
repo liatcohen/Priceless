@@ -3,7 +3,7 @@ const express = require('express')
 const router = express.Router()
 const moment = require('moment')
 const axios = require('axios')
-const sequelize = new Sequelize('mysql://root:root@localhost/priceless')
+const sequelize = new Sequelize('mysql://root:@localhost/priceless')
 const cron = require('node-cron')
 const sendMailFunc = require("./../send-email")
 
@@ -19,6 +19,8 @@ const sendMailFunc = require("./../send-email")
 //     })
 
 // *********post new concert*********
+
+// sendMailFunc("hadaralon3@gmail.com")
 
 const cronJobs = {}
 
@@ -122,7 +124,7 @@ router.get('/concerts', function (req, res) {
 
     let dataQuery = `
         SELECT
-            id, artist, num_of_tickets, date, asked_price, original_price, img_url
+            id, artist, num_of_tickets, date, asked_price, original_price, img_url, city
         FROM concert
         WHERE
             status = 'active'
@@ -177,7 +179,7 @@ router.get('/concerts', function (req, res) {
 router.get('/concert/:concertID', function (req, res) {
     let ID = req.params.concertID
     sequelize.query(`
-        SELECT artist, date, country, city, venue, num_of_tickets, asked_price, original_price, additional_info, seller, img_url
+        SELECT *
         FROM concert
         WHERE id = ${ID}`)
       .spread(function (results, metadata) {
@@ -254,7 +256,7 @@ router.post('/favorite/:userID/:concertID', (req, res) => {
 router.get('/favorites/:userID', (req, res) => {
     const user = req.params.userID
     sequelize.query(`
-        SELECT c.id, c.date, c.country, c.city, c.venue, c.num_of_tickets, c.asked_price, c.original_price, c.additional_info, c.seller, c.img_url
+        SELECT c.id, artist, c.date, c.country, c.city, c.venue, c.num_of_tickets, c.asked_price, c.original_price, c.additional_info, c.seller, c.img_url
         FROM
             favorite f
             INNER JOIN
@@ -275,6 +277,7 @@ router.get('/favorites/:userID', (req, res) => {
 })
 
 router.post('/bid', (req, res) => {
+    console.log("router bid")
     const { amount, concertID, bidder } = req.body
     sequelize.query(`
         INSERT INTO bid (amount, concert_id, bidder)
