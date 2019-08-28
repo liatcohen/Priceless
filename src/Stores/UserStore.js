@@ -4,19 +4,21 @@ import axios from 'axios'
 
 export class UserStore {
    @observable user = {}
+   @observable name
+  
    @observable userConcerts=[]
    @observable favorites=[]
 
+
    constructor() {
-      // this.userId = "2"
+   
       this.user = {
          id: '2',
          name: 'Liat Cohen',
          email: 'liatcohen9@gmail.com',
-         phone_number: '0504211600'
+         phone_number: '050-4211600'
       }
-      // this.userConcerts.push(1)
-      // this.name = "Shoobert"
+      
    }
    @action get = (concertId) => {
       // get(‘/concert:/concertId’)
