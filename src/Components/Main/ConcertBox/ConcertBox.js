@@ -32,7 +32,7 @@ class ConcertBox extends Component {
                   </div>
                </div>
                <div id="concert-box-price">$ {this.props.concert.asked_price}
-                  <button onClick={this.addToFavorites}>save</button>
+                  {/* <button onClick={this.addToFavorites}>save</button> */}
                </div>
             </div>
          </Link>)

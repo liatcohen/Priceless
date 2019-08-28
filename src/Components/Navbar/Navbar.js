@@ -7,7 +7,6 @@ class Navbar extends Component {
    render() {
       return (
          <div className="navbar">
-            Navbar
             <Link to="/" className="Main"> Home </Link>
             <Link to="/newitem" className="NewItem"> Add Concert </Link>
             <Link to="/favorites" className="Favorites"> Favorites </Link>
