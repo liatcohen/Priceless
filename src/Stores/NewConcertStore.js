@@ -2,8 +2,6 @@ import { observable, computed, action } from 'mobx'
 import axios from 'axios'
 import { UserStore } from './UserStore'
 
-
-
 let User = new UserStore
 console.log(User.user.id)
 
@@ -23,14 +21,17 @@ export class NewConcertStore {
          asked_price: Number,
          original_price: Number,
          additional_info: "",
-         seller: User.user.id
-      }
-      this.bid = {
+         seller: User.user.id,
          idBid: false,
          bid_end_date: Date,
          bid_end_hour: Date,
-
       }
+      // this.bid = {
+      //    idBid: false,
+      //    bid_end_date: Date,
+      //    bid_end_hour: Date,
+
+      // }
    }
 
 
@@ -60,6 +61,9 @@ export class NewConcertStore {
          asked_price: Number,
          original_price: Number,
          additional_info: "",
+         idBid: false,
+         bid_end_date: Date,
+         bid_end_hour: Date,
       }
    }
 
@@ -68,17 +72,17 @@ export class NewConcertStore {
       this.newConcert[name] = value
    }
 
-   @action handleBidInput = (name, value) => {
-      console.log(value)
-      this.bid[name] = value
-   }
+   // @action handleBidInput = (name, value) => {
+   //    console.log(value)
+   //    this.ne[name] = value
+   // }
 
    @action chooseBid = () => {
-      this.bid.isBid = true
+      this.newConcert.isBid = true
    }
 
    @action chooseFixedPrice = () => {
-      this.bid.isBid = false
+      this.newConcert.isBid = false
    }
 }
 
