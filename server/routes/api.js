@@ -33,8 +33,7 @@ router.post('/concert', async (req, res) => {
 //
 // ******get all or filter******
 router.get('/concerts', function (req, res) {
-
-    let query = req.query || {}
+    let query = req.query
     const queries = []
     query.artist ? queries.push(`artist = '${query.artist}'`) : null
     query.city ?  queries.push(`city = '${query.city}'`) : null
@@ -43,18 +42,24 @@ router.get('/concerts', function (req, res) {
     query.minTickets ?  queries.push(`num_of_tickets >= ${query.minTickets}`) : null 
 
 
-      let dataQuery = `
-      SELECT id, artist, num_of_tickets, date, asked_price, original_price, img_url
-      FROM concert
-      WHERE
-        ${queries.join(' AND ')}`
+    let dataQuery = `
+        SELECT
+            id, artist, num_of_tickets, date, asked_price, original_price, img_url
+        FROM concert
+        WHERE
+            status = 'active'
+            AND
+            DATE(date) > NOW()
+            ${queries.length ? ' AND ' + queries.join(' AND ') : ''}
+        ORDER BY date
+    ;`
 
-      let getAll =`
-      SELECT id, artist, num_of_tickets, date, asked_price, original_price, img_url
-      FROM concert` 
+    //   let getAll =`
+    //   SELECT id, artist, num_of_tickets, date, asked_price, original_price, img_url
+    //   FROM concert` 
     
     sequelize
-      .query( queries.length ? dataQuery : getAll )
+      .query(dataQuery)
       .spread(function (results, metadata) {
             res.send(results)
       })
