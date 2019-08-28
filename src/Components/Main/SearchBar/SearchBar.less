@@ -1,119 +1,116 @@
-.search-bar{
-    // margin-top: 50px;
-
-    background-color: antiquewhite;
-    width: 300px;
-    box-shadow: 10px 10px 5px grey;
-margin:10px;
-// text-align: center;s
+.search-bar {
+  background-color: antiquewhite;
+  margin: 10px;
+  margin-top: 30px;
+  top: 100px;
+  height: 41vw;
+  margin-bottom: 80px;
+  width: 18vw;
+  background: #fff;
+  overflow: hidden;
+  padding-left: 15px;
+  border-radius: 7px;
 
 }
 
-#search-bar-header{
-    font-size: 25px;
-    font-weight: 700;
-    margin: 3px;
+#search-bar-header {
+  font-size: 25px;
+  font-weight: 700;
+  margin: 3px;
 }
-
-.input-type{
-// input{
-
-    // width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
-//   box-sizing: border-box;
-  border: none;
-  border-bottom: 2px solid #4A90E2;
-  background-color: transparent;
-outline: 0ch;
-outline-style: hidden;
-font-size: 1rem;
-}
-
-.input-type[type=number]{
-// color:blue
-width: 40px;
-    }
-.DayPicker-wrapper{
-    // background-color: olivedrab;
-    // width: 50px;
-    font-size: 0.9rem;
+// .input-type {
+//   padding: 12px 20px;
+//   margin: 8px 0;
+//   border: none;
+//   border-bottom: 2px solid #4A90E2;
+//   background-color: transparent;
+//   outline: 0ch;
+//   outline-style: hidden;
+//   font-size: 1rem;
+// }
+// .input-type[type=number] {
+//   width: 40px;
+// }
+.DayPicker-wrapper {
+  font-size: 0.9rem;
 }
 .Selectable .DayPicker-Day--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside) {
-    background-color: #f0f8ff !important;
-    color: #4a90e2;
-    // font-size: 0.7rem;
-  }
-  .Selectable .DayPicker-Day {
-    border-radius: 0 !important;
-    font-size: 0.8rem;
-  }
-  .Selectable .DayPicker-Day--start {
-    border-top-left-radius: 50% !important;
-    border-bottom-left-radius: 50% !important;
-    // font-size: 0.5rem;
-  }
-  .Selectable .DayPicker-Day--end {
-    border-top-right-radius: 50% !important;
-    border-bottom-right-radius: 50% !important;
-    // font-size: 0.5rem;
-  }
-
-  .DayPicker {
-    display: inline-block;
-    // font-size: 0.5rem;
-  }
-
-  .RangeExample #selected{
-    //   color: #4a90e2;
-      font-size: 0.8rem;
-  }
-
-  .slider{
-      width: 230px;
-  }
+  background-color: #f0f8ff !important;
+  color: #4a90e2;
+}
+.Selectable .DayPicker-Day {
+  border-radius: 0 !important;
+  font-size: 0.8rem;
+}
+.Selectable .DayPicker-Day--start {
+  border-top-left-radius: 50% !important;
+  border-bottom-left-radius: 50% !important;
+}
+.Selectable .DayPicker-Day--end {
+  border-top-right-radius: 50% !important;
+  border-bottom-right-radius: 50% !important;
+}
+.DayPicker {
+  display: inline-block;
+}
+.RangeExample #selected {
+  font-size: 0.8rem;
+}
+.slider {
+  width: 230px;
+}
 
 
-  .brk-btn {
-      cursor: pointer;
-    position: relative;
-    background: none;
-    color: #4A90E2;
-    text-transform: uppercase;
-    text-decoration: none;
-    border: 0.2em solid #4A90E2;
-    padding: 0.5em 1em;
-    &::before {
-      content: "";
-      display: block;
-      position: absolute;
-      width: 10%;
-      background: #222;
-      height: 0.3em;
-      right: 20%;
-      top: -0.21em;
-      transform: skewX(-45deg);
-      -webkit-transition: all 0.45s cubic-bezier(0.86, 0, 0.07, 1);
-      transition: all 0.45s cubic-bezier(0.86, 0, 0.07, 1);
+input{
+  display:block;
+  // height:50px;
+  // width:90%;
+  margin:0 auto;
+  border:none;
+  &::placeholder{
+    -webkit-transform:translateY(0px);
+      transform:translateY(0px);
+    -webkit-transition:.5s;
+      transition:.5s;
+  }
+  &:hover,
+  &:focus,
+  &:active:focus{
+    color:#ff5722;
+    outline:none;
+    border-bottom:1px solid #ff5722;
+    &::placeholder{
+      color:#ff5722;
+      position:relative;
+      -webkit-transform:translateY(-20px);
+      transform:translateY(-20px);
+      
     }
-    &::after {
-      content: "";
-      display: block;
-      position: absolute;
-      width: 10%;
-      background: #222;
-      height: 0.3em;
-      left: 20%;
-      bottom: -0.25em;
-      transform: skewX(45deg);
-      -webkit-transition: all 0.45 cubic-bezier(0.86, 0, 0.07, 1);
-      transition: all 0.45s cubic-bezier(0.86, 0, 0.07, 1);
-    }
-    &:hover {
-      &::before {
-        right: 80%;
-      }
-      &::after {
-        left: 80%;
-      }
-    }}
+  }
+}
+.search-bar input[type=text]{
+      width: 180px;
+      height:50px;
+}
+
+.search-bar input[type=number]{
+  width:60px;
+  height:50px;
+
+}
+input[type=date]{
+width:160px;
+height:50px;
+
+}
+input[type=time]{
+width:160px;
+height:50px;
+
+}
+
+.input-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

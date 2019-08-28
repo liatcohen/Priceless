@@ -54,6 +54,7 @@ margin-top: 51px;
   text-decoration: none;
   border: 0.2em solid #4A90E2;
   padding: 0.5em 1em;
+  margin-left: 5vw;
 }
 .brk-btn::before {
   content: "";
