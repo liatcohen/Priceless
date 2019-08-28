@@ -3,19 +3,10 @@ const express = require('express')
 const router = express.Router()
 const moment = require('moment')
 const axios = require('axios')
-const sequelize = new Sequelize('mysql://root:Guprd214!@localhost/priceless')
+const sequelize = new Sequelize('mysql://root:@localhost/priceless')
+const sendMailFunc = require("../send-email")
 
-
-// *****checking the connection******
-
-// sequelize
-//     .authenticate()
-//     .then(() => {
-//         console.log('Connection has been established successfully.');
-//     })
-//     .catch(err => {
-//         console.error('Unable to connect to the database:', err);
-//     })
+// sendMailFunc("hadaralon3@gmail.com")
 
 // *********post new concert*********
 
@@ -177,5 +168,7 @@ router.get('/favorites/:userID', (req, res) => {
             res.send(result)
         })
 })
+
+
 
 module.exports = router
