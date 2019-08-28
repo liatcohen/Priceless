@@ -22,6 +22,8 @@
 --     status ENUM ('active', 'sold', 'deleted'),
 --     img_url VARCHAR(300) NOT NULL,
 --     uploaded_at DATETIME NOT NULL,
+--     is_bid BOOLEAN,
+--     ends_at DATETIME,
 
 --     FOREIGN KEY (seller) REFERENCES user (id)
 -- );
@@ -34,19 +36,11 @@
 --     FOREIGN KEY (concert_id) REFERENCES concert (id)
 -- );
 
--- CREATE TABLE biddable (
---     concert_id INT PRIMARY KEY,
---     initial_amount FLOAT,
---     end_at DATETIME,
-
---     FOREIGN KEY (concert_id) REFERENCES concert (id)
--- );
-
 -- CREATE TABLE bid (
 --     amount INT,
 --     concert_id INT,
 --     bidder INT,
 
---     FOREIGN KEY (biddable) REFERENCES biddable (concert_id),
+--     FOREIGN KEY (concert_id) REFERENCES concert (id),
 --     FOREIGN KEY (bidder) REFERENCES user (id)
 -- );
