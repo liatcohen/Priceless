@@ -1,10 +1,18 @@
 import React, { Component } from 'react'
 import './ConcertBox.css'
 import { Link } from 'react-router-dom'
-
+import { observer, inject } from 'mobx-react'
 const moment = require('moment')
 
+@inject("UserStore")
+@observer
+
 class ConcertBox extends Component {
+
+   addToFavorites = () => {
+      this.props.UserStore.addToFavorites(this.props.concert.id)
+   }
+
    render() {
       return (
          <Link to={`/concert/${this.props.concert.id}`}>
@@ -24,6 +32,7 @@ class ConcertBox extends Component {
                   </div>
                </div>
                <div id="concert-box-price">$ {this.props.concert.asked_price}
+                  <button onClick={this.addToFavorites}>save</button>
                </div>
             </div>
          </Link>)
