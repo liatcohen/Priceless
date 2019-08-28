@@ -4,10 +4,11 @@ import { UserStore } from './UserStore'
 
 
 
-let User= new UserStore
+let User = new UserStore
 
 export class NewConcertStore {
    @observable newConcert
+   @observable bid
 
    constructor() {
       this.newConcert = {
@@ -23,11 +24,17 @@ export class NewConcertStore {
          additional_info: "",
          seller: User.userId
       }
+      this.bid = {
+         idBid: false,
+         bid_end_date: Date,
+         bid_end_hour: Date,
+
+      }
    }
 
    @action saveConcert = async (concertInfo) => {
       let concert = { ...concertInfo }
-      concert.seller= this.newConcert.seller
+      concert.seller = this.newConcert.seller
       console.log(this.newConcert.seller)
       await axios.post(`http://localhost:5000/concert`, concert)
       this.newConcert = {
@@ -47,6 +54,19 @@ export class NewConcertStore {
    @action handleInput = (name, value) => {
       console.log(value)
       this.newConcert[name] = value
+   }
+
+   @action handleBidInput = (name, value) => {
+      console.log(value)
+      this.bid[name] = value
+   }
+
+   @action chooseBid = () => {
+      this.bid.isBid = true
+   }
+
+   @action chooseFixedPrice = () => {
+      this.bid.isBid = false
    }
 }
 
