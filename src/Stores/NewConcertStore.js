@@ -32,22 +32,29 @@ export class NewConcertStore {
       }
    }
 
+   
    @action saveConcert = async (concertInfo) => {
       let concert = { ...concertInfo }
-      concert.seller = this.newConcert.seller
-      console.log(this.newConcert.seller)
-      await axios.post(`http://localhost:5000/concert`, concert)
-      this.newConcert = {
-         artist: "",
-         date: Date,
-         hour: Date,
-         country: "Israel",
-         city: "",
-         venue: "",
-         num_of_tickets: Number,
-         asked_price: Number,
-         original_price: Number,
-         additional_info: "",
+      if (concert.artist && concert.date && concert.hour && 
+         concert.country && concert.city && concert.venue && 
+         concert.num_of_tickets && concert.asked_price) {
+         concert.seller = this.newConcert.seller
+         console.log(this.newConcert.seller)
+         await axios.post(`http://localhost:5000/concert`, concert)
+         this.newConcert = {
+            artist: "",
+            date: Date,
+            hour: Date,
+            country: "Israel",
+            city: "",
+            venue: "",
+            num_of_tickets: Number,
+            asked_price: Number,
+            original_price: Number,
+            additional_info: "",
+         }
+      }else{
+         alert("you have an empty mandatory field")
       }
    }
 
