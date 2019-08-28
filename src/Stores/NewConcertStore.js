@@ -36,15 +36,22 @@ export class NewConcertStore {
 
    @action saveConcert = async (concertInfo) => {
       let concert = { ...concertInfo }
-      console.log(concert.artist)
-      if (!concert.artist) return alert("Artist field is empty")
-      if (!concert.date) return alert("Date field is empty")
-      if (!concert.hour) return alert("Hour field is empty")
-      if (!concert.country) return alert("Country field is empty")
-      if (!concert.city) return alert("City field is empty")
-      if (!concert.venue) return alert("Venue field is empty")
-      if (!concert.num_of_tickets) return alert("Number of tickets field is empty")
-      if (!concert.asked_price) return alert("Asked Price field is empty")
+      // console.log(concert.artist)
+      // console.log(concert.date)
+      // console.log(concert.hour)
+      // console.log(concert.country)
+      // console.log(concert.city)
+      // console.log(concert.venue)
+      // console.log(concert.asked_price)
+      // console.log(concert.num_of_tickets)
+      // if (!concert.artist) return alert("Artist field is empty")
+      // if (!concert.date) return alert("Date field is empty")
+      // if (!concert.hour) return alert("Hour field is empty")
+      // if (!concert.country) return alert("Country field is empty")
+      // if (!concert.city) return alert("City field is empty")
+      // if (!concert.venue) return alert("Venue field is empty")
+      // if (!concert.asked_price) return alert("Asked Price field is empty")
+      // if (!concert.num_of_tickets) return alert("Number of tickets field is empty")
 
       concert.seller = this.newConcert.seller
       console.log(this.newConcert.seller)
