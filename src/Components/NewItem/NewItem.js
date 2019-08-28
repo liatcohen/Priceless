@@ -10,17 +10,17 @@ class NewItem extends Component {
       this.props.NewConcertStore.handleInput(e.target.name, e.target.value)
    }
 
-   // bidInputHandler = (e) => {
-   //    this.props.NewConcertStore.handleInput(e.target.name, e.target.value)
-   // }
+   bidInputHandler = (e) => {
+      this.props.NewConcertStore.handleInput(e.target.name, e.target.value)
+   }
    saveConcert = () => {
       this.props.NewConcertStore.saveConcert(this.props.NewConcertStore.newConcert)
    }
-   // radioButtonChanged = (e) => {
-   //    e.target.value === "fixed_price" ?
-   //       this.props.NewConcertStore.chooseFixedPrice() :
-   //       this.props.NewConcertStore.chooseBid()
-   // }
+   radioButtonChanged = (e) => {
+      e.target.value === "fixed_price" ?
+         this.props.NewConcertStore.chooseFixedPrice() :
+         this.props.NewConcertStore.chooseBid()
+   }
 
    render() {
       const store = this.props.NewConcertStore.newConcert
