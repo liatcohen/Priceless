@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { observer, inject } from 'mobx-react'
 import './NewItem.css'
+
 @inject("NewConcertStore")
 @observer
 class NewItem extends Component {
@@ -13,7 +14,6 @@ class NewItem extends Component {
    }
 
    render() {
-      // const img="https://www.imore.com/sites/imore.com/files/styles/larger/public/field/image/2018/11/concert-goers-hero-image.jpg?itok=gkcEI1PL"
       const img="https://dressings-sauces.org/wp-content/uploads/2018/10/Crowd-at-concert6.jpg"
       let store = this.props.NewConcertStore.newConcert
       
@@ -23,9 +23,11 @@ class NewItem extends Component {
                <div class="container">
                   <h2>Add new Concert for sale</h2>
                   <form>
+
                      <input name="artist" type="text" placeholder="Artist" value={store.artist} onChange={this.inputHandler} />
                      <div id="date-time-input">
                         <input name="date" type="Date" placeholder="Date" value={store.date} onChange={this.inputHandler} />
+
                         <input name="hour" type="time" placeholder="Hour" value={store.hour} onChange={this.inputHandler} />
                      </div>
                      <div id="location-info">
