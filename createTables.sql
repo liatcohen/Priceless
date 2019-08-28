@@ -1,5 +1,12 @@
 -- USE priceless;
 
+-- -- CREATE TABLE user (
+-- --     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+-- --     name VARCHAR(30) NOT NULL,
+-- --     email VARCHAR(50),
+-- --     phone_number VARCHAR(30)
+-- -- );
+
 -- -- CREATE TABLE concert (
 -- --     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 -- --     artist VARCHAR(50) NOT NULL,
@@ -19,17 +26,10 @@
 -- --     FOREIGN KEY (seller) REFERENCES user (id)
 -- -- );
 
--- -- CREATE TABLE user (
--- --     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
--- --     name VARCHAR(30) NOT NULL,
--- --     email VARCHAR(50),
--- --     phone_number INT
--- -- );
+-- CREATE TABLE favorite (
+--     user_id INT,
+--     concert_id INT,
 
-CREATE TABLE favorite (
-    user_id INT,
-    concert_id INT,
-
-    FOREIGN KEY (user_id) REFERENCES user (id),
-    FOREIGN KEY (concert_id) REFERENCES concert (id)
-);
+--     FOREIGN KEY (user_id) REFERENCES user (id),
+--     FOREIGN KEY (concert_id) REFERENCES concert (id)
+-- );
