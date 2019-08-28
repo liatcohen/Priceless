@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { observer, inject } from 'mobx-react'
+import { runInThisContext } from 'vm';
 // import './ConcertBid.css'
 
 const moment = require('moment')
@@ -13,7 +14,8 @@ class ConcertBid extends Component {
         this.props.ConcertStore.handleBid(e.target.value)
     }
     makeBid = () => {
-        console.log("makeBid")
+        console.log("makeBid ConcertBid")
+        this.props.ConcertStore.makeBid()
     }
     render() {
 

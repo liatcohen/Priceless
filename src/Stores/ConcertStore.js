@@ -1,5 +1,11 @@
 import { observable, computed, action } from 'mobx'
 import axios from 'axios';
+import { UserStore } from './UserStore'
+import { async } from 'q';
+
+
+
+let User = new UserStore
 
 export class ConcertStore {
     @observable concert
@@ -21,7 +27,7 @@ export class ConcertStore {
             // status: "active",
             // img_url: "https://www.zappa-club.co.il/download/showPic/show_pic6773_img.jpg",
         }
-       
+
 
 
     }
@@ -31,13 +37,24 @@ export class ConcertStore {
 
         const response = await axios.get(`http://localhost:5000/concert/${concertId}`)
 
-             this.concert = {...response.data}
+        this.concert = { ...response.data }
     }
     @action handleBid = (value) => {
         console.log(value)
         this.bid = value
-     }
 
+        // const { amount, concertID, bidder } = req.body
+
+    }
+
+    @action makeBid = async () => {
+        console.log("store makeBid")
+        await axios.post(`http://localhost:5000/bid/`, {
+            amount: this.bid,
+            concertId: this.concert.id,
+            bidder: this.User.user.id
+        })
+    }
 
 
 }
