@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { observer, inject } from 'mobx-react'
 import Modal from 'react-awesome-modal';
-import  Lottie  from 'react-lottie'
-import animationData  from '../../Lottie/loadCircle.json'
+// import  Lottie  from 'react-lottie'
+// import * as animationData from '../../Lottie/loadCircle.json'
 
 import './ConcertPage.css'
+import ConcertBid from './ConcertBid/ConcertBid';
 
 const moment = require('moment')
 @inject("UserStore")
@@ -99,13 +100,15 @@ class ConcertPage extends Component {
                </div>
                <div className="info">
                   <div className="iconBar"><i class="fas fa-ticket-alt iconConcert"></i>{this.props.ConcertStore.concert.num_of_tickets} Tickets</div>
-                  <div className="iconBar"><i class="fas fa-check-circle iconConcert"></i>Saving %{this.culcPercentage()}</div>
+                  <div className="iconBar"><i class="fas fa-check-circle iconConcert"></i>Saving {this.culcPercentage()}%</div>
                   <div className="iconBar"><i class="fas fa-info-circle iconConcert"></i>{this.props.ConcertStore.concert.additional_info} </div>
                   {/* <button onClick={this.addToFavorites}>save</button> */}
-                  {/* <Lottie  /> */}
+                  {/* <Lottie options={defaultOptions} /> */}
                   
                </div>
             </div>
+            <div>concert id: {this.props.match.params.id}</div>
+            <ConcertBid></ConcertBid>
          </div>)
    }
 }

@@ -2,9 +2,8 @@ import { observable, computed, action } from 'mobx'
 import axios from 'axios'
 import { UserStore } from './UserStore'
 
-
-
 let User = new UserStore
+console.log(User.user.id)
 
 export class NewConcertStore {
    @observable newConcert
@@ -22,39 +21,45 @@ export class NewConcertStore {
          asked_price: Number,
          original_price: Number,
          additional_info: "",
-         seller: User.userId
-      }
-      this.bid = {
-         idBid: false,
+         seller: User.user.id,
+         isBid: false,
          bid_end_date: Date,
          bid_end_hour: Date,
-
       }
    }
 
-   
+
    @action saveConcert = async (concertInfo) => {
       let concert = { ...concertInfo }
-      if (concert.artist && concert.date && concert.hour && 
-         concert.country && concert.city && concert.venue && 
-         concert.num_of_tickets && concert.asked_price) {
-         concert.seller = this.newConcert.seller
-         console.log(this.newConcert.seller)
-         await axios.post(`http://localhost:5000/concert`, concert)
-         this.newConcert = {
-            artist: "",
-            date: Date,
-            hour: Date,
-            country: "Israel",
-            city: "",
-            venue: "",
-            num_of_tickets: Number,
-            asked_price: Number,
-            original_price: Number,
-            additional_info: "",
-         }
-      }else{
-         alert("you have an empty mandatory field")
+      console.log(concert.artist)
+      if (!concert.artist) return alert("Artist field is empty")
+      if (!concert.date) return alert("Date field is empty")
+      if (!concert.hour) return alert("Hour field is empty")
+      if (!concert.country) return alert("Country field is empty")
+      if (!concert.city) return alert("City field is empty")
+      if (!concert.venue) return alert("Venue field is empty")
+      if (!concert.num_of_tickets) return alert("Number of tickets field is empty")
+      if (!concert.asked_price) return alert("Asked Price field is empty")
+
+      concert.seller = this.newConcert.seller
+      console.log(this.newConcert.seller)
+      console.log("######concert")
+      console.log(concert)
+      await axios.post(`http://localhost:5000/concert`, concert)
+      this.newConcert = {
+         artist: "",
+         date: Date,
+         hour: Date,
+         country: "Israel",
+         city: "",
+         venue: "",
+         num_of_tickets: Number,
+         asked_price: Number,
+         original_price: Number,
+         additional_info: "",
+         idBid: true,
+         bid_end_date: Date,
+         bid_end_hour: Date,
       }
    }
 
@@ -63,17 +68,25 @@ export class NewConcertStore {
       this.newConcert[name] = value
    }
 
-   @action handleBidInput = (name, value) => {
-      console.log(value)
-      this.bid[name] = value
-   }
+   // @action handleBidInput = (name, value) => {
+   //    console.log(value)
+   //    this.ne[name] = value
+   // }
 
    @action chooseBid = () => {
-      this.bid.isBid = true
+      console.log("chooseBid")
+      let concert = { ...this.newConcert }
+      concert.isBid = true
+      this.newConcert = { ...concert }
    }
 
    @action chooseFixedPrice = () => {
-      this.bid.isBid = false
+      console.log("chooseFixedPrice")
+
+      let concert = { ...this.newConcert }
+      concert.isBid = false
+      this.newConcert = { ...concert }
+
    }
 }
 

@@ -3,7 +3,7 @@ const express = require('express')
 const router = express.Router()
 const moment = require('moment')
 const axios = require('axios')
-const sequelize = new Sequelize('mysql://root:root@localhost/priceless')
+const sequelize = new Sequelize('mysql://root:@localhost/priceless')
 const cron = require('node-cron')
 const sendMailFunc = require("./../send-email")
 
@@ -38,20 +38,22 @@ const findArtistImg = async artist => {
     return images.data.value.length ? images.data.value[0].contentUrl : 'http://freshlytechy.com/wp-content/uploads/2013/04/EVNTLIVE-Offers-Live-Concert-Streaming-Platform.jpg'
 }
 
-router.post('/biddable/:concertID', (req, res) => {
-    const concertID = req.params.concertID
-    const { is_bid, bid_end_time } = req.body
-    sequelize.query(`
-        INSERT INTO biddable (initial_amount, end_at, concert_id)
-        VALUES (${initial_amount}, '${end_at}', ${concertID})
+const findSeller = concertID => {
+    return sequelize.query(`
+        SELECT seller
+        FROM concert
+        WHERE id = ${concertID}
     ;`)
-        .then(result => {
-            startCronJob()
-            res.send(result)
+        .spread((result, metadata) => {
+            return result
         })
-})
+}
 
-const startCronJob = (jobNum, endTime, endDate) => {
+const checkWinner = concertID => {
+
+}
+
+const startCronJob = (concertID, endTime, endDate, seller) => {
     endTime = endTime.split(':')
     endDate = endDate.split('-')
     
@@ -59,39 +61,34 @@ const startCronJob = (jobNum, endTime, endDate) => {
     hours = endTime[0] == '00' ? '23' : Number(endTime[0]) - 1,
     day = endDate[2],
     month = endDate[1]
-    cronJobs[jobNum] = cron.schedule(`${mins} ${hours} ${day} ${month} *`, () => {
-        console.log('email sent')
-        sendMailFunc("hadaralon3@gmail.com")
+    cronJobs[concert_id] = cron.schedule(`${mins} ${hours} ${day} ${month} *`, () => {
+        // sendMailFunc(seller, winner)
     }, {timezone: 'Asia/Jerusalem'})
 }
 
-startCronJob(1, '19:27', '2019-08-28')
+// startCronJob(1, '18:00' )
 
-
+// POST NEW CONCERT + BIDDABLE (IF NEEDED)
 router.post('/concert', async (req, res) => {
-    const { artist, date, hour, country, city, venue, num_of_tickets, asked_price, original_price, additional_info, seller} = req.body.concert
+    // Put bid values along with concert values in body unnested
+    const { artist, date, hour, country, city, venue, num_of_tickets, asked_price, original_price, additional_info, seller, isBid, bid_end_date, bid_end_time } = req.body
+
     const img_url = await findArtistImg(artist)
-    sequelize.query(`INSERT INTO concert ( artist, date, country, city , venue, num_of_tickets, asked_price, original_price, additional_info, seller, status, img_url, uploaded_at)
-           VALUES ( '${artist}', '${date} ${hour}:00' , '${country}', '${city}', '${venue}', ${num_of_tickets}, ${asked_price}, ${original_price}, '${additional_info}', ${seller} , 'active', '${img_url}', '${moment().format('YYYY-MM-DD  HH:mm:ss')}');`)
-        .then((newConcert) => {
-            const { is_bid, bid_end_date, bid_end_time } = req.body.bid
-            if(is_bid){
-                sequelize.query(`
-                INSERT INTO biddable (ends_at, concert_id)
-                VALUES ('${bid_end_date} ${bid_end_time}:00', ${newConcert[0]})
-            ;`)
-                .then(newBiddable => {
-                    startCronJob(newConcert, bid_end_time, bid_end_date)
-                    res.send({newConcert, newBiddable})
-                })
-            } else {
-                res.send(newConcert)
-            }
-        }
-    )
+    const newConcert = await sequelize.query(`
+        INSERT INTO concert ( artist, date, country, city , venue, num_of_tickets, asked_price, original_price, additional_info, seller, status, img_url, uploaded_at, is_bid, ends_at)
+        VALUES ( '${artist}', '${date} ${hour}:00' , '${country}', '${city}', '${venue}', ${num_of_tickets}, ${asked_price}, ${original_price}, '${additional_info}', ${seller} , 'active', '${img_url}', '${moment().format('YYYY-MM-DD  HH:mm:ss')}', ${isBid}, '${isBid ? `${bid_end_date} ${bid_end_time}:00` : `${date} ${hour}:00`}')
+        ;`)
+
+    const concertID = newConcert[0]
+    if(isBid){
+        const seller = await findSeller(concertID)
+        startCronJob(concertID, bid_end_time, bid_end_date, seller);
+    }
+    res.send(newConcert)
+    
 })
-//
-// ******get all or filter******
+
+// GET ALL/FILTERED CONCERTS
 router.get('/concerts', function (req, res) {
     let query = req.query
     const queries = []
@@ -159,7 +156,7 @@ router.get('/concerts', function (req, res) {
 router.get('/concert/:concertID', function (req, res) {
     let ID = req.params.concertID
     sequelize.query(`
-        SELECT artist, date, country, city, venue, num_of_tickets, asked_price, original_price, additional_info, seller, img_url
+        SELECT *
         FROM concert
         WHERE id = ${ID}`)
       .spread(function (results, metadata) {
@@ -257,6 +254,7 @@ router.get('/favorites/:userID', (req, res) => {
 })
 
 router.post('/bid', (req, res) => {
+    console.log("router bid")
     const { amount, concertID, bidder } = req.body
     sequelize.query(`
         INSERT INTO bid (amount, concert_id, bidder)
