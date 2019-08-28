@@ -5,6 +5,7 @@ const moment = require('moment')
 const axios = require('axios')
 const sequelize = new Sequelize('mysql://root:root@localhost/priceless')
 const cron = require('node-cron')
+const sendMailFunc = require("./../send-email")
 
 // *****checking the connection******
 
@@ -16,9 +17,6 @@ const cron = require('node-cron')
 //     .catch(err => {
 //         console.error('Unable to connect to the database:', err);
 //     })
-const sendMailFunc = require("../send-email")
-
-// sendMailFunc("hadaralon3@gmail.com")
 
 // *********post new concert*********
 
@@ -60,10 +58,14 @@ const startCronJob = (jobNum, endTime, endDate) => {
     day = endDate[2],
     month = endDate[1]
     cronJobs[jobNum] = cron.schedule(`${mins} ${hours} ${day} ${month} *`, () => {
-        console.log('cron')
+        console.log('email sent')
+        sendMailFunc("hadaralon3@gmail.com")
     }, {timezone: 'Asia/Jerusalem'})
 }
 
+startCronJob(1, '19:27', '2019-08-28')
+
+// sendMailFunc("hadaralon3@gmail.com")
 
 router.post('/concert', async (req, res) => {
     const { artist, date, hour, country, city, venue, num_of_tickets, asked_price, original_price, additional_info, seller} = req.body.concert
