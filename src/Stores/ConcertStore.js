@@ -27,7 +27,7 @@ export class ConcertStore {
             // status: "active",
             // img_url: "https://www.zappa-club.co.il/download/showPic/show_pic6773_img.jpg",
         }
-
+        // ends_at
 
 
     }
@@ -38,6 +38,10 @@ export class ConcertStore {
         const response = await axios.get(`http://localhost:5000/concert/${concertId}`)
 
         this.concert = { ...response.data }
+        this.concert.id=concertId
+        console.log("response.data")
+        console.log(response.data)
+
     }
     @action handleBid = (value) => {
         console.log(value)
@@ -50,10 +54,12 @@ export class ConcertStore {
     @action makeBid = async () => {
         console.log("store makeBid")
         // await axios.post(`http://localhost:5000/concert`, concert)
-
+console.log( "amount"+ this.bid)
+    console.log("concertId"+ this.concert.id)
+        console.log("bidder"+ User.user.id)
         await axios.post(`http://localhost:5000/bid`, {
             amount: this.bid,
-            concertId: this.concert.id,
+            concertID: "5",//this.concert.id,
             bidder: User.user.id
         })
     }
