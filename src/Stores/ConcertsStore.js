@@ -52,10 +52,10 @@ export class ConcertsStore {
     }
 
     @action getConcerts = async () => {
-        console.log("getConcerts")
+      //   console.log("getConcerts")
             const response = await axios.get(`http://localhost:5000/concerts/`)
-            console.log(response);
-            console.log(response.data);
+            // console.log(response);
+            // console.log(response.data);
 
              this.concerts = [...response.data]
         //     Sends get request getConcerts(‘/concerts’) 
