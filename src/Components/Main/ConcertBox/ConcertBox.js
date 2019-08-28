@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { observer, inject } from 'mobx-react'
 const moment = require('moment')
 
+@inject("ConcertStore")
 @inject("UserStore")
 @observer
 
@@ -12,6 +13,11 @@ class ConcertBox extends Component {
    addToFavorites = () => {
       this.props.UserStore.addToFavorites(this.props.concert.id)
    }
+
+   //if throuhg ConcertPage it wont work
+   // addToFavorites = () => {
+   //    this.props.UserStore.addToFavorites(this.props.concert.id)
+   // }
 
    render() {
       return (

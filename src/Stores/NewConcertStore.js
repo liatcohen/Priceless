@@ -22,7 +22,6 @@ export class NewConcertStore {
          original_price: Number,
          additional_info: "",
          seller: User.userId
-//         seller: User.userId
       }
    }
 
@@ -42,7 +41,6 @@ export class NewConcertStore {
          asked_price: Number,
          original_price: Number,
          additional_info: "",
-         // seller: UserStore.userId
       }
    }
 

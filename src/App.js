@@ -10,6 +10,7 @@ import ConcertBox from './Components/Main/ConcertBox/ConcertBox';
 import ConcertPage from './Components/ConcertPage/ConcertPage';
 import SearchBar from './Components/Main/SearchBar/SearchBar';
 import Favorites from './Components/Main/Favorites/Favorites';
+import Account from './Components/Account/Account';
 
 @observer
 class App extends Component {
@@ -25,6 +26,7 @@ class App extends Component {
                {/* <NewItem /> */}
                <Route path="/concert/:id" render={({ match }) => <ConcertPage match={match}/>} />
                <Route path="/favorites" render={({ match }) => <Favorites match={match}/>} />
+               <Route exact path="/myAccount" render={() => <Account/>} />
 
                {/* <ConcertPage /> */}
             </div>
