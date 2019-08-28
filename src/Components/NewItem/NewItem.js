@@ -5,18 +5,26 @@ import './NewItem.css'
 @inject("NewConcertStore")
 @observer
 class NewItem extends Component {
+
    inputHandler = (e) => {
       this.props.NewConcertStore.handleInput(e.target.name, e.target.value)
    }
 
+   bidInputHandler = (e) => {
+      this.props.NewConcertStore.handleBidInput(e.target.name, e.target.value)
+   }
    saveConcert = () => {
       this.props.NewConcertStore.saveConcert(this.props.NewConcertStore.newConcert)
+   }
+   radioButtonChanged = (e) => {
+      e.target.value === "fixed_price" ?
+         this.props.NewConcertStore.chooseFixedPrice() :
+         this.props.NewConcertStore.chooseBid()
    }
 
    render() {
       const img = "https://dressings-sauces.org/wp-content/uploads/2018/10/Crowd-at-concert6.jpg"
       let store = this.props.NewConcertStore.newConcert
-
       return (
          <div>
             <div className="new-item">
@@ -37,16 +45,29 @@ class NewItem extends Component {
                      <input name="venue" type="text" placeholder="Venue" value={store.venue} onChange={this.inputHandler} />
 
                      <div className="radio-buttons">
-                        <input type="radio" id="fixed_price" name="drone" value="fixed_price" checked />
+                        <input type="radio" id="fixed_price" name="drone" value="fixed_price"
+                           checked={!this.props.NewConcertStore.bid.isBid} onChange={this.radioButtonChanged} />
                         <label for="fixed_price"> I want fixed price</label>
-                    
 
 
 
-                     <input type="radio" id="bid" name="drone" value="bid" />
-                     <label for="bid"> I want bid</label>
- </div>
-                     <input name="asked_price" type="Number" placeholder="Asked price in $" value={store.asked_price} onChange={this.inputHandler} />
+
+                        <input type="radio" id="bid" name="drone" value="bid"
+                           checked={this.props.NewConcertStore.bid.isBid} onChange={this.radioButtonChanged} />
+                        <label for="bid"> I want bid</label>
+                     </div>
+                     {!this.props.NewConcertStore.bid.isBid ?
+                        <input name="asked_price" type="Number" placeholder="Asked price in $" value={store.asked_price} onChange={this.inputHandler} />
+                        :
+                        <div>
+                           <input name="asked_price" type="Number" placeholder="min price in $" value={store.asked_price} onChange={this.inputHandler} />
+                           <div id="date-time-input">
+                              <input name="bid_end_date" type="Date" placeholder="Date" value={this.props.NewConcertStore.bid.bid_end_date} onChange={this.bidInputHandler} />
+
+                              <input name="bid_end_hour" type="time" placeholder="Hour" value={this.props.NewConcertStore.bid.bid_end_hour} onChange={this.bidInputHandler} />
+                           </div>
+                        </div>
+                     }
                      <input name="original_price" type="Number" placeholder="Original price in $" value={store.original_price} onChange={this.inputHandler} />
                      <input name="additional_info" type="text" placeholder="Additional info" value={store.additional_info} onChange={this.inputHandler} />
                      <input name="num_of_tickets" type="number" placeholder="Number of tickets" value={store.num_of_tickets} onChange={this.inputHandler} />
