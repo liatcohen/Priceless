@@ -23,19 +23,19 @@ class Account extends Component {
         return (
             <div className="account">
                 <div className="user-info">
-                    <div >Hello {this.props.UserStore.user.name.split(" ")[0]}!</div>
-                    <div>Full name: {this.props.UserStore.user.name}</div>
-                    <div>Phone number: {this.props.UserStore.user.phone_number}</div>
-                    <div>Email: {this.props.UserStore.user.email}</div>
+                    <div className="hello" >Hello {this.props.UserStore.user.name.split(" ")[0]}!</div>
+                    <div><strong>Full name:</strong> {this.props.UserStore.user.name}</div>
+                    <div><strong>Phone number:</strong> {this.props.UserStore.user.phone_number}</div>
+                    <div><strong>Email:</strong> {this.props.UserStore.user.email}</div>
                 </div>
-                <div>Your Concerts</div>
+                <div className="yourConcert"><strong>Your Concerts</strong></div>
                 <div className="user-concerts">
-                <div>{this.props.UserStore.userConcerts.map(c=> <UserConcertBox key={c.id}
+                {this.props.UserStore.userConcerts.map(c=> <UserConcertBox key={c.id}
                                                 concert={c} 
                                                 deleteConcert={this.deleteConcert}
                                                 markAsSold={this.markAsSold}/>)}</div>
 
-                </div>
+               
 
 
             </div>)

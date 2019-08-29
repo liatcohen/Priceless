@@ -57,7 +57,8 @@ class NewItem extends Component {
    render() {
       const store = this.props.NewConcertStore.newConcert
 
-      const img = "https://media.timeout.com/images/102182623/630/472/image.jpg"
+      const img ="https://media.giphy.com/media/26gst31Cm1x9lIMI8/giphy.gif";
+      
       const fixedPriceComponent = (<div>
          <input id="fixed" name="asked_price" type="Number" placeholder="Asked price in $"
             value={store.asked_price} onChange={this.inputHandler} />
@@ -97,13 +98,13 @@ class NewItem extends Component {
                      onClickAway={() => this.closeModal()}
                   >
                      <div>
-                        <h1>Uploaded succecfuly</h1>
+                        <h1 className="popMsg">Uploaded succecfuly</h1>
                         <div className="sellerInfoPop">
                            <p>Thank you!</p>
                            <p>Your'e gonna be rich!</p>
                         </div>
                         <a href="javascript:void(0);" onClick={() => this.closeModal()}>Close</a>
-                        <div className="brk-btn" id="popButton" onClick={() => this.closeModal()}> <Link to="/" className="Main"> Close </Link> </div>
+                        <div className="brk-btn" id="popButtonPost" onClick={() => this.closeModal()}> <Link to="/" className="Main"> Close </Link> </div>
                      </div>
                   </Modal>
                </section>
