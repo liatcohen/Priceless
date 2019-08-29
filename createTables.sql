@@ -1,5 +1,15 @@
--- USE priceless;
+USE priceless;
 
+SELECT MAX(amount) AS amount, u.*
+FROM
+    bid b
+    INNER JOIN
+    user u ON b.bidder = u.id
+WHERE
+    b.concert_id = 5
+GROUP BY bidder
+ORDER BY amount DESC
+LIMIT 5;
 
 -- CREATE TABLE user (
 --     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,

@@ -3,7 +3,9 @@ const nodemailer = require("nodemailer")
 
 
 let emailSender = function(seller, topBidders, concertInfo){
-
+       console.log(seller)
+       console.log(topBidders)
+       console.log(concertInfo)
        const transporter = nodemailer.createTransport({
               port: 465,
               service:'gmail',
@@ -45,6 +47,9 @@ You can go to localhost:3000/concert/${concertInfo.id} to checkout the concert d
 Priceless team.
 `
        };
+
+       console.log(mailToWinner)
+       console.log(mailToSeller)
 
        transporter.sendMail(mailToWinner, function(error, info){
               if(error){
