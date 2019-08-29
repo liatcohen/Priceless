@@ -16,26 +16,11 @@ let emailSender = function(seller, topBidders, concertInfo){
               },
        });
 
-       const mailToWinner = {
-              from: `priceless.tickets@gmail.com`,
-              to: topBidders[0].email,
-              subject: `You've won a public auction on Priceless!!`,
-              text: `Go on localhost:3000/concert/${concertInfo.id} to contact the seller`
-//               text:`
-// You've submitted the highest bid for ${concertInfo.artist} live concert on ${concertInfo.date}.
-// Hit ${seller.name} up on 0${seller.phone_number} or by email on ${seller.email} to purchase the tickets for the agreed amount of ${topBidders[0].amount}$.
-// You can go to localhost:3000/concert/${concertInfo.id} to checkout the concert details.
-// Have fun!
-
-// Priceless team.
-// `
-       };
-
        const mailToSeller = {
               from: `priceless.tickets@gmail.com`,
               to: seller.email,
               subject: `Your public auction on Priceless timed out!!`,
-              text: `Go on localhost:3000/concert/${concertInfo.id} to see who are the top bidders`
+              text: `Go on localhost:3000/concert/${concertInfo.id} to see who are the top bidders` // temp text
 //               text: topBidders ? `There was no bidders :(` : `
 // The auction for ${concertInfo.artist} live concert tickets on ${concertInfo.date} has ended.
 // ${topBidders[0].name} is the highest bidder with a ${topBidders[0].amount}$ bid!
@@ -50,17 +35,6 @@ let emailSender = function(seller, topBidders, concertInfo){
 // `
        };
 
-       console.log(mailToWinner)
-       console.log(mailToSeller)
-
-       transporter.sendMail(mailToWinner, function(error, info){
-              if(error){
-                     console.log(error);
-              } else {
-                     console.log('Email sent ' + info.response );
-              }
-       });
-
        transporter.sendMail(mailToSeller, function(error, info){
               if(error){
                      console.log(error);
@@ -68,24 +42,31 @@ let emailSender = function(seller, topBidders, concertInfo){
                      console.log('Email sent ' + info.response );
               }
        });
+       
+       if(topBidders) {
+              const mailToWinner = {
+                     from: `priceless.tickets@gmail.com`,
+                     to: topBidders[0].email,
+                     subject: `You've won a public auction on Priceless!!`,
+                     text: `Go on localhost:3000/concert/${concertInfo.id} to contact the seller` // temp text
+       //               text:`
+       // You've submitted the highest bid for ${concertInfo.artist} live concert on ${concertInfo.date}.
+       // Hit ${seller.name} up on 0${seller.phone_number} or by email on ${seller.email} to purchase the tickets for the agreed amount of ${topBidders[0].amount}$.
+       // You can go to localhost:3000/concert/${concertInfo.id} to checkout the concert details.
+       // Have fun!
+       
+       // Priceless team.
+       // `
+              };
 
+              transporter.sendMail(mailToWinner, function(error, info){
+                     if(error){
+                            console.log(error);
+                     } else {
+                            console.log('Email sent ' + info.response );
+                     }
+              });
+       }
 }
-
-
-// makeR = async (email) =>{
-//     console.log("1 step good");
-    
-//  let mail = {
-//         from: `<priceless.tickets@gmail.com>`,
-//         to: email,
-//         subject: 'PriceLess web have a message for you!',
-//         text:`hello! you win the red axes tickets!!!!!!!!`
-//  }
-// await axios.post('http://localhost:5000/sendEmail', mail)
-// }
-
-
-// makeR("hadaralon3@gmail.com")
-
 
 module.exports = emailSender
