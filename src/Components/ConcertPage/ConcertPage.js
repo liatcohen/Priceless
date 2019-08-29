@@ -19,15 +19,10 @@ class ConcertPage extends Component {
    constructor(props) {
       super(props);
       this.state = {
-         visible: false,
-         favorite: false
+         visible: false
       }
    }
-   isFavorite(){
-      this.setState({
-         favorite: true
-      }); 
-   }
+   
 
    openModal() {
       this.setState({
@@ -62,7 +57,10 @@ class ConcertPage extends Component {
 
    render() {
 
+      console.log(this.props.ConcertStore.concert.is_favorite);
+
       return (
+         
          <div className="concertSection">
 
             <section>
@@ -86,7 +84,7 @@ class ConcertPage extends Component {
                   </div>
                </Modal>
             </section>
-            <div className="concertPhoto" style={{ backgroundImage: "url(" + this.props.ConcertStore.concert.img_url + ")", backgroundSize: "51.2vw 22vw", marginRight: "14.5%" }} onClick={this.addToFavorites}>{this.state.favorite ? <i class="fas fa-heart"></i>: <i class="far fa-heart"></i>}</div>
+            <div className="concertPhoto" style={{ backgroundImage: "url(" + this.props.ConcertStore.concert.img_url + ")", backgroundSize: "51.2vw 22vw", marginRight: "14.5%" }} onClick={this.addToFavorites}>{ this.props.ConcertStore.concert.is_favorite == 1 ? <i class="fas fa-heart"></i>: <i class="far fa-heart"></i>}</div>
             <div className="concertTitle">{this.props.ConcertStore.concert.artist}</div>
             <div className="ticketSection">
 
