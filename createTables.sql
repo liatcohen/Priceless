@@ -45,3 +45,5 @@
 --     FOREIGN KEY (concert_id) REFERENCES concert (id),
 --     FOREIGN KEY (bidder) REFERENCES user (id)
 -- );
+
+

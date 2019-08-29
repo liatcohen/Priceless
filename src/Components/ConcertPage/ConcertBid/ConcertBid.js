@@ -87,7 +87,7 @@ class ConcertBid extends Component {
                 <input id="bid" type="number" placeholder="$" value={this.props.ConcertStore.bid} onChange={this.handleBid}></input>
                 <button onClick={this.makeBid}>Make a bid!</button>
                 {/* <div>Bid ends in {moment(this.props.ConcertStore.concert.ends_at).fromNow('LTS')}</div> */}
-                <div>{this.props.ConcertStore.concert.user_highest_bid ? "Your last bid is"  +  this.props.ConcertStore.concert.user_highest_bid + "$" : null}</div>
+                <div>{this.props.ConcertStore.concert.user_highest_bid ? "Your last bid is "  +  this.props.ConcertStore.concert.user_highest_bid + "$" : null}</div>
                 <div>Bid ends in {this.state.timer}</div>
             </div>)
     }
