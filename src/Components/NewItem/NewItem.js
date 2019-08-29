@@ -1,17 +1,41 @@
 import React, { Component } from 'react'
 import { observer, inject } from 'mobx-react'
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+
+import Modal from 'react-awesome-modal';
+
 import './NewItem.css'
 
 @inject("NewConcertStore")
 @observer
 class NewItem extends Component {
+   constructor(props) {
+      super(props);
+      this.state = {
+         visible: false
+      }
+   }
 
+   openModal() {
+      this.setState({
+         visible: true
+      });
+   }
+
+   closeModal() {
+      this.setState({
+         visible: false
+      });
+   }
+
+   //=======================POPUP
    inputHandler = (e) => {
       this.props.NewConcertStore.handleInput(e.target.name, e.target.value)
    }
 
    saveConcert = () => {
       this.props.NewConcertStore.saveConcert(this.props.NewConcertStore.newConcert)
+      this.openModal()
    }
    radioButtonChanged = (e) => {
       console.log("radioButtonChanged")
@@ -53,6 +77,26 @@ class NewItem extends Component {
       return (
          <div>
             <div className="new-item">
+               <section>
+
+                  <Modal
+                     visible={this.state.visible}
+                     width="400"
+                     height="300"
+                     effect="fadeInUp"
+                     onClickAway={() => this.closeModal()}
+                  >
+                     <div>
+                        <h1>Uploaded succecfuly</h1>
+                        <div className="sellerInfoPop">
+                           <p>Thank you!</p>
+                           <p>Your gonna be rich!</p>
+                        </div>
+                        <a href="javascript:void(0);" onClick={() => this.closeModal()}>Close</a>
+                        <div className="brk-btn" id="popButton" onClick={() => this.closeModal()}> <Link to="/" className="Main"> Close </Link> </div>
+                     </div>
+                  </Modal>
+               </section>
                <div class="container">
                   <h2>Get rid of your ticket now!</h2>
                   <form >
@@ -83,7 +127,7 @@ class NewItem extends Component {
                      <input name="num_of_tickets" type="number" placeholder="Number of tickets" value={store.num_of_tickets} onChange={this.inputHandler} />
                   </form>
                   <div className="button">
-                  <button onClick={this.saveConcert} class="add-concert-button">Add Concert</button>
+                     <button onClick={this.saveConcert} class="add-concert-button">Add Concert</button>
                   </div>
                </div>
                <div className="image-container">

@@ -20,26 +20,27 @@ class UserConcertBox extends Component {
     render() {
         return (
             <div className="user-concert-box">
-                <div className="concert-box-info">
-                    <div id="concert-box-date">
-                        <div id="day">{moment(this.props.concert.date).format("D")} </div>
-                        <div id="month">{moment(this.props.concert.date).format("MMM")} </div>
-                    </div>
+                {/* <div className="concert-box-info"> */}
+                <div id="concert-box-date-Account">
                     <div>
-                        <div>{this.props.concert.artist}</div>
-                        <div>{this.props.concert.num_of_tickets} Tickets</div>
-                        <div>{this.props.concert.city}</div>
+                        <div id="dayAccount">{moment(this.props.concert.date).format("D")} </div>
+                        <div id="monthAccount">{moment(this.props.concert.date).format("MMM")} </div>
                     </div>
+                    <div id="box-price-Account">{this.props.concert.asked_price}$</div>
                 </div>
-                <div id="concert-box-price">$ {this.props.concert.asked_price}
-                    {/* <button onClick={this.addToFavorites}>save</button> */}
+                <div className="ticketInfo-Account">
+                    <div className="artistName">{this.props.concert.artist}</div>
+                    <div>{this.props.concert.num_of_tickets} Tickets</div>
+                    <div>{this.props.concert.city}</div>
                 </div>
-                <button onClick={this.deleteConcert}>Delete</button>
-                {this.props.concert.status === 'sold' ?
-                    <button>sold!</button>
-                    : <button onClick={this.markAsSold}>Mark as sold</button>
-
-                }
+                {/* </div> */}
+                <div className="buttons-Account">
+                    <div className="deleteConcert" onClick={this.deleteConcert}>Delete</div>
+                    {this.props.concert.status === 'sold' ?
+                        <div className="deleteConcert sold">sold!</div>
+                        : <div className="deleteConcert markSold" onClick={this.markAsSold}>Mark as sold</div>
+                    }
+                </div>
             </div>
         )
     }

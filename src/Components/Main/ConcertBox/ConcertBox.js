@@ -27,19 +27,20 @@ class ConcertBox extends Component {
                   <img src={this.props.concert.img_url} />
                </div>
                <div className="concert-box-info">
+                  <div className="textInfo">
+                     <div  className="artist">{this.props.concert.artist}</div>
+                     <div className="smallInfo">{this.props.concert.num_of_tickets} Tickets</div>
+                     <div className="smallInfo">{this.props.concert.city}</div>
+                  </div>
                   <div id="concert-box-date">
-                     <div id="day">{moment(this.props.concert.date).format("D")} </div>
-                     <div id="month">{moment(this.props.concert.date).format("MMM")} </div>
-                  </div>
-                  <div>
-                     <div>{this.props.concert.artist}</div>
-                     <div>{this.props.concert.num_of_tickets} Tickets</div>
-                     <div>{this.props.concert.city}</div>
+                     <div>
+                        <div id="day">{moment(this.props.concert.date).format("D")} </div>
+                        <div id="month">{moment(this.props.concert.date).format("MMM")} </div>
+                     </div>
+                     <div id="concert-box-price">{this.props.concert.asked_price}$</div>
                   </div>
                </div>
-               <div id="concert-box-price">$ {this.props.concert.asked_price}
-                  {/* <button onClick={this.addToFavorites}>save</button> */}
-               </div>
+
             </div>
          </Link>)
    }
