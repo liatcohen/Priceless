@@ -20,32 +20,34 @@ let emailSender = function(seller, topBidders, concertInfo){
               from: `priceless.tickets@gmail.com`,
               to: topBidders[0].email,
               subject: `You've won a public auction on Priceless!!`,
-              text:`
-You've submitted the highest bid for ${concertInfo.artist} live concert on ${concertInfo.date}.
-Hit ${seller.name} up on 0${seller.phone_number} or by email on ${seller.email} to purchase the tickets for the agreed amount of ${topBidders[0].amount}$.
-You can go to localhost:3000/concert/${concertInfo.id} to checkout the concert details.
-Have fun!
+              text: `Go on localhost:3000/concert/${concertInfo.id} to contact the seller`
+//               text:`
+// You've submitted the highest bid for ${concertInfo.artist} live concert on ${concertInfo.date}.
+// Hit ${seller.name} up on 0${seller.phone_number} or by email on ${seller.email} to purchase the tickets for the agreed amount of ${topBidders[0].amount}$.
+// You can go to localhost:3000/concert/${concertInfo.id} to checkout the concert details.
+// Have fun!
 
-Priceless team.
-`
+// Priceless team.
+// `
        };
 
        const mailToSeller = {
               from: `priceless.tickets@gmail.com`,
               to: seller.email,
               subject: `Your public auction on Priceless timed out!!`,
-              text: topBidders ? `There was no bidders :(` : `
-The auction for ${concertInfo.artist} live concert tickets on ${concertInfo.date} has ended.
-${topBidders[0].name} is the highest bidder with a ${topBidders[0].amount}$ bid!
-S/he should contact you soon by phone / email, if you want to get those dollars fast you can contact him/her on ${topBidders[0].phone_number} or by email on ${topBidders[0].email}.
-If for some reason things doesn't work out you can contact the next highest bidders using this details:
-${topBidders.map(b => `
-${b.name} (${b.amount}$): 0${b.phone_number} - ${b.email}`)}
+              text: `Go on localhost:3000/concert/${concertInfo.id} to see who are the top bidders`
+//               text: topBidders ? `There was no bidders :(` : `
+// The auction for ${concertInfo.artist} live concert tickets on ${concertInfo.date} has ended.
+// ${topBidders[0].name} is the highest bidder with a ${topBidders[0].amount}$ bid!
+// S/he should contact you soon by phone / email, if you want to get those dollars fast you can contact him/her on ${topBidders[0].phone_number} or by email on ${topBidders[0].email}.
+// If for some reason things doesn't work out you can contact the next highest bidders using this details:
+// ${topBidders.map(b => `
+// ${b.name} (${b.amount}$): 0${b.phone_number} - ${b.email}`)}
 
-You can go to localhost:3000/concert/${concertInfo.id} to checkout the concert details.
+// You can go to localhost:3000/concert/${concertInfo.id} to checkout the concert details.
 
-Priceless team.
-`
+// Priceless team.
+// `
        };
 
        console.log(mailToWinner)
