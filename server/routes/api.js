@@ -82,8 +82,6 @@ const findTopBidders = concertID => {
         })
 }
 
-findTopBidders(5)
-
 const startCronJob = (concertID, endTime, endDate, seller, concertInfo) => {
     endTime = endTime.split(':')
     endDate = endDate.split('-')
@@ -114,7 +112,6 @@ router.post('/concert', async (req, res) => {
         
     const concertID = newConcert[0]
     if(isBid){
-        // let seller = await findSeller(concertID)
         const sellerInfo = await fetchSellerInfo(seller)
         console.log(sellerInfo)
         startCronJob(concertID, bid_end_time, bid_end_date, sellerInfo, req.body);
@@ -188,6 +185,7 @@ router.get('/concerts', function (req, res) {
 
 router.get('/concert/:concertID/:userID', function (req, res) {
     const {concertID, userID} = req.params
+    console.log('concert id - ' + concertID)
     // send is favorite, is bid and last bid
     sequelize.query(`
         SELECT c.*, COUNT(*) AS is_favorite
