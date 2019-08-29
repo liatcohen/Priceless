@@ -105,7 +105,7 @@ class ConcertPage extends Component {
                   <div className="place">
                      <div>{this.props.ConcertStore.concert.venue}</div>
                      <div>{this.props.ConcertStore.concert.city}, {this.props.ConcertStore.concert.country}</div>
-                     <div className="price">Price: ${this.props.ConcertStore.concert.asked_price} </div>
+                     <div className="price">{this.props.ConcertStore.concert.is_bid ? null: "Price: $" + this.props.ConcertStore.concert.asked_price} </div>
                   </div>
                   <div className="buttonBox"><span onClick={() => this.openModal()} className="contactButton">Contact Seller</span></div>
                   {/* <div ><span className="buttonBox" onClick={() => this.addToFavorites()} className="contactButton">Save</span></div> */}
