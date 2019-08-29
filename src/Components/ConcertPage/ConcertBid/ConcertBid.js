@@ -9,6 +9,59 @@ const moment = require('moment')
 @observer
 
 class ConcertBid extends Component {
+    constructor() {
+        super()
+        this.state = {
+            timer: undefined
+        }
+    }
+
+    componentDidMount() {
+        this.props.ConcertStore.getConcert(this.props.clientId)
+
+        this.countdown()
+        this.setState({timer: this.props.ConcertStore.concert.ends_at})
+    }
+    countdown = (e) => {
+        console.log("countdown")
+        console.log('30-08-2019 10:30:00')
+      console.log("ends at: ")
+      console.log(this.props.ConcertStore.concert.ends_at)
+        // var $clock = $('#clock'),
+       let time = moment(this.props.ConcertStore.concert.ends_at).format('DD-MM-YYYY HH:mm:ss')
+       console.log("ends at2: ")
+       console.log(time)
+       console.log("time") 
+
+       console.log(time) 
+    //    var eventTime = moment(time).unix(),
+       var eventTime = moment(time, 'DD-MM-YYYY HH:mm:ss').unix(),
+
+       
+        // var eventTime = moment(this.props.ConcertStore.concert.ends_at, 'DD-MM-YYYY HH:mm:ss').unix(),
+
+        // var eventTime = moment('30-08-2019 10:30:00', 'DD-MM-YYYY HH:mm:ss').unix(),
+            currentTime = moment().unix(),
+            diffTime = eventTime - currentTime,
+            duration = moment.duration(diffTime * 1000, 'milliseconds'),
+            interval = 1000;
+
+        // if time to countdown
+        if (diffTime > 0) {
+            setInterval(() => {
+                duration = moment.duration(duration.asMilliseconds() - interval, 'milliseconds');
+                var d = moment.duration(duration).days(),
+                    h = moment.duration(duration).hours(),
+                    m = moment.duration(duration).minutes(),
+                    s = moment.duration(duration).seconds();
+                    console.log("in interval:")
+                console.log(`${d}:${h}:${m}:${s}`)
+                this.setState({ timer: `${d}:${h}:${m}:${s}` })
+            }, interval);
+        }else{
+            console.log("TIME is PASSED!!!!")
+        }
+    };
 
     handleBid = (e) => {
         this.props.ConcertStore.handleBid(e.target.value)
@@ -18,13 +71,13 @@ class ConcertBid extends Component {
         this.props.ConcertStore.makeBid()
     }
     render() {
-
+console.log("LIAT")
         console.log(this.props.ConcertStore.concert.ends_at)
         return (
             <div className="concert-bid">
                 <input id="bid" type="number" placeholder="$" value={this.props.ConcertStore.bid} onChange={this.handleBid}></input>
                 <button onClick={this.makeBid}>Make a bid!</button>
-                <div>Bid ends in {moment(this.props.ConcertStore.concert.ends_at).endOf('day').fromNow()}</div>
+                <div>Bid ends in {this.state.timer}</div>
             </div>)
     }
 }

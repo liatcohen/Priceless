@@ -114,8 +114,9 @@ class ConcertPage extends Component {
                   
                </div>
             </div>
-            <ConcertBid></ConcertBid>
+            <ConcertBid concertId={this.props.match.params.id}></ConcertBid>
          </div>)
    }
 }
 export default ConcertPage
+
