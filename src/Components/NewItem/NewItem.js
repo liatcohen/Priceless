@@ -71,8 +71,8 @@ class NewItem extends Component {
             <div id="date-time-input">
                <input name="bid_end_date" type="Date" placeholder="Date"
                   value={store.bid_end_date} onChange={this.inputHandler} />
-               <input name="bid_end_hour" type="time" placeholder="Hour"
-                  value={store.bid_end_hour} onChange={this.inputHandler} />
+               <input name="bid_end_time" type="time" placeholder="Hour"
+                  value={store.bid_end_time} onChange={this.inputHandler} />
             </div>
             <div id="price-container">
                <input id="price" name="asked_price" type="Number" placeholder="min price in $"
