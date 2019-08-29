@@ -1,4 +1,4 @@
--- USE priceless;
+USE priceless;
 
 
 -- CREATE TABLE user (
