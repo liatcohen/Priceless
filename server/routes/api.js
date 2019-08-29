@@ -177,7 +177,7 @@ router.get('/concerts', function (req, res) {
 // ******get concert******
 
 router.get('/concert/:concertID/:userID', function (req, res) {
-    let ID = req.params.concertID
+    const {concertID, userID} = req.params
     // send is favorite, is bid and last bid
     sequelize.query(`
         SELECT c.*, COUNT(*) AS is_favorite
@@ -190,8 +190,24 @@ router.get('/concert/:concertID/:userID', function (req, res) {
             AND
             f.user_id = ${userID}
     ;`)
-      .spread(function (result, metadata) {
-        res.send(result[0])
+      .spread((result, metadata) => {
+        if(result[0].is_bid){
+            sequelize.query(`
+                SELECT MAX(amount) AS amount
+                FROM
+                    bid b
+                WHERE
+                    b.concert_id = ${concertID}
+                    AND
+                    b.bidder = ${userID}
+            ;`)
+                .spread((highestBid, metadata) => {
+                    result[0].user_highest_bid = highestBid[0].amount
+                    res.send(result[0])
+                })
+        } else {
+            res.send(result[0])
+        }
       }) 
 })
 

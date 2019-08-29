@@ -1,19 +1,5 @@
-USE priceless;
-    
-SELECT c.*, COUNT(*) AS is_favorite
-        FROM
-            concert C
-            INNER JOIN
-            favorite f ON f.concert_id = c.id
-        WHERE
-            c.id = 4
-            AND
-            f.user_id = 1
+-- USE priceless;
 
--- SELECT COUNT(*)
--- FROM favorite
--- WHERE
---     user_id = 1
 
 -- CREATE TABLE user (
 --     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
