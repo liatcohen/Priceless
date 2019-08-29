@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import Modal from 'react-awesome-modal';
 
 import './NewItem.css'
+const moment = require('moment')
 
 @inject("NewConcertStore")
 @observer
@@ -64,7 +65,7 @@ class NewItem extends Component {
             value={store.original_price} onChange={this.inputHandler} />
       </div>
       )
-      
+
       const bidComponent = (
          <div>
             <div id="date-time-input">
@@ -81,7 +82,8 @@ class NewItem extends Component {
 
             </div>
          </div>)
-
+      console.log(99)
+      console.log(moment(Date()).fromNow())
       return (
          <div>
             <div className="new-item">
@@ -98,7 +100,7 @@ class NewItem extends Component {
                         <h1>Uploaded succecfuly</h1>
                         <div className="sellerInfoPop">
                            <p>Thank you!</p>
-                           <p>Your gonna be rich!</p>
+                           <p>Your'e gonna be rich!</p>
                         </div>
                         <a href="javascript:void(0);" onClick={() => this.closeModal()}>Close</a>
                         <div className="brk-btn" id="popButton" onClick={() => this.closeModal()}> <Link to="/" className="Main"> Close </Link> </div>

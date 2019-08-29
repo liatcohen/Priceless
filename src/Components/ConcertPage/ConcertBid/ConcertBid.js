@@ -10,23 +10,23 @@ const moment = require('moment')
 
 class ConcertBid extends Component {
 
-    handleBid = (e) => {
-        this.props.ConcertStore.handleBid(e.target.value)
-    }
-    makeBid = () => {
-        console.log("makeBid ConcertBid")
-        this.props.ConcertStore.makeBid()
-    }
-    render() {
+   handleBid = (e) => {
+      this.props.ConcertStore.handleBid(e.target.value)
+   }
+   makeBid = () => {
+      console.log("makeBid ConcertBid")
+      this.props.ConcertStore.makeBid()
+   }
+   render() {
+      
+      return (
+         <div className="concert-bid">
+            <input type="number" placeholder="$" value={this.props.ConcertStore.bid} onChange={this.handleBid}></input>
+            <button onClick={this.makeBid}>Make a bid!</button>
+            <div>Bid ends in {moment(this.props.ConcertStore.concert.ends_at).fromNow()}</div>
 
-        return (
-            <div className="concert-bid">
-                <input type="number" placeholder="$" value={this.props.ConcertStore.bid} onChange={this.handleBid}></input>
-                <button onClick={this.makeBid}>Make a bid!</button>
-                <div>Bid ends in {moment(this.props.ConcertStore.concert.ends_at).fromNow()}</div>
-
-            </div>)
-    }
+         </div>)
+   }
 }
 // bid_end_date: Date,
 //          bid_end_hour: Date,

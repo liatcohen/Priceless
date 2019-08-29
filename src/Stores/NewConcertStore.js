@@ -39,7 +39,7 @@ export class NewConcertStore {
       console.log(concert.venue)
       console.log(concert.asked_price)
       console.log(concert.num_of_tickets)
-      if (concert.date) return alert("Date field is empty")
+      // if (concert.date) return alert("Date field is empty")
       // if (!concert.hour) return alert("Hour field is empty")
       // if (!concert.country) return alert("Country field is empty")
       // if (!concert.city) return alert("City field is empty")
