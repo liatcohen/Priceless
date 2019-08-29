@@ -3,7 +3,7 @@ const express = require('express')
 const router = express.Router()
 const moment = require('moment')
 const axios = require('axios')
-const sequelize = new Sequelize('mysql://root:@localhost/priceless')
+const sequelize = new Sequelize('mysql://root:root@localhost/priceless')
 const cron = require('node-cron')
 const sendMailFunc = require("./../send-email")
 
@@ -176,14 +176,38 @@ router.get('/concerts', function (req, res) {
 
 // ******get concert******
 
-router.get('/concert/:concertID', function (req, res) {
-    let ID = req.params.concertID
+router.get('/concert/:concertID/:userID', function (req, res) {
+    const {concertID, userID} = req.params
+    // send is favorite, is bid and last bid
     sequelize.query(`
-        SELECT *
-        FROM concert
-        WHERE id = ${ID}`)
-      .spread(function (results, metadata) {
-            res.send(results[0])
+        SELECT c.*, COUNT(*) AS is_favorite
+        FROM
+            concert C
+            INNER JOIN
+            favorite f ON f.concert_id = c.id
+        WHERE
+            c.id = ${concertID}
+            AND
+            f.user_id = ${userID}
+    ;`)
+      .spread((result, metadata) => {
+        if(result[0].is_bid){
+            sequelize.query(`
+                SELECT MAX(amount) AS amount
+                FROM
+                    bid b
+                WHERE
+                    b.concert_id = ${concertID}
+                    AND
+                    b.bidder = ${userID}
+            ;`)
+                .spread((highestBid, metadata) => {
+                    result[0].user_highest_bid = highestBid[0].amount
+                    res.send(result[0])
+                })
+        } else {
+            res.send(result[0])
+        }
       }) 
 })
 
