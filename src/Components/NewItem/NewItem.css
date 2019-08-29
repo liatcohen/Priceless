@@ -7,8 +7,9 @@ body {
 .new-item {
   display: flex;
   flex-direction: row-reverse;
-  width: 1000px;
-  margin-top: 65px;
+  width: 51vw;
+  margin-top: 69px;
+  margin: auto;
 }
 .image-container {
   width: 400px;
@@ -151,4 +152,13 @@ input[type=radio] {
 .button {
   display: flex;
   justify-content: center;
+}
+#popButtonPost {
+  background-color: black;
+  color: white;
+  width: 15vw;
+  text-align: center;
+}
+.popMsg {
+  text-align: center;
 }

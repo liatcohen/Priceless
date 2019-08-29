@@ -4,6 +4,7 @@ import { runInThisContext } from 'vm';
 import './ConcertBid.css'
 
 const moment = require('moment')
+
 @inject("UserStore")
 @inject("ConcertStore")
 @observer
@@ -11,6 +12,7 @@ const moment = require('moment')
 class ConcertBid extends Component {
     constructor() {
         super()
+        this.interval=0
         this.state = {
             timer: undefined
         }
@@ -21,6 +23,10 @@ class ConcertBid extends Component {
 
         this.countdown()
         this.setState({ timer: this.props.ConcertStore.concert.ends_at })
+    }
+
+    componentWillUnmount(){
+        clearInterval(this.interval)
     }
     countdown = (e) => {
         console.log("countdown")
@@ -44,13 +50,13 @@ class ConcertBid extends Component {
             currentTime = moment().unix(),
             diffTime = eventTime - currentTime,
             duration = moment.duration(diffTime * 1000, 'milliseconds'),
-            interval = 1000;
+            intervalTime = 1000;
         console.log("currentTime")
         console.log(moment())
         // if time to countdown
         if (diffTime > 0) {
-            setInterval(() => {
-                duration = moment.duration(duration.asMilliseconds() - interval, 'milliseconds');
+            this.interval = setInterval(() => {
+                duration = moment.duration(duration.asMilliseconds() - intervalTime, 'milliseconds');
                 var d = moment.duration(duration).days(),
                     h = moment.duration(duration).hours(),
                     m = moment.duration(duration).minutes(),
@@ -58,7 +64,7 @@ class ConcertBid extends Component {
                 console.log("in interval:")
                 console.log(`${d}:${h}:${m}:${s}`)
                 this.setState({ timer: `${d}:${h}:${m}:${s}` })
-            }, interval);
+            }, intervalTime);
         } else {
             console.log("TIME is PASSED!!!!")
         }
@@ -80,6 +86,8 @@ class ConcertBid extends Component {
             <div className="concert-bid">
                 <input id="bid" type="number" placeholder="$" value={this.props.ConcertStore.bid} onChange={this.handleBid}></input>
                 <button onClick={this.makeBid}>Make a bid!</button>
+                {/* <div>Bid ends in {moment(this.props.ConcertStore.concert.ends_at).fromNow('LTS')}</div> */}
+                <div>{this.props.ConcertStore.concert.user_highest_bid ? "Your last bid is"  +  this.props.ConcertStore.concert.user_highest_bid + "$" : null}</div>
                 <div>Bid ends in {this.state.timer}</div>
             </div>)
     }

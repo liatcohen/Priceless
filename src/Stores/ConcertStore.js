@@ -34,11 +34,10 @@ export class ConcertStore {
     @action getConcert = async (concertId) => {
         // get(‘/concert:/concertId’)
         // Return specific concert
-
-        const response = await axios.get(`http://localhost:5000/concert/${concertId}`)
+        const response = await axios.get(`http://localhost:5000/concert/${concertId}/${User.user.id}`)
 
         this.concert = { ...response.data }
-        this.concert.id=concertId
+        this.concert.id = concertId
         console.log("response.data")
         console.log(response.data)
 
@@ -54,9 +53,9 @@ export class ConcertStore {
     @action makeBid = async () => {
         console.log("store makeBid")
         // await axios.post(`http://localhost:5000/concert`, concert)
-console.log( "amount"+ this.bid)
-    console.log("concertId"+ this.concert.id)
-        console.log("bidder"+ User.user.id)
+        console.log("amount" + this.bid)
+        console.log("concertId" + this.concert.id)
+        console.log("bidder" + User.user.id)
         await axios.post(`http://localhost:5000/bid`, {
             amount: this.bid,
             concertID: "5",//this.concert.id,
