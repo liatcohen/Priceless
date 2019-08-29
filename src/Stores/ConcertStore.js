@@ -35,7 +35,7 @@ export class ConcertStore {
         // get(‘/concert:/concertId’)
         // Return specific concert
 
-        const response = await axios.get(`http://localhost:5000/concert/${concertId}/${User.user.id}`)
+        const response = await axios.get(`http://localhost:5000/concert/${concertId}`)
 
         this.concert = { ...response.data }
         this.concert.id=concertId
