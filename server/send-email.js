@@ -44,6 +44,9 @@ let emailSender = function(seller, topBidders, concertInfo){
               `
        };
 
+       console.log(mailToWinner.text)
+       console.log(mailToseller.text)
+
        transporter.sendMail(mailToWinner, function(error, info){
               if(error){
                      console.log(error);
