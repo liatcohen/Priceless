@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { observer, inject } from 'mobx-react'
 import { runInThisContext } from 'vm';
-// import './ConcertBid.css'
+import './ConcertBid.css'
 
 const moment = require('moment')
 @inject("UserStore")
@@ -17,13 +17,15 @@ class ConcertBid extends Component {
         console.log("makeBid ConcertBid")
         this.props.ConcertStore.makeBid()
     }
+
+    
     render() {
 
         return (
             <div className="concert-bid">
                 <input type="number" placeholder="$" value={this.props.ConcertStore.bid} onChange={this.handleBid}></input>
                 <button onClick={this.makeBid}>Make a bid!</button>
-                <div>Bid ends in {moment(this.props.ConcertStore.concert.ends_at).fromNow()}</div>
+                <div>Bid ends in {moment(this.props.ConcertStore.concert.ends_at).fromNow('LTS')}</div>
 
             </div>)
     }
