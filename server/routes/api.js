@@ -40,20 +40,40 @@ const findArtistImg = async artist => {
 
 const findSeller = concertID => {
     return sequelize.query(`
-        SELECT seller
-        FROM concert
-        WHERE id = ${concertID}
+        SELECT u.id, u.name, u.email, u.phone_number
+        FROM
+            concert c
+            INNER JOIN
+            user u ON c.seller = u.id
+        WHERE c.seller = ${concertID}
     ;`)
-        .spread((result, metadata) => {
-            return result
+        .then(result => result[0][0])
+
+}
+
+const findTopBidders = concertID => {
+    return sequelize.query(`
+        SELECT MAX(amount) AS amount, u.*
+        FROM
+            bid b
+            INNER JOIN
+            user u ON b.bidder = u.id
+        WHERE
+            b.concert_id = ${concertID}
+        GROUP BY bidder
+        ORDER BY amount DESC
+        LIMIT 5
+    ;`)
+        .then(result => {
+            if(result[0].length) {
+                return result[0]
+            } else {
+                return 0
+            }
         })
 }
 
-const checkWinner = concertID => {
-
-}
-
-const startCronJob = (concertID, endTime, endDate, seller) => {
+const startCronJob = (concertID, endTime, endDate, seller, concertInfo) => {
     endTime = endTime.split(':')
     endDate = endDate.split('-')
     
@@ -61,16 +81,20 @@ const startCronJob = (concertID, endTime, endDate, seller) => {
     hours = endTime[0] == '00' ? '23' : Number(endTime[0]) - 1,
     day = endDate[2],
     month = endDate[1]
-    cronJobs[concert_id] = cron.schedule(`${mins} ${hours} ${day} ${month} *`, () => {
-        // sendMailFunc(seller, winner)
+
+    concertInfo.id = concertID
+    
+    cronJobs[concertID] = cron.schedule(`${mins} ${hours} ${day} ${month} *`, async () => {
+        let topBidders = await findTopBidders(concertID)
+        sendMailFunc(seller, topBidders, concertInfo)
     }, {timezone: 'Asia/Jerusalem'})
 }
 
-// startCronJob(1, '18:00' )
+// findSeller(3).then(seller => startCronJob(3, '22:40', '2019-08-28', seller))
+
 
 // POST NEW CONCERT + BIDDABLE (IF NEEDED)
 router.post('/concert', async (req, res) => {
-    // Put bid values along with concert values in body unnested
     const { artist, date, hour, country, city, venue, num_of_tickets, asked_price, original_price, additional_info, seller, isBid, bid_end_date, bid_end_time } = req.body
 
     const img_url = await findArtistImg(artist)
@@ -78,14 +102,13 @@ router.post('/concert', async (req, res) => {
         INSERT INTO concert ( artist, date, country, city , venue, num_of_tickets, asked_price, original_price, additional_info, seller, status, img_url, uploaded_at, is_bid, ends_at)
         VALUES ( '${artist}', '${date} ${hour}:00' , '${country}', '${city}', '${venue}', ${num_of_tickets}, ${asked_price}, ${original_price}, '${additional_info}', ${seller} , 'active', '${img_url}', '${moment().format('YYYY-MM-DD  HH:mm:ss')}', ${isBid}, '${isBid ? `${bid_end_date} ${bid_end_time}:00` : `${date} ${hour}:00`}')
         ;`)
-
+    res.send(newConcert)
+        
     const concertID = newConcert[0]
     if(isBid){
-        const seller = await findSeller(concertID)
-        startCronJob(concertID, bid_end_time, bid_end_date, seller);
+        let seller = await findSeller(concertID)
+        startCronJob(concertID, bid_end_time, bid_end_date, seller, req.body);
     }
-    res.send(newConcert)
-    
 })
 
 // GET ALL/FILTERED CONCERTS

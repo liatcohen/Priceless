@@ -57,7 +57,7 @@ class NewItem extends Component {
    render() {
       const store = this.props.NewConcertStore.newConcert
 
-      const img = "https://dressings-sauces.org/wp-content/uploads/2018/10/Crowd-at-concert6.jpg"
+      const img = "https://media.timeout.com/images/102182623/630/472/image.jpg"
       const fixedPriceComponent = (<div>
          <input id="fixed" name="asked_price" type="Number" placeholder="Asked price in $"
             value={store.asked_price} onChange={this.inputHandler} />

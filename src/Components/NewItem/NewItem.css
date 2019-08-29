@@ -20,7 +20,6 @@ body {
   display: block;
   height: 100%;
   border-radius: 20px 0px 0px 20px;
-  filter: blur(2px);
 }
 .container {
   top: 100px;
