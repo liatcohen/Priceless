@@ -3,7 +3,7 @@ const express = require('express')
 const router = express.Router()
 const moment = require('moment')
 const axios = require('axios')
-const sequelize = new Sequelize('mysql://root:@localhost/priceless')
+const sequelize = new Sequelize('mysql://root:root@localhost/priceless')
 const cron = require('node-cron')
 const sendMailFunc = require("./../send-email")
 
@@ -48,7 +48,16 @@ const findSeller = concertID => {
         WHERE c.seller = ${concertID}
     ;`)
         .then(result => result[0][0])
+}
 
+const fetchSellerInfo = seller => {
+    return sequelize.query(`
+    SELECT *
+    FROM
+        user
+    WHERE id = ${seller}
+;`)
+    .then(result => result[0][0])
 }
 
 const findTopBidders = concertID => {
@@ -73,6 +82,8 @@ const findTopBidders = concertID => {
         })
 }
 
+findTopBidders(5)
+
 const startCronJob = (concertID, endTime, endDate, seller, concertInfo) => {
     endTime = endTime.split(':')
     endDate = endDate.split('-')
@@ -90,9 +101,6 @@ const startCronJob = (concertID, endTime, endDate, seller, concertInfo) => {
     }, {timezone: 'Asia/Jerusalem'})
 }
 
-// findSeller(3).then(seller => startCronJob(3, '22:40', '2019-08-28', seller))
-
-
 // POST NEW CONCERT + BIDDABLE (IF NEEDED)
 router.post('/concert', async (req, res) => {
     const { artist, date, hour, country, city, venue, num_of_tickets, asked_price, original_price, additional_info, seller, isBid, bid_end_date, bid_end_time } = req.body
@@ -106,8 +114,10 @@ router.post('/concert', async (req, res) => {
         
     const concertID = newConcert[0]
     if(isBid){
-        let seller = await findSeller(concertID)
-        startCronJob(concertID, bid_end_time, bid_end_date, seller, req.body);
+        // let seller = await findSeller(concertID)
+        const sellerInfo = await fetchSellerInfo(seller)
+        console.log(sellerInfo)
+        startCronJob(concertID, bid_end_time, bid_end_date, sellerInfo, req.body);
     }
 })
 
