@@ -19,6 +19,10 @@ class ConcertBid extends Component {
     }
     render() {
 
+        console.log(this.props.ConcertStore.concert.ends_at);
+        console.log(moment(this.props.ConcertStore.concert.ends_at).fromNow());
+        
+
         return (
             <div className="concert-bid">
                 <input type="number" placeholder="$" value={this.props.ConcertStore.bid} onChange={this.handleBid}></input>
