@@ -13,7 +13,7 @@ export class UserStore {
    constructor() {
    
       this.user = {
-         id: '2',
+         id: '4',
          name: 'Liat Cohen',
          email: 'liatcohen9@gmail.com',
          phone_number: '050-4211600'

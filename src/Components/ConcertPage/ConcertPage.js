@@ -119,7 +119,7 @@ class ConcertPage extends Component {
                   
                </div>
             </div>
-            {this.props.ConcertStore.concert.is_bid ? <ConcertBid concertId={this.props.match.params.id}></ConcertBid> : null}
+            {/* {this.props.ConcertStore.concert.is_bid ? <ConcertBid concertId={this.props.match.params.id}></ConcertBid> : null} */}
          </div>)
    }
 }
