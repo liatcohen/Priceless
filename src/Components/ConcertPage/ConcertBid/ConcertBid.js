@@ -70,6 +70,8 @@ class ConcertBid extends Component {
         console.log("makeBid ConcertBid")
         this.props.ConcertStore.makeBid()
     }
+
+    
     render() {
 console.log("LIAT")
         console.log(this.props.ConcertStore.concert.ends_at)
