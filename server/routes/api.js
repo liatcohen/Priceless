@@ -90,7 +90,26 @@ const startCronJob = (concertID, endTime, endDate, seller, concertInfo) => {
     }, {timezone: 'Asia/Jerusalem'})
 }
 
-// findSeller(3).then(seller => startCronJob(3, '22:40', '2019-08-28', seller))
+findSeller(3).then(seller => startCronJob(3, '10:25', '2019-08-29', seller, {
+    "id": 3,
+    "artist": "Eminem",
+    "date": "2019-09-20T22:45:00.000Z",
+    "country": "Israel",
+    "city": "Tel Aviv",
+    "venue": "Kuli Alma",
+    "num_of_tickets": 4,
+    "asked_price": 250,
+    "original_price": 400,
+    "additional_info": "",
+    "seller": 3,
+    "status": "active",
+    "img_url": "https://i1.wp.com/www.ambientlightblog.com/wp-content/uploads/2019/03/030219-WELLINGTON-PRESS-440.jpg?resize=2048%2C1365&ssl=1",
+    "uploaded_at": "2019-08-28T19:04:00.000Z",
+    "is_bid": 1,
+    "ends_at": "2019-09-18T15:00:00.000Z",
+    "is_favorite": 0,
+    "user_highest_bid": null
+}))
 
 
 // POST NEW CONCERT + BIDDABLE (IF NEEDED)
