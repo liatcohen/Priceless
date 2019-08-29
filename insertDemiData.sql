@@ -1,4 +1,4 @@
--- USE priceless;
+USE priceless;
 
 
 -- INSERT INTO user (name, email, phone_number)
