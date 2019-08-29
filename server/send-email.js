@@ -34,7 +34,7 @@ Priceless team.
               from: `priceless.tickets@gmail.com`,
               to: seller.email,
               subject: `Your public auction on Priceless timed out!!`,
-              text:`
+              text: topBidders ? `There was no bidders :(` : `
 The auction for ${concertInfo.artist} live concert tickets on ${concertInfo.date} has ended.
 ${topBidders[0].name} is the highest bidder with a ${topBidders[0].amount}$ bid!
 S/he should contact you soon by phone / email, if you want to get those dollars fast you can contact him/her on ${topBidders[0].phone_number} or by email on ${topBidders[0].email}.
