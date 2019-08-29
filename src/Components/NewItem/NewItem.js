@@ -123,10 +123,10 @@ class NewItem extends Component {
                      <div className="radio-buttons">
                         <input type="radio" id="fixed_price" name="drone" value="fixed_price"
                            checked={!store.isBid} onChange={this.radioButtonChanged} />
-                        <label for="fixed_price"> I want fixed price</label>
+                        <label for="fixed_price"> Fixed Price</label>
                         <input type="radio" id="bid" name="drone" value="bid"
                            checked={store.isBid} onChange={this.radioButtonChanged} />
-                        <label for="bid"> I want bid</label>
+                        <label for="bid"> Let Them Bid</label>
                      </div>
                      {!store.isBid ?
                         fixedPriceComponent
