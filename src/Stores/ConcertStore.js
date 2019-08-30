@@ -58,7 +58,7 @@ export class ConcertStore {
         console.log("bidder" + User.user.id)
         await axios.post(`http://localhost:5000/bid`, {
             amount: this.bid,
-            concertID: "5",//this.concert.id,
+            concertID: this.concert.id,
             bidder: User.user.id
         })
     }
