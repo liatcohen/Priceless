@@ -23,7 +23,7 @@ class ConcertPage extends Component {
          isFavorite: false
       }
    }
-   
+
 
    openModal() {
       this.setState({
@@ -37,7 +37,7 @@ class ConcertPage extends Component {
       });
    }
 
-   isFav(){
+   isFav() {
       this.setState({
          isFavorite: true
       })
@@ -67,7 +67,7 @@ class ConcertPage extends Component {
       console.log(this.props.ConcertStore.concert.is_favorite);
 
       return (
-         
+
          <div className="concertSection">
 
             <section>
@@ -87,11 +87,11 @@ class ConcertPage extends Component {
                         <p><strong>Send Email:</strong> {this.props.UserStore.user.email}</p>
                      </div>
                      <a href="javascript:void(0);" onClick={() => this.closeModal()}>Close</a>
-                     <div className="brk-btn" id="popButton" onClick={() => this.closeModal()}> Close </div>
+                     <div className="brk-btn bbb" id="popButton" onClick={() => this.closeModal()}> Close </div>
                   </div>
                </Modal>
             </section>
-            <div className="concertPhoto" style={{ backgroundImage: "url(" + this.props.ConcertStore.concert.img_url + ")", backgroundSize: "51.2vw 22vw", marginRight: "14.5%" }} >{ this.props.ConcertStore.concert.is_favorite ? <i class="fas fa-heart"></i>: <i onClick={this.addToFavorites} class="far fa-heart"></i>}</div>
+            <div className="concertPhoto" style={{ backgroundImage: "url(" + this.props.ConcertStore.concert.img_url + ")", backgroundSize: "51.2vw 22vw", marginRight: "14.5%" }} >{this.props.ConcertStore.concert.is_favorite ? <i class="fas fa-heart"></i> : <i onClick={this.addToFavorites} class="far fa-heart"></i>}</div>
             <div className="concertTitle">{this.props.ConcertStore.concert.artist}</div>
             <div className="ticketSection">
 
@@ -105,7 +105,7 @@ class ConcertPage extends Component {
                   <div className="place">
                      <div>{this.props.ConcertStore.concert.venue}</div>
                      <div>{this.props.ConcertStore.concert.city}, {this.props.ConcertStore.concert.country}</div>
-                     <div className="price">{this.props.ConcertStore.concert.is_bid ? null: "Price: $" + this.props.ConcertStore.concert.asked_price} </div>
+                     <div className="price">{this.props.ConcertStore.concert.is_bid ? null : "Price: $" + this.props.ConcertStore.concert.asked_price} </div>
                   </div>
                   <div className="buttonBox"><span onClick={() => this.openModal()} className="contactButton">Contact Seller</span></div>
                   {/* <div ><span className="buttonBox" onClick={() => this.addToFavorites()} className="contactButton">Save</span></div> */}
@@ -116,7 +116,7 @@ class ConcertPage extends Component {
                   <div className="iconBar"><i class="fas fa-info-circle iconConcert"></i>{this.props.ConcertStore.concert.additional_info} </div>
                   {/* <button onClick={this.addToFavorites}>save</button> */}
                   {/* <Lottie options={defaultOptions} /> */}
-                  
+
                </div>
             </div>
             {this.props.ConcertStore.concert.is_bid ? <ConcertBid concertId={this.props.match.params.id}></ConcertBid> : null}

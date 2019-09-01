@@ -63,7 +63,7 @@ export class NewConcertStore {
          asked_price: Number,
          original_price: Number,
          additional_info: "",
-         idBid: true,
+         idBid: false,
          bid_end_date: Date,
          bid_end_time: Date,
       }
