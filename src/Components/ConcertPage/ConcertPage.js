@@ -114,12 +114,8 @@ class ConcertPage extends Component {
                   <div className="iconBar"><i class="fas fa-check-circle iconConcert"></i>Saving {this.culcPercentage()}%</div>
                   <div className="iconBar"><i class="fas fa-info-circle iconConcert"></i>{this.props.ConcertStore.concert.additional_info} </div>
                   {/* <button onClick={this.addToFavorites}>save</button> */}
-<<<<<<< HEAD
-                  
-=======
                   {/* <Lottie options={defaultOptions} /> */}
 
->>>>>>> master
                </div>
             </div>
             {this.props.ConcertStore.concert.is_bid ? <ConcertBid concertId={this.props.match.params.id}></ConcertBid> : null}
