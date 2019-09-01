@@ -267,6 +267,28 @@ router.post('/favorite/:userID/:concertID', (req, res) => {
         })
 })
 
+// DELETE FROM FAVORITE
+
+router.delete("/favorite/:userID/:concertID", (req, res) => {
+    const user = req.params.userID,
+    concert = req.params.concertID
+    console.log('deleteeeeeeeeeeeeeeeee');
+    
+    sequelize.query(`
+        DELETE FROM favorite 
+        WHERE
+        user_id = ${user}
+        AND
+        concert_id = ${concert};
+    ;`)
+        .spread((result, metadata) => {
+            res.send(result)
+        })
+    
+ })
+// DELETE FROM TABLE_NAME
+// WHERE SOME_CONDITION;
+
 
 // GET A SPECIFIC USER FAVORITES
 

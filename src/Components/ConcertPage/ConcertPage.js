@@ -42,6 +42,12 @@ class ConcertPage extends Component {
       })
    }
 
+   isNotFav(){
+      this.setState({
+         isFavorite: false
+      }) 
+   }
+
    //=======================POPUP
 
 
@@ -49,11 +55,17 @@ class ConcertPage extends Component {
       this.props.ConcertStore.getConcert(this.props.match.params.id)
    }
 
-   addToFavorites = () => {
-      // console.log(this.props)
-      this.props.UserStore.addToFavorites(this.props.match.params.id)
-      // this.props.UserStore.addToFavorites(5)
-      this.isFav()
+   addToFavorites =  () => {
+       this.isFav() 
+       this.props.UserStore.addToFavorites(this.props.match.params.id)
+       this.props.ConcertStore.getConcert(this.props.match.params.id)
+      
+   }
+
+   deleteFromFav = async () =>{
+      await this.isNotFav()
+      await this.props.UserStore.deleteFromFavorite(this.props.match.params.id)
+      await this.props.ConcertStore.getConcert(this.props.match.params.id)
    }
 
 
@@ -90,7 +102,7 @@ class ConcertPage extends Component {
                   </div>
                </Modal>
             </section>
-            <div className="concertPhoto" style={{ backgroundImage: "url(" + this.props.ConcertStore.concert.img_url + ")", backgroundSize: "51.2vw 22vw", marginRight: "14.5%" }} >{this.props.ConcertStore.concert.is_favorite ? <i class="fas fa-heart"></i> : <i onClick={this.addToFavorites} class="far fa-heart"></i>}</div>
+            <div className="concertPhoto" style={{ backgroundImage: "url(" + this.props.ConcertStore.concert.img_url + ")", backgroundSize: "51.2vw 22vw", marginRight: "14.5%" }} >{this.props.ConcertStore.concert.is_favorite ? <i onClick={this.deleteFromFav} class="fas fa-heart"></i> : <i onClick={this.addToFavorites} class="far fa-heart"></i>}</div>
             <div className="concertTitle">{this.props.ConcertStore.concert.artist}</div>
             <div className="ticketSection">
 
