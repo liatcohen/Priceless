@@ -33,9 +33,9 @@ class NewItem extends Component {
       this.props.NewConcertStore.handleInput(e.target.name, e.target.value)
    }
 
-   saveConcert = () => {
-      this.props.NewConcertStore.saveConcert(this.props.NewConcertStore.newConcert)
-      this.openModal()
+   saveConcert = async () => {
+      await this.props.NewConcertStore.saveConcert(this.props.NewConcertStore.newConcert)
+      await this.openModal()
    }
    radioButtonChanged = (e) => {
       console.log("radioButtonChanged")
