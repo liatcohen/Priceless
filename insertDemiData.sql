@@ -1,4 +1,4 @@
--- USE priceless;
+USE priceless;
 
 
 -- INSERT INTO user (name, email, phone_number)
@@ -47,3 +47,9 @@
 -- SELECT * FROM concert;
 -- SELECT * FROM favorite;
 -- SELECT * FROM bid;
+
+
+-- DELETE FROM bid;
+-- DELETE FROM concert;
+-- DELETE FROM favorite;
+-- DELETE FROM user;
