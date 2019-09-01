@@ -3,7 +3,7 @@ import axios from 'axios'
 import { UserStore } from './UserStore'
 
 let User = new UserStore
-console.log(User.user.id)
+// console.log(User.user.id)
 
 export class NewConcertStore {
    @observable newConcert
@@ -28,28 +28,17 @@ export class NewConcertStore {
       }
    }
 
-
-   @action saveConcert = async (concertInfo) => {
-      let concert = { ...concertInfo }
-      console.log(concert.artist)
-      if (!concert.artist) return alert("Artist field is empty")
-      if (!concert.date) return alert("Date field is empty")
-      if (!concert.hour) return alert("Hour field is empty")
-      if (!concert.country) return alert("Country field is empty")
-      if (!concert.city) return alert("City field is empty")
-      if (!concert.venue) return alert("Venue field is empty")
-      if (!concert.num_of_tickets) return alert("Number of tickets field is empty")
-      if (!concert.asked_price) return alert("Asked Price field is empty")
-
-      concert.seller = this.newConcert.seller
-      console.log(this.newConcert.seller)
-      console.log("######concert")
-      console.log(concert)
-      console.log("bid_end_date")
-
-      console.log(this.newConcert.bid_end_date)
-      console.log("bid_end_time")
-      console.log(this.newConcert.bid_end_time)
+   @action saveConcert = async () => {
+      let concert = this.newConcert
+      if (concert.original_price == Number) {concert.original_price= this.newConcert.asked_price }
+      console.log(concert.original_price)
+      // console.log(concert.seller)
+      // console.log("######concert")
+      // console.log(concert)
+      // console.log("bid_end_date")
+      // console.log(this.newConcert.bid_end_date)
+      // console.log("bid_end_time")
+      // console.log(this.newConcert.bid_end_time)
 
       await axios.post(`http://localhost:5000/concert`, concert)
       this.newConcert = {
@@ -67,6 +56,7 @@ export class NewConcertStore {
          bid_end_date: Date,
          bid_end_time: Date,
       }
+      console.log("saved")
    }
 
    @action handleInput = (name, value) => {

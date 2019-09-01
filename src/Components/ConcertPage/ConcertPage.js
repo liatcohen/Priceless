@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import { observer, inject } from 'mobx-react'
 import Modal from 'react-awesome-modal';
-// import  Lottie  from 'react-lottie'
-// import * as animationData from '../../Lottie/loadCircle.json'
+
 
 import './ConcertPage.css'
 import ConcertBid from './ConcertBid/ConcertBid';
