@@ -57,11 +57,13 @@ class ConcertBid extends Component {
 
     render() {
         return (
+            <div>
             <div className="concert-bid">
                 <input id="bid" type="number" placeholder="$" value={this.props.ConcertStore.bid} onChange={this.handleBid}></input>
-                <button onClick={this.makeBid}>Make a bid!</button>
-                <div>{this.props.ConcertStore.concert.user_highest_bid ? "Your last bid is" + this.props.ConcertStore.concert.user_highest_bid + "$" : null}</div>
-                <div>Bid ends in {this.state.timer}</div>
+                <div className="bidButton" onClick={this.makeBid}>Make a bid!</div>
+                <div className="lastBid">{this.props.ConcertStore.concert.user_highest_bid ? "Your last bid is " + this.props.ConcertStore.concert.user_highest_bid + "$" : null}</div>
+            </div>
+                <div className="timeBid">Bid ends in <span id="bidTime">{this.state.timer}</span></div>
             </div>)
     }
 }
