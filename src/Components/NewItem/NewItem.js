@@ -33,9 +33,9 @@ class NewItem extends Component {
       this.props.NewConcertStore.handleInput(e.target.name, e.target.value)
    }
 
-   saveConcert = () => {
-      this.props.NewConcertStore.saveConcert(this.props.NewConcertStore.newConcert)
-      this.openModal()
+   saveConcert = async () => {
+      await this.props.NewConcertStore.saveConcert(this.props.NewConcertStore.newConcert)
+      await this.openModal()
    }
    radioButtonChanged = (e) => {
       console.log("radioButtonChanged")
@@ -67,7 +67,7 @@ class NewItem extends Component {
                   value={store.bid_end_time} onChange={this.inputHandler} />
             </div>
             <div id="price-container">
-               <input id="price" name="asked_price" type="Number" placeholder="min price in $"
+               <input id="price" name="asked_price" type="Number" placeholder="Min price in $"
                   value={store.asked_price} onChange={this.inputHandler} />
                <input name="original_price" type="Number" placeholder="Original price in $"
                   value={store.original_price} onChange={this.inputHandler} />
@@ -114,10 +114,10 @@ class NewItem extends Component {
                      <div className="radio-buttons">
                         <input type="radio" id="fixed_price" name="drone" value="fixed_price"
                            checked={!store.isBid} onChange={this.radioButtonChanged} />
-                        <label for="fixed_price"> I want fixed price</label>
+                        <label for="fixed_price">Fixed Price</label>
                         <input type="radio" id="bid" name="drone" value="bid"
                            checked={store.isBid} onChange={this.radioButtonChanged} />
-                        <label for="bid"> I want bid</label>
+                        <label for="bid">Let Them Bid</label>
                      </div>
                      {!store.isBid ?
                         fixedPriceComponent
