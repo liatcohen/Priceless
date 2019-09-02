@@ -3,7 +3,7 @@ const express = require('express')
 const router = express.Router()
 const moment = require('moment')
 const axios = require('axios')
-const sequelize = new Sequelize('mysql://root:@localhost/priceless')
+const sequelize = new Sequelize('mysql://root:Guprd214!@localhost/priceless')
 const cron = require('node-cron')
 const sendMailFunc = require("./../send-email")
 
@@ -329,6 +329,31 @@ router.post('/favorite/:userID/:concertID', (req, res) => {
             res.end(result)
         })
 })
+
+// DELETE FROM FAVORITE
+
+router.delete("/favorite/:userID/:concertID", (req, res) => {
+    const user = req.params.userID,
+    concert = req.params.concertID
+    console.log('deleteeeeeeeeeeeeeeeee');
+    
+    sequelize.query(`
+        DELETE FROM favorite 
+        WHERE
+        user_id = ${user}
+        AND
+        concert_id = ${concert};
+    ;`)
+        .spread((result, metadata) => {
+            res.send(result)
+        })
+    
+ })
+// DELETE FROM TABLE_NAME
+// WHERE SOME_CONDITION;
+
+
+// GET A SPECIFIC USER FAVORITES
 
 router.get('/favorites/:userID', (req, res) => {
     const user = req.params.userID

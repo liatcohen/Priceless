@@ -13,7 +13,7 @@ export class UserStore {
    constructor() {
    
       this.user = {
-         id: '4',
+         id: '2',
          name: 'Liat Cohen',
          email: 'liatcohen9@gmail.com',
          phone_number: '050-4211600'
@@ -49,6 +49,10 @@ export class UserStore {
    @action addToFavorites = async (concertId) => {
       await axios.post(`http://localhost:5000/favorite/${this.user.id}/${concertId}`)
    }
+
+   @action deleteFromFavorite = async (concertId) => {
+      await axios.delete(`http://localhost:5000/favorite/${this.user.id}/${concertId}`)
+    }
 
    @action getFavorites = async () => {
       const response = await axios.get(`http://localhost:5000/favorites/${this.user.id}`)

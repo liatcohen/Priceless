@@ -57,7 +57,7 @@ class ConcertBid extends Component {
     }
     makeBid = () => {
         this.props.ConcertStore.makeBid()
-    }
+    } 
 
 
     render() {
