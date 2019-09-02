@@ -12,18 +12,18 @@ export class UserStore {
 
    constructor() {
    
-      // this.user = {
-      //    id: '4',
-      //    name: 'Liat Cohen',¸¸¸¸
-      //    email: 'liatcohen9@gmail.com',
-      //    phone_number: '050-4211600'
-      // }
       this.user = {
-         id: '1',
-         name: 'Ofer Gilboa',
-         email: 'ofer1gilboa@gmail.com',
-         phone_number: '052-8283312'
+         id: '4',
+         name: 'Liat Cohen',
+         email: 'liatcohen9@gmail.com',
+         phone_number: '050-4211600'
       }
+      // this.user = {
+      //    id: '1',
+      //    name: 'Ofer Gilboa',
+      //    email: 'ofer1gilboa@gmail.com',
+      //    phone_number: '052-8283312'
+      // }
       
 
    }

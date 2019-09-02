@@ -299,6 +299,32 @@ router.get('/user-concerts/:userID', (req, res) => {
             res.send(result)
         })
 })
+router.get('/user/:email/:name', (req, res) => {//need to change to: get('/user/:email:/:password'
+
+    const email = req.params.email
+    const name = req.params.name //need to change to password
+
+    sequelize.query(`
+        SELECT
+            *
+        FROM user
+        WHERE
+            email = '${email}'
+    ;`)
+        .spread((result, metadata) => {
+            if (!result[0]){
+                console.log("ERROR! didn't find user with this email")
+                res.send(false)
+            }
+            if(result[0].name===name){
+                console.log("user found! entering the website")
+                res.send(result[0])
+            }else{
+                console.log('names(password) dont match')
+                res.send(false)
+            }
+        })
+})
 
 router.post('/favorite/:userID/:concertID', (req, res) => {
     const user = req.params.userID,
