@@ -31,7 +31,7 @@ export class NewConcertStore {
    @action saveConcert = async () => {
       let concert = this.newConcert
       if (concert.original_price == Number) {concert.original_price= this.newConcert.asked_price }
-      console.log(concert.original_price)
+      console.log(concert)
       // console.log(concert.seller)
       // console.log("######concert")
       // console.log(concert)
