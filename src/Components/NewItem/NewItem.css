@@ -8,14 +8,14 @@ body {
   display: flex;
   flex-direction: row-reverse;
   width: 51vw;
-  margin-top: 69px;
+  padding-top: 2vw;
   margin: auto;
 }
 .image-container {
   width: 400px;
   height: 580px;
   overflow: hidden;
-  margin: 0;
+  margin: auto;
 }
 .image-container img {
   display: block;
@@ -23,14 +23,14 @@ body {
   border-radius: 20px 0px 0px 20px;
 }
 .container {
-  top: 100px;
+  top: 87px;
   height: 580px;
   margin-bottom: 80px;
   width: 500px;
   background: #fff;
-  border-radius: 5px;
   overflow: hidden;
   border-radius: 0px 20px 20px 0px;
+  margin: auto;
 }
 h2 {
   margin: 0px;
@@ -106,7 +106,7 @@ input {
   font-weight: lighter;
   -webkit-transition: .5s;
   transition: .5s;
-  margin: 5px auto;
+  padding: 1.1vw;
 }
 label {
   font-family: 'Open Sans', sans-serif;

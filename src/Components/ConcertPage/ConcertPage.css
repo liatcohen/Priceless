@@ -55,9 +55,9 @@
   font-size: 1.2vw;
 }
 .contactButton:hover {
-  color: white;
-  background-color: black;
-  box-shadow: 0 0 1em #8c8c8c;
+  color: #178638;
+  border: 1.5px solid #1dc73ac2;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 .buttonBox {
   margin: auto;

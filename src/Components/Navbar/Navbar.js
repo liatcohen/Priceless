@@ -8,7 +8,7 @@ class Navbar extends Component {
       return (
          <div className="navbar">
             
-            <Link to="/" className="Main Logo" activeClassName="active"> <img src={image} height="30" /> </Link>
+            <Link to="/" className="Main Logo" > <img src={image} height="30" /> </Link>
             <NavLink exact to="/" className="Main" activeClassName="active"> Home </NavLink>
             <NavLink to="/newitem" className="NewItem" activeClassName="active"> Add Concert </NavLink>
             <NavLink to="/favorites" className="Favorites" activeClassName="active"> Favorites </NavLink>
