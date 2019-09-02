@@ -1,11 +1,7 @@
 import { observable, computed, action } from 'mobx'
 import axios from 'axios';
-import { UserStore } from './UserStore'
+import UserStore from './UserStore'
 import { async } from 'q';
-
-
-
-let User = new UserStore
 
 export class ConcertStore {
     @observable concert
@@ -34,7 +30,7 @@ export class ConcertStore {
     @action getConcert = async (concertId) => {
         // get(‘/concert:/concertId’)
         // Return specific concert
-        const response = await axios.get(`http://localhost:5000/concert/${concertId}/${User.user.id}`)
+        const response = await axios.get(`http://localhost:5000/concert/${concertId}/${UserStore.user.id}`)
 
         this.concert = { ...response.data }
         this.concert.id = concertId
@@ -55,11 +51,11 @@ export class ConcertStore {
         // await axios.post(`http://localhost:5000/concert`, concert)
         console.log("amount" + this.bid)
         console.log("concertId" + this.concert.id)
-        console.log("bidder" + User.user.id)
+        console.log("bidder" + UserStore.user.id)
         await axios.post(`http://localhost:5000/bid`, {
             amount: this.bid,
             concertID: this.concert.id,
-            bidder: User.user.id
+            bidder: UserStore.user.id
         })
     }
 

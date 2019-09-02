@@ -3,7 +3,7 @@ import axios from 'axios'
 import { async } from 'q';
 
 
-export class UserStore {
+class UserStore {
    @observable user = {}
    @observable name
   
@@ -102,3 +102,5 @@ export class UserStore {
     };
 
 }
+
+export default new UserStore()

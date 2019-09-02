@@ -14,8 +14,6 @@ class login extends Component {
         this.props.UserStore.getUser()
      }
 
-    
-    
 
     render() {
         return (
