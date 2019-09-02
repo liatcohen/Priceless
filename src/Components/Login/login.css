@@ -1,0 +1,30 @@
+.loginButton {
+  border: 1.5px solid #7a7777;
+  width: 10%;
+  padding: 6vw;
+  padding-top: 4px;
+  padding-bottom: 5px;
+  border-radius: 30px;
+  cursor: pointer;
+  margin: auto;
+  margin-top: 5vw;
+  padding-right: 12vw;
+  font-size: 2vw;
+  font-weight: bold;
+}
+.loginButton:hover {
+  color: #178638;
+  border: 1.5px solid #1dc73ac2;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+#login {
+  width: 44vw;
+  margin: auto;
+  margin-top: 11vw;
+  height: 26vw;
+  background-color: white;
+}
+#login input {
+  width: 21vw;
+  padding-top: 5vw;
+}
