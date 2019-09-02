@@ -312,7 +312,7 @@ router.get('/user/:email/:name', (req, res) => {//need to change to: get('/user/
             email = '${email}'
     ;`)
         .spread((result, metadata) => {
-            if (!result){
+            if (!result[0]){
                 console.log("ERROR! didn't find user with this email")
                 res.send(false)
             }
