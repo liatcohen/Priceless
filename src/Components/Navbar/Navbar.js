@@ -13,7 +13,7 @@ class Navbar extends Component {
             <NavLink to="/newitem" className="NewItem" activeClassName="active"> Add Concert </NavLink>
             <NavLink to="/favorites" className="Favorites" activeClassName="active"> Favorites </NavLink>
             <NavLink to="/myAccount" className="Account" activeClassName="active"> Account </NavLink>
-
+            <a onClick={this.props.logout}>Logout</a>
         </div>)
    }
 }
