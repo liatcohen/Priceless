@@ -4,7 +4,8 @@
 --     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 --     name VARCHAR(30) NOT NULL,
 --     email VARCHAR(50),
---     phone_number VARCHAR(30)
+--     phone_number VARCHAR(30), 
+--     password VARCHAR(50) NOT NULL
 -- );
 
 -- CREATE TABLE concert (
@@ -45,4 +46,7 @@
 --     FOREIGN KEY (bidder) REFERENCES user (id)
 -- );
 
+
+-- DROP TABLE bid
+-- DROP TABLE user
 
