@@ -28,6 +28,15 @@ class UserStore {
       this.user[name] = value
    }
 
+   @action logout = () => {
+      localStorage.clear()
+      this.user = {
+         id: localStorage.id || "",
+         name:  localStorage.name || "",
+         email:  localStorage.email || "",
+         phone_number:  localStorage.phone_number || "",
+      }
+   }
    @action getUser = async () => {
       console.log(this.user.email);
       let hashPass = await this.hashCode(this.user.password)
