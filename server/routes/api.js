@@ -60,6 +60,34 @@ const fetchSellerInfo = seller => {
         .then(result => result[0][0])
 }
 
+router.get('/user/:email/:password', (req, res) => {//need to change to: get('/user/:email:/:password'
+    const email = req.params.email
+    const password = req.params.password //need to change to password
+    sequelize.query(`
+        SELECT
+            *
+        FROM user
+        WHERE
+            email = '${email}'
+    ;`)
+        .spread((result, metadata) => {
+            console.log(result)
+            if (!result[0]){
+                console.log("ERROR! didn't find user with this email")
+                res.send(false)
+            }
+            if(result[0].password === password){
+                console.log("user found! entering the website")
+                res.send(result[0])
+            }else{
+                console.log('password dont match')
+                res.send(false)
+            }
+        })
+})
+
+
+
 const findTopBidders = concertID => {
     return sequelize.query(`
         SELECT MAX(amount) AS amount, u.*

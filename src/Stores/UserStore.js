@@ -1,5 +1,6 @@
 import { observable, computed, action } from 'mobx'
 import axios from 'axios'
+import { async } from 'q';
 
 
 export class UserStore {
@@ -12,21 +13,45 @@ export class UserStore {
 
    constructor() {
    
-      // this.user = {
-      //    id: '4',
-      //    name: 'Liat Cohen',¸¸¸¸
-      //    email: 'liatcohen9@gmail.com',
-      //    phone_number: '050-4211600'
-      // }
       this.user = {
-         id: '1',
-         name: 'Ofer Gilboa',
-         email: 'ofer1gilboa@gmail.com',
-         phone_number: '052-8283312'
+         id: localStorage.id || "",
+         name:  localStorage.name || "",
+         email:  localStorage.email || "",
+         phone_number:  localStorage.phone_number || "",
       }
+    
       
+   }
+
+   @action handleInput = (name, value) => {
+      console.log(value)
+      this.user[name] = value
+   }
+
+   @action getUser = async () => {
+      console.log(this.user.email);
+      let hashPass = await this.hashCode(this.user.password)
+      console.log(hashPass);
+      
+      const response = await axios.get(`http://localhost:5000/user/${this.user.email}/${hashPass}`)
+      await console.log(response.data);
+      await console.log(response);
+      if (response.data){
+         this.user = { ...response.data }
+         localStorage.id = response.data.id 
+         localStorage.name = response.data.name 
+         localStorage.email = response.data.email 
+         localStorage.phone_number = response.data.phone_number
+
+         
+      } else {
+         alert("put dscd")
+      }
+
 
    }
+
+
    @action get = (concertId) => {
       // get(‘/concert:/concertId’)
       // Return specific concert
@@ -54,5 +79,17 @@ export class UserStore {
       const response = await axios.get(`http://localhost:5000/favorites/${this.user.id}`)
       this.favorites = [...response.data]
    }
+
+    hashCode = function(str) {
+      var hash = 0, i, chr;
+      if (str.length === 0) return hash;
+      for (i = 0; i < str.length; i++) {
+        chr   = str.charCodeAt(i);
+        hash  = ((hash << 5) - hash) + chr;
+        hash |= 0; // Convert to 32bit integer
+      }
+      console.log(hash.toString()); 
+      return hash.toString();
+    };
 
 }

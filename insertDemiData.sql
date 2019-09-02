@@ -1,17 +1,17 @@
 USE priceless;
 
 
--- INSERT INTO user (name, email, phone_number)
--- VALUES ('Ofer Gilboa', 'ofer1gilboa@gmail.com', 0528283312);
+-- INSERT INTO user (name, email, phone_number, password)
+-- VALUES ('Ofer Gilboa', 'ofer1gilboa@gmail.com', 0528283312, '3408068');
 
--- INSERT INTO user (name, email, phone_number)
--- VALUES ('Hadar Alon', 'hadaralon3@gmail.com', 0528528402);
+-- INSERT INTO user (name, email, phone_number, password)
+-- VALUES ('Hadar Alon', 'hadaralon3@gmail.com', 0528528402, '99035132');
 
--- INSERT INTO user (name, email, phone_number)
--- VALUES ('Zohar Pfeffer', 'pfzohar@gmail.com', 0526052344);
+-- INSERT INTO user (name, email, phone_number, password)
+-- VALUES ('Zohar Pfeffer', 'pfzohar@gmail.com', 0526052344, '116079428');
 
--- INSERT INTO user (name, email, phone_number)
--- VALUES ('Liat Cohen', 'liatcohen9@gmail.com', 0504211600);
+-- INSERT INTO user (name, email, phone_number, password)
+-- VALUES ('Liat Cohen', 'liatcohen9@gmail.com', 0504211600, '3321456');
 
 
 -- INSERT INTO concert
