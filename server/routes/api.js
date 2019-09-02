@@ -3,7 +3,7 @@ const express = require('express')
 const router = express.Router()
 const moment = require('moment')
 const axios = require('axios')
-const sequelize = new Sequelize('mysql://root:Guprd214!@localhost/priceless')
+const sequelize = new Sequelize('mysql://root:@localhost/priceless')
 const cron = require('node-cron')
 const sendMailFunc = require("./../send-email")
 
@@ -84,10 +84,9 @@ const findTopBidders = concertID => {
 
 findTopBidders(5)
 let concertsWithBids = []
+
 const activateBids = () => {
-    console.log("checkBids")
     //get all concert that has bid and their time didnt passed
-    
     let dataQuery = `
         SELECT
             *
@@ -95,7 +94,7 @@ const activateBids = () => {
         WHERE
             is_bid = '1'
             AND
-            DATE(ends_at) > NOW()- interval 3 hour
+            ends_at >= NOW()+ interval 3 hour
         ORDER BY ends_at
     ;`
     sequelize
@@ -104,27 +103,19 @@ const activateBids = () => {
             concertsWithBids = [...results]
         }).then(r => {
             for (let concert of concertsWithBids) {
-                console.log("#1: ")
-                console.log(concert.ends_at.split)
-                endTime=String(concert.ends_at)
-                console.log("#2: ")
-                console.log(endTime)
-
-                let endTime = moment(concert.ends_at).subtract(3, 'hours').format('HH:mm');
+                let endTime = moment.utc(concert.ends_at, "Asia/Jerusalem").format('HH:mm')
                 let endDate = moment(concert.ends_at).format('YYYY-MM-DD')
                 startCronJob(concert.id, endTime, endDate, concert.seller, concert)
             }
         })
-
 }
+
 activateBids()
 const startCronJob = (concertID, endTime, endDate, seller, concertInfo) => {
-    console.log("start cron job")
-    console.log("start cron job-> "+endTime+" "+endDate)
-
+    console.log("start cron job-> " + endTime + " " + endDate)
     endTime = endTime.split(':')
     endDate = endDate.split('-')
-   const mins = endTime[1],
+    const mins = endTime[1],
         hours = endTime[0] == '00' ? '23' : Number(endTime[0]) - 1,
         day = endDate[2],
         month = endDate[1]
@@ -149,13 +140,9 @@ router.post('/concert', async (req, res) => {
         ;`)
     res.send(newConcert)
 
-    // console.log("toISOString: " + `${bid_end_date} ${bid_end_time}:00`.toISOString())
-
     const concertID = newConcert[0]
     if (isBid) {
-        // let seller = await findSeller(concertID)
         const sellerInfo = await fetchSellerInfo(seller)
-        // console.log(sellerInfo)
         startCronJob(concertID, bid_end_time, bid_end_date, sellerInfo, req.body);
     }
 })
@@ -166,7 +153,7 @@ router.get('/concerts', function (req, res) {
     const queries = []
     query.artist ? queries.push(`artist = '${query.artist}'`) : null
     query.city ? queries.push(`city = '${query.city}'`) : null
-    query.dateFrom && query.dateTo ? queries.push(`DATE(date) BETWEEN '${query.dateFrom}' AND '${query.dateTo}' `) : null
+    query.dateFrom && query.dateTo ? queries.push(`date BETWEEN '${query.dateFrom}' AND '${query.dateTo}' `) : null
     query.priceTo ? queries.push(`asked_price <= ${query.priceTo} `) : null
     query.minTickets ? queries.push(`num_of_tickets >= ${query.minTickets}`) : null
 
@@ -178,7 +165,7 @@ router.get('/concerts', function (req, res) {
         WHERE
             status = 'active'
             AND
-            DATE(date) > NOW()
+            date > NOW()+ interval 3 hour
             ${queries.length ? ' AND ' + queries.join(' AND ') : ''}
         ORDER BY date
     ;`
@@ -186,6 +173,7 @@ router.get('/concerts', function (req, res) {
     sequelize
         .query(dataQuery)
         .spread(function (results, metadata) {
+            console.log(results)
             res.send(results)
         })
 })
@@ -240,10 +228,6 @@ router.get('/concert/:concertID/:userID', function (req, res) {
             f.user_id = ${userID}
     ;`)
         .spread((result, metadata) => {
-            console.log("***************************************")
-            console.log(result[0])
-            console.log(result[0].ends_at)
-
             if (result[0].is_bid) {
                 sequelize.query(`
                 SELECT MAX(amount) AS amount
@@ -334,9 +318,7 @@ router.post('/favorite/:userID/:concertID', (req, res) => {
 
 router.delete("/favorite/:userID/:concertID", (req, res) => {
     const user = req.params.userID,
-    concert = req.params.concertID
-    console.log('deleteeeeeeeeeeeeeeeee');
-    
+        concert = req.params.concertID
     sequelize.query(`
         DELETE FROM favorite 
         WHERE
@@ -347,8 +329,8 @@ router.delete("/favorite/:userID/:concertID", (req, res) => {
         .spread((result, metadata) => {
             res.send(result)
         })
-    
- })
+
+})
 // DELETE FROM TABLE_NAME
 // WHERE SOME_CONDITION;
 
@@ -370,7 +352,7 @@ router.get('/favorites/:userID', (req, res) => {
             AND
             f.user_id = ${user}
             AND
-            DATE(date) > NOW()
+            date > NOW()+ interval 3 hour
         ORDER BY date
     ;`)
         .spread((result, metadata) => {
@@ -379,7 +361,6 @@ router.get('/favorites/:userID', (req, res) => {
 })
 
 router.post('/bid', (req, res) => {
-    // console.log("router bid")
     const { amount, concertID, bidder } = req.body
     sequelize.query(`
         INSERT INTO bid (amount, concert_id, bidder)
