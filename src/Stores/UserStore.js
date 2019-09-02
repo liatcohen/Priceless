@@ -18,7 +18,14 @@ export class UserStore {
          email: 'liatcohen9@gmail.com',
          phone_number: '050-4211600'
       }
+      // this.user = {
+      //    id: '1',
+      //    name: 'Ofer Gilboa',
+      //    email: 'ofer1gilboa@gmail.com',
+      //    phone_number: '052-8283312'
+      // }
       
+
    }
    @action get = (concertId) => {
       // get(‘/concert:/concertId’)

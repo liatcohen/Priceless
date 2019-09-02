@@ -25,13 +25,13 @@ const sendMailFunc = require("./../send-email")
 const cronJobs = {}
 
 const findArtistImg = async artist => {
-    let images = await axios.get(`https://api.cognitive.microsoft.com/bing/v7.0/images/search/?q=${artist}%20concert&minHeight=1500&aspect=Wide&maxFileSize=200000`, { headers: {"Ocp-Apim-Subscription-Key": '48662c45baf24c069aa00b0f1cff2222'}})
-    if(!images.data.value.length){
-        images = await axios.get(`https://api.cognitive.microsoft.com/bing/v7.0/images/search/?q=${artist}%20concert&minHeight=1200&aspect=Wide&maxFileSize=200000`, { headers: {"Ocp-Apim-Subscription-Key": '48662c45baf24c069aa00b0f1cff2222'}})
-        if(!images.data.value.length){
-            images = await axios.get(`https://api.cognitive.microsoft.com/bing/v7.0/images/search/?q=${artist}%20concert&minHeight=900&aspect=Wide&maxFileSize=200000`, { headers: {"Ocp-Apim-Subscription-Key": '48662c45baf24c069aa00b0f1cff2222'}})
-            if(!images.data.value.length){
-                images = await axios.get(`https://api.cognitive.microsoft.com/bing/v7.0/images/search/?q=${artist}&maxFileSize=300000`, { headers: {"Ocp-Apim-Subscription-Key": '48662c45baf24c069aa00b0f1cff2222'}})
+    let images = await axios.get(`https://api.cognitive.microsoft.com/bing/v7.0/images/search/?q=${artist}%20concert&minHeight=1500&aspect=Wide&maxFileSize=200000`, { headers: { "Ocp-Apim-Subscription-Key": '48662c45baf24c069aa00b0f1cff2222' } })
+    if (!images.data.value.length) {
+        images = await axios.get(`https://api.cognitive.microsoft.com/bing/v7.0/images/search/?q=${artist}%20concert&minHeight=1200&aspect=Wide&maxFileSize=200000`, { headers: { "Ocp-Apim-Subscription-Key": '48662c45baf24c069aa00b0f1cff2222' } })
+        if (!images.data.value.length) {
+            images = await axios.get(`https://api.cognitive.microsoft.com/bing/v7.0/images/search/?q=${artist}%20concert&minHeight=900&aspect=Wide&maxFileSize=200000`, { headers: { "Ocp-Apim-Subscription-Key": '48662c45baf24c069aa00b0f1cff2222' } })
+            if (!images.data.value.length) {
+                images = await axios.get(`https://api.cognitive.microsoft.com/bing/v7.0/images/search/?q=${artist}&maxFileSize=300000`, { headers: { "Ocp-Apim-Subscription-Key": '48662c45baf24c069aa00b0f1cff2222' } })
             }
         }
     }
@@ -57,7 +57,7 @@ const fetchSellerInfo = seller => {
         user
     WHERE id = ${seller}
 ;`)
-    .then(result => result[0][0])
+        .then(result => result[0][0])
 }
 
 const findTopBidders = concertID => {
@@ -74,7 +74,7 @@ const findTopBidders = concertID => {
         LIMIT 5
     ;`)
         .then(result => {
-            if(result[0].length) {
+            if (result[0].length) {
                 return result[0]
             } else {
                 return 0
@@ -83,22 +83,59 @@ const findTopBidders = concertID => {
 }
 
 findTopBidders(5)
+let concertsWithBids = []
+const activateBids = () => {
+    console.log("checkBids")
+    //get all concert that has bid and their time didnt passed
+    
+    let dataQuery = `
+        SELECT
+            *
+        FROM concert
+        WHERE
+            is_bid = '1'
+            AND
+            DATE(ends_at) > NOW()- interval 3 hour
+        ORDER BY ends_at
+    ;`
+    sequelize
+        .query(dataQuery)
+        .spread(function (results, metadata) {
+            concertsWithBids = [...results]
+        }).then(r => {
+            for (let concert of concertsWithBids) {
+                console.log("#1: ")
+                console.log(concert.ends_at.split)
+                endTime=String(concert.ends_at)
+                console.log("#2: ")
+                console.log(endTime)
 
+                let endTime = moment(concert.ends_at).subtract(3, 'hours').format('HH:mm');
+                let endDate = moment(concert.ends_at).format('YYYY-MM-DD')
+                startCronJob(concert.id, endTime, endDate, concert.seller, concert)
+            }
+        })
+
+}
+activateBids()
 const startCronJob = (concertID, endTime, endDate, seller, concertInfo) => {
+    console.log("start cron job")
+    console.log("start cron job-> "+endTime+" "+endDate)
+
     endTime = endTime.split(':')
     endDate = endDate.split('-')
-    
-    const mins = endTime[1],
-    hours = endTime[0] == '00' ? '23' : Number(endTime[0]) - 1,
-    day = endDate[2],
-    month = endDate[1]
+   const mins = endTime[1],
+        hours = endTime[0] == '00' ? '23' : Number(endTime[0]) - 1,
+        day = endDate[2],
+        month = endDate[1]
 
     concertInfo.id = concertID
-    
+
     cronJobs[concertID] = cron.schedule(`${mins} ${hours} ${day} ${month} *`, async () => {
+        console.log('cron.schedule')
         let topBidders = await findTopBidders(concertID)
         sendMailFunc(seller, topBidders, concertInfo)
-    }, {timezone: 'Asia/Jerusalem'})
+    }, { timezone: 'Asia/Jerusalem' })
 }
 
 // POST NEW CONCERT + BIDDABLE (IF NEEDED)
@@ -111,12 +148,14 @@ router.post('/concert', async (req, res) => {
         VALUES ( '${artist}', '${date} ${hour}:00' , '${country}', '${city}', '${venue}', ${num_of_tickets}, ${asked_price}, ${original_price}, '${additional_info}', ${seller} , 'active', '${img_url}', '${moment().format('YYYY-MM-DD  HH:mm:ss')}', ${isBid}, '${isBid ? `${bid_end_date} ${bid_end_time}:00` : `${date} ${hour}:00`}')
         ;`)
     res.send(newConcert)
-        
+
+    // console.log("toISOString: " + `${bid_end_date} ${bid_end_time}:00`.toISOString())
+
     const concertID = newConcert[0]
-    if(isBid){
+    if (isBid) {
         // let seller = await findSeller(concertID)
         const sellerInfo = await fetchSellerInfo(seller)
-        console.log(sellerInfo)
+        // console.log(sellerInfo)
         startCronJob(concertID, bid_end_time, bid_end_date, sellerInfo, req.body);
     }
 })
@@ -126,10 +165,10 @@ router.get('/concerts', function (req, res) {
     let query = req.query
     const queries = []
     query.artist ? queries.push(`artist = '${query.artist}'`) : null
-    query.city ?  queries.push(`city = '${query.city}'`) : null
-    query.dateFrom && query.dateTo ?  queries.push(`DATE(date) BETWEEN '${query.dateFrom}' AND '${query.dateTo}' `) : null
-    query.priceTo ?  queries.push(`asked_price <= ${query.priceTo} `) : null
-    query.minTickets ?  queries.push(`num_of_tickets >= ${query.minTickets}`) : null 
+    query.city ? queries.push(`city = '${query.city}'`) : null
+    query.dateFrom && query.dateTo ? queries.push(`DATE(date) BETWEEN '${query.dateFrom}' AND '${query.dateTo}' `) : null
+    query.priceTo ? queries.push(`asked_price <= ${query.priceTo} `) : null
+    query.minTickets ? queries.push(`num_of_tickets >= ${query.minTickets}`) : null
 
 
     let dataQuery = `
@@ -143,12 +182,12 @@ router.get('/concerts', function (req, res) {
             ${queries.length ? ' AND ' + queries.join(' AND ') : ''}
         ORDER BY date
     ;`
-    
+
     sequelize
-      .query(dataQuery)
-      .spread(function (results, metadata) {
-            res.send(results)
-      })
+        .query(dataQuery)
+        .spread(function (results, metadata) {
+            res.send(results)
+        })
 })
 
 // ******get all or filter by popularity******
@@ -176,7 +215,7 @@ router.get('/concerts', function (req, res) {
 //             ${queries.length ? ' AND ' + queries.join(' AND ') : ''}
 //         ORDER BY date
 //     ;`
-    
+
 //     sequelize
 //       .query(dataQuery)
 //       .spread(function (results, metadata) {
@@ -187,7 +226,7 @@ router.get('/concerts', function (req, res) {
 // ******get concert******
 
 router.get('/concert/:concertID/:userID', function (req, res) {
-    const {concertID, userID} = req.params
+    const { concertID, userID } = req.params
     // send is favorite, is bid and last bid
     sequelize.query(`
         SELECT c.*, COUNT(*) AS is_favorite
@@ -200,9 +239,13 @@ router.get('/concert/:concertID/:userID', function (req, res) {
             AND
             f.user_id = ${userID}
     ;`)
-      .spread((result, metadata) => {
-        if(result[0].is_bid){
-            sequelize.query(`
+        .spread((result, metadata) => {
+            console.log("***************************************")
+            console.log(result[0])
+            console.log(result[0].ends_at)
+
+            if (result[0].is_bid) {
+                sequelize.query(`
                 SELECT MAX(amount) AS amount
                 FROM
                     bid b
@@ -211,14 +254,14 @@ router.get('/concert/:concertID/:userID', function (req, res) {
                     AND
                     b.bidder = ${userID}
             ;`)
-                .spread((highestBid, metadata) => {
-                    result[0].user_highest_bid = highestBid[0].amount
-                    res.send(result[0])
-                })
-        } else {
-            res.send(result[0])
-        }
-      }) 
+                    .spread((highestBid, metadata) => {
+                        result[0].user_highest_bid = highestBid[0].amount
+                        res.send(result[0])
+                    })
+            } else {
+                res.send(result[0])
+            }
+        })
 })
 
 router.put('/sold/:concertID', (req, res) => {
@@ -276,7 +319,7 @@ router.get('/user-concerts/:userID', (req, res) => {
 
 router.post('/favorite/:userID/:concertID', (req, res) => {
     const user = req.params.userID,
-    concert = req.params.concertID
+        concert = req.params.concertID
 
     sequelize.query(`
         INSERT INTO favorite (user_id, concert_id)
@@ -311,15 +354,15 @@ router.get('/favorites/:userID', (req, res) => {
 })
 
 router.post('/bid', (req, res) => {
-    console.log("router bid")
+    // console.log("router bid")
     const { amount, concertID, bidder } = req.body
     sequelize.query(`
         INSERT INTO bid (amount, concert_id, bidder)
         VALUES (${amount}, ${concertID}, ${bidder})
     ;`)
-    .then(result => {
-        res.send(result)
-    })
+        .then(result => {
+            res.send(result)
+        })
 })
 
 module.exports = router

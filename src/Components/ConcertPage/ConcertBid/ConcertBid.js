@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
 import { observer, inject } from 'mobx-react'
 import './ConcertBid.css'
+import moment from 'moment';
 
-const moment = require('moment')
+import 'moment-timezone';
+
+// const moment = require('moment')
 
 @inject("ConcertStore")
 @observer
@@ -25,9 +28,11 @@ class ConcertBid extends Component {
         clearInterval(this.interval)
     }
     countdown = (e) => {
-        let time = moment(this.props.ConcertStore.concert.ends_at).format('DD-MM-YYYY HH:mm:ss')
+        let time = moment(this.props.ConcertStore.concert.ends_at).subtract(3, 'hours').format('DD-MM-YYYY HH:mm:ss')
+        let currTime = moment().format('DD-MM-YYYY HH:mm:ss')
+
         var eventTime = moment(time, 'DD-MM-YYYY HH:mm:ss').unix(),
-            currentTime = moment().unix(),
+            currentTime = moment(currTime,'DD-MM-YYYY HH:mm:ss').unix(),
             diffTime = eventTime - currentTime,
             duration = moment.duration(diffTime * 1000, 'milliseconds'),
             intervalTime = 1000;
@@ -62,6 +67,9 @@ class ConcertBid extends Component {
                 <button onClick={this.makeBid}>Make a bid!</button>
                 <div>{this.props.ConcertStore.concert.user_highest_bid ? "Your last bid is" + this.props.ConcertStore.concert.user_highest_bid + "$" : null}</div>
                 <div>Bid ends in {this.state.timer}</div>
+                <div>time now 1: {moment().unix()}</div>
+                <div>time now 2: {moment().format('DD-MM-YYYY HH:mm:ss')}</div>
+
             </div>)
     }
 }
