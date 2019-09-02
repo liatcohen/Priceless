@@ -11,11 +11,7 @@ import ConcertPage from './Components/ConcertPage/ConcertPage';
 import SearchBar from './Components/Main/SearchBar/SearchBar';
 import Favorites from './Components/Main/Favorites/Favorites';
 import Account from './Components/Account/Account';
-<<<<<<< HEAD
-// import PayPal from './Components/PayPal';
-=======
 import Login from './Components/Login/Login';
->>>>>>> master
 
 @inject("UserStore")
 @observer
