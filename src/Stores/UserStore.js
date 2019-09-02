@@ -12,13 +12,20 @@ export class UserStore {
 
    constructor() {
    
+      // this.user = {
+      //    id: '4',
+      //    name: 'Liat Cohen',¸¸¸¸
+      //    email: 'liatcohen9@gmail.com',
+      //    phone_number: '050-4211600'
+      // }
       this.user = {
-         id: '2',
-         name: 'Liat Cohen',
-         email: 'liatcohen9@gmail.com',
-         phone_number: '050-4211600'
+         id: '1',
+         name: 'Ofer Gilboa',
+         email: 'ofer1gilboa@gmail.com',
+         phone_number: '052-8283312'
       }
       
+
    }
    @action get = (concertId) => {
       // get(‘/concert:/concertId’)
@@ -42,10 +49,6 @@ export class UserStore {
    @action addToFavorites = async (concertId) => {
       await axios.post(`http://localhost:5000/favorite/${this.user.id}/${concertId}`)
    }
-
-   @action deleteFromFavorite = async (concertId) => {
-      await axios.delete(`http://localhost:5000/favorite/${this.user.id}/${concertId}`)
-    }
 
    @action getFavorites = async () => {
       const response = await axios.get(`http://localhost:5000/favorites/${this.user.id}`)
