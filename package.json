@@ -62,6 +62,7 @@
     "react-dom": "^16.9.0",
     "react-helmet": "^5.2.1",
     "react-lottie": "^1.2.3",
+    "react-paypal-button-v2": "^2.4.1",
     "react-popup": "^0.10.0",
     "react-popupbox": "^2.0.8",
     "react-rangeslider": "^2.2.0",

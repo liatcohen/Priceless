@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { observer, inject } from 'mobx-react'
 import Modal from 'react-awesome-modal';
+import { PayPalButton } from "react-paypal-button-v2";
+
 
 
 import './ConcertPage.css'
@@ -42,10 +44,10 @@ class ConcertPage extends Component {
       })
    }
 
-   isNotFav(){
+   isNotFav() {
       this.setState({
          isFavorite: false
-      }) 
+      })
    }
 
    //=======================POPUP
@@ -55,14 +57,14 @@ class ConcertPage extends Component {
       this.props.ConcertStore.getConcert(this.props.match.params.id)
    }
 
-   addToFavorites =  () => {
-       this.isFav() 
-       this.props.UserStore.addToFavorites(this.props.match.params.id)
-       this.props.ConcertStore.getConcert(this.props.match.params.id)
-      
+   addToFavorites = () => {
+      this.isFav()
+      this.props.UserStore.addToFavorites(this.props.match.params.id)
+      this.props.ConcertStore.getConcert(this.props.match.params.id)
+
    }
 
-   deleteFromFav = async () =>{
+   deleteFromFav = async () => {
       await this.isNotFav()
       await this.props.UserStore.deleteFromFavorite(this.props.match.params.id)
       await this.props.ConcertStore.getConcert(this.props.match.params.id)
@@ -131,6 +133,24 @@ class ConcertPage extends Component {
                </div>
             </div>
             {this.props.ConcertStore.concert.is_bid ? <ConcertBid concertId={this.props.match.params.id}></ConcertBid> : null}
+            <PayPalButton
+               amount= {this.props.ConcertStore.concert.asked_price*this.props.ConcertStore.concert.num_of_tickets}
+               onSuccess={(details, data) => {
+                  console.log(details.payer.name.given_name)
+                  console.log(details.payer.name.num_of_tickets)
+                  console.log(details.payer.name.asked_price)
+                  alert(details.payer.name.given_name +" bought " + this.props.ConcertStore.concert.num_of_tickets +" "+  "tickets for $"+this.props.ConcertStore.concert.asked_price*this.props.ConcertStore.concert.num_of_tickets);
+                  // alert(details.payer.name.given_name +" bought " + this.props.ConcertStore.concert.num_of_tickets +" "+ this.props.ConcertStore.concert.artist+ "tickets for $"+this.props.ConcertStore.concert.asked_price*this.props.ConcertStore.concert.num_of_tickets);
+
+                  // OPTIONAL: Call your server to save the transaction
+                  return fetch("/paypal-transaction-complete", {
+                     method: "post",
+                     body: JSON.stringify({
+                        orderID: data.orderID
+                     })
+                  });
+               }}
+            />
          </div>)
    }
 }

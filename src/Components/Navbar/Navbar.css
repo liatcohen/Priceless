@@ -6,7 +6,7 @@
   top: 0;
   width: 100%;
   height: 40px;
-  display:flex;
+  display: flex;
   align-items: center;
 }
 .navbar a {
@@ -18,11 +18,16 @@
   text-decoration: none;
   font-size: 17px;
 }
-.navbar a:hover{
-  display:flex;
-  background: #ddd;
-  color: black;
+.navbar a.active {
+  display: flex;
+  background-color: #ddd;
+  color: #000000;
   height: 100%;
+  text-align: center;
+}
+.navbar a:hover {
+  display: flex;
+  color: #c77979;
   text-align: center;
 }
 a {
@@ -30,19 +35,6 @@ a {
   color: white;
   padding: 5px;
 }
-.navbar>a.active {
-  background-color: #4CAF50;
-  color: white;
+.Logo {
+  margin-top: 0.9vh;
 }
-.Logo{
-   margin-top: 0.9vh;
-}
-.navbar a.active{
-   display:flex;
-   background: #ddd;
-   color: rgb(199, 121, 121);
-   height: 100%;
-   text-align: center;
-}
-
-

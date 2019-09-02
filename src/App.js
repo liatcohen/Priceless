@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState, useRef, useEffect } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import { observer } from 'mobx-react'
@@ -11,6 +11,7 @@ import ConcertPage from './Components/ConcertPage/ConcertPage';
 import SearchBar from './Components/Main/SearchBar/SearchBar';
 import Favorites from './Components/Main/Favorites/Favorites';
 import Account from './Components/Account/Account';
+// import PayPal from './Components/PayPal';
 
 @observer
 class App extends Component {
@@ -24,11 +25,12 @@ class App extends Component {
                {/* <Main /> */}
                <Route exact path="/newitem" render={() => <NewItem />} />
                {/* <NewItem /> */}
-               <Route path="/concert/:id" render={({ match }) => <ConcertPage match={match}/>} />
-               <Route path="/favorites" render={({ match }) => <Favorites match={match}/>} />
-               <Route exact path="/myAccount" render={() => <Account/>} />
-
+               <Route path="/concert/:id" render={({ match }) => <ConcertPage match={match} />} />
+               <Route path="/favorites" render={({ match }) => <Favorites match={match} />} />
+               <Route exact path="/myAccount" render={() => <Account />} />
+               {/* <PayPal /> */}
                {/* <ConcertPage /> */}
+
             </div>
          </Router>
       );
