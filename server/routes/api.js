@@ -173,7 +173,6 @@ router.get('/concerts', function (req, res) {
     sequelize
         .query(dataQuery)
         .spread(function (results, metadata) {
-            console.log(results)
             res.send(results)
         })
 })
@@ -251,9 +250,9 @@ router.get('/concert/:concertID/:userID', function (req, res) {
 router.put('/sold/:concertID', (req, res) => {
     const concertID = req.params.concertID
     sequelize.query(`
-        UPDATE concert
-        SET status = 'sold'
-        WHERE id = ${concertID}
+    UPDATE concert
+    SET status = 'sold'
+    WHERE id = ${concertID}
     ;`)
         .spread((result, metadata) => {
             res.send(result)
