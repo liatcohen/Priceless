@@ -47,6 +47,6 @@ USE priceless;
 -- );
 
 
--- DROP TABLE user
+-- DROP TABLE concert;
 -- DROP TABLE user
 

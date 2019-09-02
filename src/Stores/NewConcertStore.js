@@ -1,8 +1,8 @@
 import { observable, computed, action } from 'mobx'
 import axios from 'axios'
-import { UserStore } from './UserStore'
+import UserStore from './UserStore'
 
-let User = new UserStore
+// let User = new UserStore
 // console.log(User.user.id)
 
 export class NewConcertStore {
@@ -21,7 +21,7 @@ export class NewConcertStore {
          asked_price: Number,
          original_price: Number,
          additional_info: "",
-         seller: User.user.id,
+         seller: UserStore.user.id,
          isBid: false,
          bid_end_date: Date,
          bid_end_time: Date,

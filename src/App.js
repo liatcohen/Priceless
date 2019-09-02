@@ -17,6 +17,10 @@ import Login from './Components/Login/Login';
 @observer
 class App extends Component {
 
+   logout = () => {
+      console.log("logout")
+      this.props.UserStore.logout()
+   }
    render() {
 
       return (
@@ -24,7 +28,7 @@ class App extends Component {
             {this.props.UserStore.user.id ?
                <Router >
                   <div className="App">
-                     <Navbar />
+                     <Navbar logout={this.logout} />
                      <Route exact path="/" render={() => <Main />} />
                      {/* <Main /> */}
                      <Route exact path="/newitem" render={() => <NewItem />} />
@@ -36,7 +40,7 @@ class App extends Component {
                      {/* <ConcertPage /> */}
                   </div>
                </Router> :
-                <Login />
+               <Login />
             }
 
          </div>
