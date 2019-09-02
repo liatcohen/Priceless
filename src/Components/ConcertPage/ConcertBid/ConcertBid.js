@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
 import { observer, inject } from 'mobx-react'
 import './ConcertBid.css'
+import moment from 'moment';
 
-const moment = require('moment')
+import 'moment-timezone';
+
+// const moment = require('moment')
 
 @inject("ConcertStore")
 @observer
@@ -25,9 +28,11 @@ class ConcertBid extends Component {
         clearInterval(this.interval)
     }
     countdown = (e) => {
-        let time = moment(this.props.ConcertStore.concert.ends_at).format('DD-MM-YYYY HH:mm:ss')
+        let time = moment(this.props.ConcertStore.concert.ends_at).subtract(3, 'hours').format('DD-MM-YYYY HH:mm:ss')
+        let currTime = moment().format('DD-MM-YYYY HH:mm:ss')
+
         var eventTime = moment(time, 'DD-MM-YYYY HH:mm:ss').unix(),
-            currentTime = moment().unix(),
+            currentTime = moment(currTime,'DD-MM-YYYY HH:mm:ss').unix(),
             diffTime = eventTime - currentTime,
             duration = moment.duration(diffTime * 1000, 'milliseconds'),
             intervalTime = 1000;
@@ -57,11 +62,13 @@ class ConcertBid extends Component {
 
     render() {
         return (
+            <div>
             <div className="concert-bid">
                 <input id="bid" type="number" placeholder="$" value={this.props.ConcertStore.bid} onChange={this.handleBid}></input>
-                <button onClick={this.makeBid}>Make a bid!</button>
-                <div>{this.props.ConcertStore.concert.user_highest_bid ? "Your last bid is" + this.props.ConcertStore.concert.user_highest_bid + "$" : null}</div>
-                <div>Bid ends in {this.state.timer}</div>
+                <div className="bidButton" onClick={this.makeBid}>Make a bid!</div>
+                <div className="lastBid">{this.props.ConcertStore.concert.user_highest_bid ? "Your last bid is " + this.props.ConcertStore.concert.user_highest_bid + "$" : null}</div>
+            </div>
+                <div className="timeBid">Bid ends in <span id="bidTime">{this.state.timer}</span></div>
             </div>)
     }
 }

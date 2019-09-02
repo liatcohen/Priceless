@@ -17,17 +17,13 @@
   padding: 7px 10px 7px;
   text-decoration: none;
   font-size: 17px;
-}
-.navbar a.active {
-  display: flex;
-  background-color: #ddd;
-  color: #000000;
   height: 100%;
-  text-align: center;
 }
 .navbar a:hover {
   display: flex;
-  color: #c77979;
+  background: #ddd;
+  color: black;
+  height: 100%;
   text-align: center;
 }
 a {
@@ -35,6 +31,17 @@ a {
   color: white;
   padding: 5px;
 }
-.Logo {
-  margin-top: 0.9vh;
+.navbar > a.active {
+  background-color: #4CAF50;
+  color: white;
+}
+.navbar a.active {
+  display: flex;
+  background: #ddd;
+  color: #c77979;
+  height: 100%;
+  text-align: center;
+}
+.navbar #logo:hover {
+  background: #333;
 }
