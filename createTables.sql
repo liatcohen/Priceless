@@ -1,4 +1,4 @@
--- USE priceless;
+USE priceless;
 
 -- CREATE TABLE user (
 --     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -47,6 +47,6 @@
 -- );
 
 
--- DROP TABLE bid
+-- DROP TABLE user
 -- DROP TABLE user
 

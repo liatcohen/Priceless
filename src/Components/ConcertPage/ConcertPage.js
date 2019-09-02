@@ -139,8 +139,7 @@ class ConcertPage extends Component {
                   console.log(details.payer.name.given_name)
                   console.log(details.payer.name.num_of_tickets)
                   console.log(details.payer.name.asked_price)
-                  alert(details.payer.name.given_name +" bought " + this.props.ConcertStore.concert.num_of_tickets +" "+  "tickets for $"+this.props.ConcertStore.concert.asked_price*this.props.ConcertStore.concert.num_of_tickets);
-                  // alert(details.payer.name.given_name +" bought " + this.props.ConcertStore.concert.num_of_tickets +" "+ this.props.ConcertStore.concert.artist+ "tickets for $"+this.props.ConcertStore.concert.asked_price*this.props.ConcertStore.concert.num_of_tickets);
+                  alert(details.payer.name.given_name +" bought " + this.props.ConcertStore.concert.num_of_tickets +" "+ this.props.ConcertStore.concert.artist+  " tickets for $"+this.props.ConcertStore.concert.asked_price*this.props.ConcertStore.concert.num_of_tickets);
 
                   // OPTIONAL: Call your server to save the transaction
                   return fetch("/paypal-transaction-complete", {
