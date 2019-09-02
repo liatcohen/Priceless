@@ -3,11 +3,11 @@ const express = require('express')
 const router = express.Router()
 const moment = require('moment')
 const axios = require('axios')
-const sequelize = new Sequelize('mysql://root:Guprd214!@localhost/priceless')
+const sequelize = new Sequelize('mysql://root:@localhost/priceless')
 const cron = require('node-cron')
 const sendMailFunc = require("./../send-email")
 
-// *****check the connection******
+// *****checking the connection******
 
 // sequelize
 //     .authenticate()
@@ -25,43 +25,43 @@ const sendMailFunc = require("./../send-email")
 const cronJobs = {}
 
 const findArtistImg = async artist => {
-   let images = await axios.get(`https://api.cognitive.microsoft.com/bing/v7.0/images/search/?q=${artist}%20concert&minHeight=1500&aspect=Wide&maxFileSize=200000`, { headers: { "Ocp-Apim-Subscription-Key": '48662c45baf24c069aa00b0f1cff2222' } })
-   if (!images.data.value.length) {
-      images = await axios.get(`https://api.cognitive.microsoft.com/bing/v7.0/images/search/?q=${artist}%20concert&minHeight=1200&aspect=Wide&maxFileSize=200000`, { headers: { "Ocp-Apim-Subscription-Key": '48662c45baf24c069aa00b0f1cff2222' } })
-      if (!images.data.value.length) {
-         images = await axios.get(`https://api.cognitive.microsoft.com/bing/v7.0/images/search/?q=${artist}%20concert&minHeight=900&aspect=Wide&maxFileSize=200000`, { headers: { "Ocp-Apim-Subscription-Key": '48662c45baf24c069aa00b0f1cff2222' } })
-         if (!images.data.value.length) {
-            images = await axios.get(`https://api.cognitive.microsoft.com/bing/v7.0/images/search/?q=${artist}&maxFileSize=300000`, { headers: { "Ocp-Apim-Subscription-Key": '48662c45baf24c069aa00b0f1cff2222' } })
-         }
-      }
-   }
-   return images.data.value.length ? images.data.value[0].contentUrl : 'http://freshlytechy.com/wp-content/uploads/2013/04/EVNTLIVE-Offers-Live-Concert-Streaming-Platform.jpg'
+    let images = await axios.get(`https://api.cognitive.microsoft.com/bing/v7.0/images/search/?q=${artist}%20concert&minHeight=1500&aspect=Wide&maxFileSize=200000`, { headers: { "Ocp-Apim-Subscription-Key": '48662c45baf24c069aa00b0f1cff2222' } })
+    if (!images.data.value.length) {
+        images = await axios.get(`https://api.cognitive.microsoft.com/bing/v7.0/images/search/?q=${artist}%20concert&minHeight=1200&aspect=Wide&maxFileSize=200000`, { headers: { "Ocp-Apim-Subscription-Key": '48662c45baf24c069aa00b0f1cff2222' } })
+        if (!images.data.value.length) {
+            images = await axios.get(`https://api.cognitive.microsoft.com/bing/v7.0/images/search/?q=${artist}%20concert&minHeight=900&aspect=Wide&maxFileSize=200000`, { headers: { "Ocp-Apim-Subscription-Key": '48662c45baf24c069aa00b0f1cff2222' } })
+            if (!images.data.value.length) {
+                images = await axios.get(`https://api.cognitive.microsoft.com/bing/v7.0/images/search/?q=${artist}&maxFileSize=300000`, { headers: { "Ocp-Apim-Subscription-Key": '48662c45baf24c069aa00b0f1cff2222' } })
+            }
+        }
+    }
+    return images.data.value.length ? images.data.value[0].contentUrl : 'http://freshlytechy.com/wp-content/uploads/2013/04/EVNTLIVE-Offers-Live-Concert-Streaming-Platform.jpg'
 }
 
-// const findSeller = concertID => {
-//     return sequelize.query(`
-//         SELECT u.id, u.name, u.email, u.phone_number
-//         FROM
-//             concert c
-//             INNER JOIN
-//             user u ON c.seller = u.id
-//         WHERE c.seller = ${concertID}
-//     ;`)
-//         .then(result => result[0][0])
-// }
+const findSeller = concertID => {
+    return sequelize.query(`
+        SELECT u.id, u.name, u.email, u.phone_number
+        FROM
+            concert c
+            INNER JOIN
+            user u ON c.seller = u.id
+        WHERE c.seller = ${concertID}
+    ;`)
+        .then(result => result[0][0])
+}
 
 const fetchSellerInfo = seller => {
-   return sequelize.query(`
+    return sequelize.query(`
     SELECT *
     FROM
         user
     WHERE id = ${seller}
 ;`)
-      .then(result => result[0][0])
+        .then(result => result[0][0])
 }
 
 const findTopBidders = concertID => {
-   return sequelize.query(`
+    return sequelize.query(`
         SELECT MAX(amount) AS amount, u.*
         FROM
             bid b
@@ -73,88 +73,149 @@ const findTopBidders = concertID => {
         ORDER BY amount DESC
         LIMIT 5
     ;`)
-      .then(result => {
-         if (result[0].length) {
-            return result[0]
-         } else {
-            return 0
-         }
-      })
+        .then(result => {
+            if (result[0].length) {
+                return result[0]
+            } else {
+                return 0
+            }
+        })
 }
 
+findTopBidders(5)
+let concertsWithBids = []
+
+const activateBids = () => {
+    //get all concert that has bid and their time didnt passed
+    let dataQuery = `
+        SELECT
+            *
+        FROM concert
+        WHERE
+            is_bid = '1'
+            AND
+            ends_at >= NOW()+ interval 3 hour
+        ORDER BY ends_at
+    ;`
+    sequelize
+        .query(dataQuery)
+        .spread(function (results, metadata) {
+            concertsWithBids = [...results]
+        }).then(r => {
+            for (let concert of concertsWithBids) {
+                let endTime = moment.utc(concert.ends_at, "Asia/Jerusalem").format('HH:mm')
+                let endDate = moment(concert.ends_at).format('YYYY-MM-DD')
+                startCronJob(concert.id, endTime, endDate, concert.seller, concert)
+            }
+        })
+}
+
+activateBids()
 const startCronJob = (concertID, endTime, endDate, seller, concertInfo) => {
-   endTime = endTime.split(':')
-   endDate = endDate.split('-')
+    console.log("start cron job-> " + endTime + " " + endDate)
+    endTime = endTime.split(':')
+    endDate = endDate.split('-')
+    const mins = endTime[1],
+        hours = endTime[0] == '00' ? '23' : Number(endTime[0]) - 1,
+        day = endDate[2],
+        month = endDate[1]
 
-   const mins = endTime[1],
-      hours = endTime[0] == '00' ? '23' : Number(endTime[0]) - 1,
-      day = endDate[2],
-      month = endDate[1]
+    concertInfo.id = concertID
 
-   concertInfo.id = concertID
-
-   cronJobs[concertID] = cron.schedule(`${mins} ${hours} ${day} ${month} *`, async () => {
-      let topBidders = await findTopBidders(concertID)
-      sendMailFunc(seller, topBidders, concertInfo)
-   }, { timezone: 'Asia/Jerusalem' })
+    cronJobs[concertID] = cron.schedule(`${mins} ${hours} ${day} ${month} *`, async () => {
+        console.log('cron.schedule')
+        let topBidders = await findTopBidders(concertID)
+        sendMailFunc(seller, topBidders, concertInfo)
+    }, { timezone: 'Asia/Jerusalem' })
 }
 
-// POST NEW CONCERT
+// POST NEW CONCERT + BIDDABLE (IF NEEDED)
 router.post('/concert', async (req, res) => {
-   const { artist, date, hour, country, city, venue, num_of_tickets, asked_price, original_price, additional_info, seller, isBid, bid_end_date, bid_end_time } = req.body
+    const { artist, date, hour, country, city, venue, num_of_tickets, asked_price, original_price, additional_info, seller, isBid, bid_end_date, bid_end_time } = req.body
 
-   const img_url = await findArtistImg(artist)
-   const newConcert = await sequelize.query(`
+    const img_url = await findArtistImg(artist)
+    const newConcert = await sequelize.query(`
         INSERT INTO concert ( artist, date, country, city , venue, num_of_tickets, asked_price, original_price, additional_info, seller, status, img_url, uploaded_at, is_bid, ends_at)
         VALUES ( '${artist}', '${date} ${hour}:00' , '${country}', '${city}', '${venue}', ${num_of_tickets}, ${asked_price}, ${original_price}, '${additional_info}', ${seller} , 'active', '${img_url}', '${moment().format('YYYY-MM-DD  HH:mm:ss')}', ${isBid}, '${isBid ? `${bid_end_date} ${bid_end_time}:00` : `${date} ${hour}:00`}')
         ;`)
-   res.send(newConcert)
+    res.send(newConcert)
 
-   const concertID = newConcert[0]
-   if (isBid) {
-      const sellerInfo = await fetchSellerInfo(seller)
-      startCronJob(concertID, bid_end_time, bid_end_date, sellerInfo, req.body);
-   }
+    const concertID = newConcert[0]
+    if (isBid) {
+        const sellerInfo = await fetchSellerInfo(seller)
+        startCronJob(concertID, bid_end_time, bid_end_date, sellerInfo, req.body);
+    }
 })
 
 // GET ALL/FILTERED CONCERTS
 router.get('/concerts', function (req, res) {
-   let query = req.query
-   const queries = []
-   query.artist ? queries.push(`artist = '${query.artist}'`) : null
-   query.city ? queries.push(`city = '${query.city}'`) : null
-   query.dateFrom && query.dateTo ? queries.push(`DATE(date) BETWEEN '${query.dateFrom}' AND '${query.dateTo}' `) : null
-   query.priceTo ? queries.push(`asked_price <= ${query.priceTo} `) : null
-   query.minTickets ? queries.push(`num_of_tickets >= ${query.minTickets}`) : null
+    let query = req.query
+    const queries = []
+    query.artist ? queries.push(`artist = '${query.artist}'`) : null
+    query.city ? queries.push(`city = '${query.city}'`) : null
+    query.dateFrom && query.dateTo ? queries.push(`date BETWEEN '${query.dateFrom}' AND '${query.dateTo}' `) : null
+    query.priceTo ? queries.push(`asked_price <= ${query.priceTo} `) : null
+    query.minTickets ? queries.push(`num_of_tickets >= ${query.minTickets}`) : null
 
-   // date filtering (DATE(ends_at) > NOW()) is a little bit offset (probably because of summer clock)
-   let dataQuery = `
+
+    let dataQuery = `
         SELECT
             id, artist, num_of_tickets, date, asked_price, original_price, img_url, city
         FROM concert
         WHERE
             status = 'active'
             AND
-            DATE(ends_at) > NOW()
+            date > NOW()+ interval 3 hour
             ${queries.length ? ' AND ' + queries.join(' AND ') : ''}
         ORDER BY date
     ;`
 
-   sequelize
-      .query(dataQuery)
-      .spread(function (results, metadata) {
-         res.send(results)
-      })
+    sequelize
+        .query(dataQuery)
+        .spread(function (results, metadata) {
+            res.send(results)
+        })
 })
 
+// ******get all or filter by popularity******
+// router.get('/popular', function (req, res) {
+//     let query = req.query
+//     const queries = []
+//     query.artist ? queries.push(`artist = '${query.artist}'`) : null
+//     query.city ?  queries.push(`city = '${query.city}'`) : null
+//     query.dateFrom && query.dateTo ?  queries.push(`DATE(date) BETWEEN '${query.dateFrom}' AND '${query.dateTo}' `) : null
+//     query.priceTo ?  queries.push(`asked_price <= ${query.priceTo} `) : null
+//     query.minTickets ?  queries.push(`num_of_tickets >= ${query.minTickets}`) : null 
 
-// GET SPECIFIC CONCERT
+
+//     let dataQuery = `
+//         SELECT
+//             id, artist, num_of_tickets, date, asked_price, original_price, img_url
+//         FROM
+//             concert c
+//             INNER JOIN
+//             favorite f 
+//         WHERE
+//             status = 'active'
+//             AND
+//             DATE(date) > NOW()
+//             ${queries.length ? ' AND ' + queries.join(' AND ') : ''}
+//         ORDER BY date
+//     ;`
+
+//     sequelize
+//       .query(dataQuery)
+//       .spread(function (results, metadata) {
+//             res.send(results)
+//       })
+// })
+
+// ******get concert******
 
 router.get('/concert/:concertID/:userID', function (req, res) {
-   const { concertID, userID } = req.params
-   console.log('concert id - ' + concertID)
-   // send is favorite, is bid and last bid
-   sequelize.query(`
+    const { concertID, userID } = req.params
+    // send is favorite, is bid and last bid
+    sequelize.query(`
         SELECT c.*, COUNT(*) AS is_favorite
         FROM
             concert C
@@ -165,9 +226,9 @@ router.get('/concert/:concertID/:userID', function (req, res) {
             AND
             f.user_id = ${userID}
     ;`)
-      .spread((result, metadata) => {
-         if (result[0].is_bid) {
-            sequelize.query(`
+        .spread((result, metadata) => {
+            if (result[0].is_bid) {
+                sequelize.query(`
                 SELECT MAX(amount) AS amount
                 FROM
                     bid b
@@ -176,68 +237,56 @@ router.get('/concert/:concertID/:userID', function (req, res) {
                     AND
                     b.bidder = ${userID}
             ;`)
-               .spread((highestBid, metadata) => {
-                  result[0].user_highest_bid = highestBid[0].amount
-                  res.send(result[0])
-               })
-         } else {
-            res.send(result[0])
-         }
-      })
+                    .spread((highestBid, metadata) => {
+                        result[0].user_highest_bid = highestBid[0].amount
+                        res.send(result[0])
+                    })
+            } else {
+                res.send(result[0])
+            }
+        })
 })
 
-
-// CHANGE STATUS TO SOLD
-
 router.put('/sold/:concertID', (req, res) => {
-   const concertID = req.params.concertID
-   sequelize.query(`
+    const concertID = req.params.concertID
+    sequelize.query(`
     UPDATE concert
     SET status = 'sold'
     WHERE id = ${concertID}
     ;`)
-      .spread((result, metadata) => {
-         res.send(result)
-      })
+        .spread((result, metadata) => {
+            res.send(result)
+        })
 })
 
-
-// CHANGE STATUS TO SOLD
-
 router.put('/delete-concert/:concertID', (req, res) => {
-   const concertID = req.params.concertID
-   sequelize.query(`
+    const concertID = req.params.concertID
+    sequelize.query(`
         UPDATE concert
         SET status = 'deleted'
         WHERE id = ${concertID}
     ;`)
-      .spread((result, metadata) => {
-         res.send(result)
-      })
+        .spread((result, metadata) => {
+            res.send(result)
+        })
 })
 
-
-// GET USER INFO
-
 router.get('/user-info/:userID', (req, res) => {
-   const userID = req.params.userID
-   sequelize.query(`
+    const userID = req.params.userID
+    sequelize.query(`
         SELECT *
         FROM user
         WHERE id = ${userID}
     ;`)
-      .spread((result, metadata) => {
-         res.send(result[0])
-      })
+        .spread((result, metadata) => {
+            res.send(result[0])
+        })
 })
 
-
-// GET ALL CONCERTS THAT A SPECIFIC USER PUT FOR SALE
-
 router.get('/user-concerts/:userID', (req, res) => {
-   const user = req.params.userID
+    const user = req.params.userID
 
-   sequelize.query(`
+    sequelize.query(`
         SELECT
             id, artist, date, country, city, venue, num_of_tickets, asked_price, original_price, additional_info, status, img_url
         FROM concert
@@ -246,44 +295,39 @@ router.get('/user-concerts/:userID', (req, res) => {
             AND
             status != 'deleted'
     ;`)
-      .spread((result, metadata) => {
-         res.send(result)
-      })
+        .spread((result, metadata) => {
+            res.send(result)
+        })
 })
 
-
-// MAKE FAVORITE
-
 router.post('/favorite/:userID/:concertID', (req, res) => {
-   const user = req.params.userID,
-      concert = req.params.concertID
+    const user = req.params.userID,
+        concert = req.params.concertID
 
-   sequelize.query(`
+    sequelize.query(`
         INSERT INTO favorite (user_id, concert_id)
         VALUES(${user}, ${concert})
     ;`)
-      .spread((result, metadata) => {
-         res.end(result)
-      })
+        .spread((result, metadata) => {
+            res.end(result)
+        })
 })
 
 // DELETE FROM FAVORITE
 
 router.delete("/favorite/:userID/:concertID", (req, res) => {
-   const user = req.params.userID,
-      concert = req.params.concertID
-   console.log('deleteeeeeeeeeeeeeeeee');
-
-   sequelize.query(`
+    const user = req.params.userID,
+        concert = req.params.concertID
+    sequelize.query(`
         DELETE FROM favorite 
         WHERE
         user_id = ${user}
         AND
         concert_id = ${concert};
     ;`)
-      .spread((result, metadata) => {
-         res.send(result)
-      })
+        .spread((result, metadata) => {
+            res.send(result)
+        })
 
 })
 // DELETE FROM TABLE_NAME
@@ -293,8 +337,8 @@ router.delete("/favorite/:userID/:concertID", (req, res) => {
 // GET A SPECIFIC USER FAVORITES
 
 router.get('/favorites/:userID', (req, res) => {
-   const user = req.params.userID
-   sequelize.query(`
+    const user = req.params.userID
+    sequelize.query(`
         SELECT c.id, artist, c.date, c.country, c.city, c.venue, c.num_of_tickets, c.asked_price, c.original_price, c.additional_info, c.seller, c.img_url
         FROM
             favorite f
@@ -307,26 +351,23 @@ router.get('/favorites/:userID', (req, res) => {
             AND
             f.user_id = ${user}
             AND
-            DATE(date) > NOW()
+            date > NOW()+ interval 3 hour
         ORDER BY date
     ;`)
-      .spread((result, metadata) => {
-         res.send(result)
-      })
+        .spread((result, metadata) => {
+            res.send(result)
+        })
 })
 
-
-// PLACE A BID
-
 router.post('/bid', (req, res) => {
-   const { amount, concertID, bidder } = req.body
-   sequelize.query(`
+    const { amount, concertID, bidder } = req.body
+    sequelize.query(`
         INSERT INTO bid (amount, concert_id, bidder)
         VALUES (${amount}, ${concertID}, ${bidder})
     ;`)
-      .then(result => {
-         res.send(result)
-      })
+        .then(result => {
+            res.send(result)
+        })
 })
 
 module.exports = router

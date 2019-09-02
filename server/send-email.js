@@ -3,6 +3,7 @@ const nodemailer = require("nodemailer")
 
 
 let emailSender = function(seller, topBidders, concertInfo){
+       console.log("emailSender")
        console.log(seller)
        console.log(topBidders)
        console.log(concertInfo)
