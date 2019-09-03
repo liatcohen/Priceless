@@ -137,7 +137,7 @@ class ConcertPage extends Component {
                </div>
             </div>
             {this.props.ConcertStore.concert.is_bid ? <ConcertBid concertId={this.props.match.params.id}></ConcertBid> :
-               <Pa/>yPalButton
+               <PayPalButton
                   amount={this.props.ConcertStore.concert.asked_price * this.props.ConcertStore.concert.num_of_tickets}
                   onSuccess={(details, data) => {
                      alert(details.payer.name.given_name + " bought " +
@@ -153,7 +153,7 @@ class ConcertPage extends Component {
                         })
                      });
                   }}
-               
+               />
             }
          </div>)
    }
