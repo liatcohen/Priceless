@@ -49,6 +49,9 @@ class ConcertPage extends Component {
          isFavorite: false
       })
    }
+   markAsSold = (concertId) => {
+      this.props.UserStore.markAsSold(concertId)
+   }
 
    //=======================POPUP
 
@@ -78,6 +81,7 @@ class ConcertPage extends Component {
    render() {
 
       console.log(this.props.ConcertStore.concert.is_favorite);
+      console.log(this.props.ConcertStore.concert.id);
 
       return (
 
@@ -132,24 +136,25 @@ class ConcertPage extends Component {
 
                </div>
             </div>
-            {this.props.ConcertStore.concert.is_bid ? <ConcertBid concertId={this.props.match.params.id}></ConcertBid> : null}
-            <PayPalButton
-               amount= {this.props.ConcertStore.concert.asked_price*this.props.ConcertStore.concert.num_of_tickets}
-               onSuccess={(details, data) => {
-                  console.log(details.payer.name.given_name)
-                  console.log(details.payer.name.num_of_tickets)
-                  console.log(details.payer.name.asked_price)
-                  alert(details.payer.name.given_name +" bought " + this.props.ConcertStore.concert.num_of_tickets +" "+ this.props.ConcertStore.concert.artist+  " tickets for $"+this.props.ConcertStore.concert.asked_price*this.props.ConcertStore.concert.num_of_tickets);
-
-                  // OPTIONAL: Call your server to save the transaction
-                  return fetch("/paypal-transaction-complete", {
-                     method: "post",
-                     body: JSON.stringify({
-                        orderID: data.orderID
-                     })
-                  });
-               }}
-            />
+            {this.props.ConcertStore.concert.is_bid ? <ConcertBid concertId={this.props.match.params.id}></ConcertBid> :
+               <PayPalButton
+                  amount={this.props.ConcertStore.concert.asked_price * this.props.ConcertStore.concert.num_of_tickets}
+                  onSuccess={(details, data) => {
+                     alert(details.payer.name.given_name + " bought " +
+                        this.props.ConcertStore.concert.num_of_tickets + " " +
+                        this.props.ConcertStore.concert.artist + " tickets for $" +
+                        this.props.ConcertStore.concert.asked_price * this.props.ConcertStore.concert.num_of_tickets);
+                     this.markAsSold(this.props.ConcertStore.concert.id)
+                     // OPTIONAL: Call your server to save the transaction
+                     return fetch("/paypal-transaction-complete", {
+                        method: "post",
+                        body: JSON.stringify({
+                           orderID: data.orderID
+                        })
+                     });
+                  }}
+               />
+            }
          </div>)
    }
 }
