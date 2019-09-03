@@ -111,3 +111,7 @@
 .bidSection {
   position: fixed;
 }
+.bidSection #paypal {
+  height: 50px;
+  width: 80px;
+}

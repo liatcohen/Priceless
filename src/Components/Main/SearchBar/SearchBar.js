@@ -62,7 +62,7 @@ class SearchBar extends Component {
             </div>
 
             {/* <button onClick={this.props.ConcertsStore.search}>search</button> */}
-            <a onClick={this.props.ConcertsStore.search} class="brk-btn">Search</a>
+            <a onClick={this.props.ConcertsStore.search} className="brk-btn">Search</a>
          </div>)
    }
 }
