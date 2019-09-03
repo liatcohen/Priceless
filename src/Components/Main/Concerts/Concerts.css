@@ -1,4 +1,5 @@
 .concerts {
-  margin-top: 50px;
+  margin-top: 30px;
   flex: 1;
+  grid-auto-rows: 22vw;
 }

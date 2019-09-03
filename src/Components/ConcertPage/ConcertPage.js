@@ -94,7 +94,7 @@ class ConcertPage extends Component {
                      <h1>Seller Info</h1>
                      <div className="sellerInfoPop">
                         <p><strong>Name:</strong> {this.props.UserStore.user.name}</p>
-                        <p><strong>Make a call:</strong><a className="phonePop" href={"tel:" + this.props.UserStore.user.phone_number}  >{this.props.UserStore.user.phone_number}</a></p>
+                        <p><strong>Make a call:</strong><a className="phonePop" href={"tel:" + this.props.UserStore.user.phone_number}  >0{this.props.UserStore.user.phone_number}</a></p>
                         <p><strong>Send Email:</strong> {this.props.UserStore.user.email}</p>
                      </div>
                      <a href="javascript:void(0);" onClick={() => this.closeModal()}>Close</a>
@@ -102,6 +102,7 @@ class ConcertPage extends Component {
                   </div>
                </Modal>
             </section>
+            <div className="bidSection"> {this.props.ConcertStore.concert.is_bid ? <ConcertBid concertId={this.props.match.params.id}></ConcertBid> : null}</div>
             <div className="concertPhoto" style={{ backgroundImage: "url(" + this.props.ConcertStore.concert.img_url + ")", backgroundSize: "51.2vw 22vw", marginRight: "14.5%" }} >{this.props.ConcertStore.concert.is_favorite ? <i onClick={this.deleteFromFav} class="fas fa-heart"></i> : <i onClick={this.addToFavorites} class="far fa-heart"></i>}</div>
             <div className="concertTitle">{this.props.ConcertStore.concert.artist}</div>
             <div className="ticketSection">
@@ -130,7 +131,6 @@ class ConcertPage extends Component {
 
                </div>
             </div>
-            {this.props.ConcertStore.concert.is_bid ? <ConcertBid concertId={this.props.match.params.id}></ConcertBid> : null}
          </div>)
    }
 }

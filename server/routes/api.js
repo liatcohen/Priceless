@@ -160,11 +160,22 @@ const startCronJob = (concertID, endTime, endDate, seller, concertInfo) => {
 // POST NEW CONCERT + BIDDABLE (IF NEEDED)
 router.post('/concert', async (req, res) => {
     const { artist, date, hour, country, city, venue, num_of_tickets, asked_price, original_price, additional_info, seller, isBid, bid_end_date, bid_end_time } = req.body
+console.log();
 
-    const img_url = await findArtistImg(artist)
+    let bidTime = await isBid ? `${bid_end_date} ${bid_end_time}:00` : `${date} ${hour}:00`
+    const img_url_arr = ["https://www.signbuyer.co.uk/ekmps/shops/bracey77/images/live-show-neon-sign-1-3158-p.jpg" , "http://appreciationatwork-media.s3.amazonaws.com/uploads/2016/04/concert-crowd-crop.jpg" , "https://ep01.epimg.net/verne/imagenes/2015/10/18/articulo/1445171361_981733_1445201957_noticia_normal.jpg"]
+    var randNum = Math.floor(Math.random() * img_url_arr.length) + 0
+    let img_url = img_url_arr[randNum] 
+    console.log(img_url);
+    
+    // const img_url = await findArtistImg(artist)
     const newConcert = await sequelize.query(`
         INSERT INTO concert ( artist, date, country, city , venue, num_of_tickets, asked_price, original_price, additional_info, seller, status, img_url, uploaded_at, is_bid, ends_at)
-        VALUES ( '${artist}', '${date} ${hour}:00' , '${country}', '${city}', '${venue}', ${num_of_tickets}, ${asked_price}, ${original_price}, '${additional_info}', ${seller} , 'active', '${img_url}', '${moment().format('YYYY-MM-DD  HH:mm:ss')}', ${isBid}, '${isBid ? `${bid_end_date} ${bid_end_time}:00` : `${date} ${hour}:00`}')
+        VALUES ( '${artist}', '${date} ${hour}:00' , 
+        '${country}', '${city}', '${venue}', ${num_of_tickets}, 
+        ${asked_price}, ${original_price}, '${additional_info}', 
+        ${seller} , 'active', '${img_url}', '${moment().format('YYYY-MM-DD  HH:mm:ss')}',
+         ${isBid}, '${bidTime}')
         ;`)
     res.send(newConcert)
 

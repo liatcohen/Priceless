@@ -5,8 +5,7 @@
   position: fixed;
   top: 0;
   width: 100%;
-  height: 40px;
-  display:flex;
+  height: 43px;  
   align-items: center;
 }
 .navbar a {
@@ -14,14 +13,13 @@
   display: block;
   color: #f2f2f2;
   text-align: center;
-  padding: 7px 10px 7px;
+  padding: 8px 10px 7px;
   text-decoration: none;
   font-size: 17px;
   height: 100%;
   cursor: pointer;
 }
 .navbar a:hover{
-  display:flex;
   background: #ddd;
   color: black;
   height: 100%;
@@ -31,14 +29,17 @@ a {
   text-decoration: none;
   color: white;
   padding: 5px;
+
+  img {
+    padding-bottom:0.1vw;
+  }
 }
 .navbar>a.active {
   background-color: #4CAF50;
   color: white;
 }
-.Logo{
-  //  margin-top: 0.1vh;
-}
+
+
 .navbar a.active{
    display:flex;
    background: #ddd;
@@ -50,3 +51,10 @@ a {
 .navbar #logo:hover{
   background: #333;
 }
+
+
+
+  .logout{
+    float: right !important;
+  }
+

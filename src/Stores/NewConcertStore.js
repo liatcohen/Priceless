@@ -30,7 +30,7 @@ export class NewConcertStore {
 
    @action saveConcert = async () => {
       let concert = this.newConcert
-      if (concert.original_price == Number) {concert.original_price= this.newConcert.asked_price }
+      if (concert.original_price == Number) {concert.original_price = this.newConcert.asked_price }      
       console.log(concert)
       // console.log(concert.seller)
       // console.log("######concert")
@@ -41,6 +41,7 @@ export class NewConcertStore {
       // console.log(this.newConcert.bid_end_time)
 
       await axios.post(`http://localhost:5000/concert`, concert)
+
       this.newConcert = {
          artist: "",
          date: Date,
