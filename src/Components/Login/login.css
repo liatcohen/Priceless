@@ -20,11 +20,18 @@
 #login {
   width: 44vw;
   margin: auto;
-  margin-top: 11vw;
+  margin-top: 4vw;
   height: 26vw;
   background-color: white;
 }
 #login input {
   width: 21vw;
   padding-top: 5vw;
+}
+.logo {
+  text-align: center;
+  margin-top: 3vw;
+}
+.logo img {
+  height: 7vw;
 }

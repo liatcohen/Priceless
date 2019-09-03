@@ -108,7 +108,10 @@
 .bbb {
   margin-left: 0px;
 }
-#paypal {
+.bidSection {
+  position: fixed;
+}
+.bidSection #paypal {
   height: 50px;
   width: 80px;
 }
