@@ -3,6 +3,10 @@
 
 Stuck with tickets for a concert you can’t attend? No worries! post your tickets for sale and let people bid on them, whoever suggests the highest price wins.
 
+###### Home Page screen
+![alt text](src/images/front.png "Home Page screenshot")
+###### Concert Page
+![alt text](src/images/concertPage.png "Concert Page screenshot")
 
 ### Built With:
 - React
