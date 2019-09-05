@@ -35,14 +35,14 @@ class NewItem extends Component {
    }
 
    saveConcert = async () => {
-      console.log(this.props.NewConcertStore.newConcert.artist)
-      console.log(this.props.NewConcertStore.newConcert.date)
-      console.log(this.props.NewConcertStore.newConcert.hour)
-      console.log(this.props.NewConcertStore.newConcert.country)
-      console.log(this.props.NewConcertStore.newConcert.city)
-      console.log(this.props.NewConcertStore.newConcert.venue)
-      console.log(this.props.NewConcertStore.newConcert.asked_price)
-      console.log(this.props.NewConcertStore.newConcert.num_of_tickets)
+      // console.log(this.props.NewConcertStore.newConcert.artist)
+      // console.log(this.props.NewConcertStore.newConcert.date)
+      // console.log(this.props.NewConcertStore.newConcert.hour)
+      // console.log(this.props.NewConcertStore.newConcert.country)
+      // console.log(this.props.NewConcertStore.newConcert.city)
+      // console.log(this.props.NewConcertStore.newConcert.venue)
+      // console.log(this.props.NewConcertStore.newConcert.asked_price)
+      // console.log(this.props.NewConcertStore.newConcert.num_of_tickets)
       if (!this.props.NewConcertStore.newConcert.artist) return alert("Artist field is empty")
       if (this.props.NewConcertStore.newConcert.date == Date) return alert("Date field is empty")
       if (this.props.NewConcertStore.newConcert.hour == Date) return alert("Hour field is empty")
@@ -97,7 +97,7 @@ class NewItem extends Component {
 
             </div>
          </div>)
-      console.log(99)
+      // console.log(99)
 
       console.log(moment(Date()).fromNow())
       return (

@@ -3,7 +3,7 @@ const express = require('express')
 const router = express.Router()
 const moment = require('moment')
 const axios = require('axios')
-const sequelize = new Sequelize('mysql://root:@localhost/priceless')
+const sequelize = new Sequelize('mysql://root:Guprd214!@localhost/priceless')
 const cron = require('node-cron')
 const sendMailFunc = require("./../send-email")
 
@@ -25,13 +25,13 @@ const sendMailFunc = require("./../send-email")
 const cronJobs = {}
 
 const findArtistImg = async artist => {
-    let images = await axios.get(`https://api.cognitive.microsoft.com/bing/v7.0/images/search/?q=${artist}%20concert&minHeight=1500&aspect=Wide&maxFileSize=200000`, { headers: { "Ocp-Apim-Subscription-Key": '48662c45baf24c069aa00b0f1cff2222' } })
+    let images = await axios.get(`https://api.cognitive.microsoft.com/bing/v7.0/images/search/?q=${artist}%20concert&minHeight=1500&aspect=Wide&maxFileSize=200000`, { headers: { "Ocp-Apim-Subscription-Key": 'b88c6f95fe6d430d851bccea76ad2012' } })
     if (!images.data.value.length) {
-        images = await axios.get(`https://api.cognitive.microsoft.com/bing/v7.0/images/search/?q=${artist}%20concert&minHeight=1200&aspect=Wide&maxFileSize=200000`, { headers: { "Ocp-Apim-Subscription-Key": '48662c45baf24c069aa00b0f1cff2222' } })
+        images = await axios.get(`https://api.cognitive.microsoft.com/bing/v7.0/images/search/?q=${artist}%20concert&minHeight=1200&aspect=Wide&maxFileSize=200000`, { headers: { "Ocp-Apim-Subscription-Key": 'b88c6f95fe6d430d851bccea76ad2012' } })
         if (!images.data.value.length) {
-            images = await axios.get(`https://api.cognitive.microsoft.com/bing/v7.0/images/search/?q=${artist}%20concert&minHeight=900&aspect=Wide&maxFileSize=200000`, { headers: { "Ocp-Apim-Subscription-Key": '48662c45baf24c069aa00b0f1cff2222' } })
+            images = await axios.get(`https://api.cognitive.microsoft.com/bing/v7.0/images/search/?q=${artist}%20concert&minHeight=900&aspect=Wide&maxFileSize=200000`, { headers: { "Ocp-Apim-Subscription-Key": 'b88c6f95fe6d430d851bccea76ad2012' } })
             if (!images.data.value.length) {
-                images = await axios.get(`https://api.cognitive.microsoft.com/bing/v7.0/images/search/?q=${artist}&maxFileSize=300000`, { headers: { "Ocp-Apim-Subscription-Key": '48662c45baf24c069aa00b0f1cff2222' } })
+                images = await axios.get(`https://api.cognitive.microsoft.com/bing/v7.0/images/search/?q=${artist}&maxFileSize=300000`, { headers: { "Ocp-Apim-Subscription-Key": 'b88c6f95fe6d430d851bccea76ad2012' } })
             }
         }
     }
@@ -165,10 +165,11 @@ console.log();
     let bidTime = await isBid ? `${bid_end_date} ${bid_end_time}:00` : `${date} ${hour}:00`
     const img_url_arr = ["https://www.signbuyer.co.uk/ekmps/shops/bracey77/images/live-show-neon-sign-1-3158-p.jpg" , "http://appreciationatwork-media.s3.amazonaws.com/uploads/2016/04/concert-crowd-crop.jpg" , "https://ep01.epimg.net/verne/imagenes/2015/10/18/articulo/1445171361_981733_1445201957_noticia_normal.jpg"]
     var randNum = Math.floor(Math.random() * img_url_arr.length) + 0
-    let img_url = img_url_arr[randNum] 
-    console.log(img_url);
+   //  let img_url = img_url_arr[randNum] 
+   //  console.log(img_url);
     
-    // const img_url = await findArtistImg(artist)
+    const img_url = await findArtistImg(artist)
+    
     const newConcert = await sequelize.query(`
         INSERT INTO concert ( artist, date, country, city , venue, num_of_tickets, asked_price, original_price, additional_info, seller, status, img_url, uploaded_at, is_bid, ends_at)
         VALUES ( '${artist}', '${date} ${hour}:00' , 
