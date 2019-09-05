@@ -32,7 +32,10 @@ export class NewConcertStore {
       let concert = this.newConcert
       if (concert.original_price == Number) {concert.original_price = this.newConcert.asked_price }      
       console.log(concert)
-      // console.log(concert.seller)
+      console.log("000000000000000000000000000000000")
+      console.log(concert.seller)
+      console.log(UserStore.user.id)
+
       // console.log("######concert")
       // console.log(concert)
       // console.log("bid_end_date")
@@ -46,18 +49,20 @@ export class NewConcertStore {
          artist: "",
          date: Date,
          hour: Date,
-         country: "Israel",
+         country: "",
          city: "",
          venue: "",
          num_of_tickets: Number,
          asked_price: Number,
          original_price: Number,
          additional_info: "",
-         idBid: false,
+         seller: UserStore.user.id,
+         isBid: false,
          bid_end_date: Date,
          bid_end_time: Date,
       }
       console.log("saved")
+
    }
 
    @action handleInput = (name, value) => {
