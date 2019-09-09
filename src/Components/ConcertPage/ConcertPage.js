@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { observer, inject } from 'mobx-react'
 import Modal from 'react-awesome-modal';
-import { PayPalButton } from "react-paypal-button-v2";
+// import { PayPalButton } from "react-paypal-button-v2";
 
 
 
@@ -134,7 +134,7 @@ class ConcertPage extends Component {
 
                </div>
             </div>
-            {this.props.ConcertStore.concert.is_bid ? "" :
+            {/* {this.props.ConcertStore.concert.is_bid ? "" :
                <PayPalButton
                   amount={this.props.ConcertStore.concert.asked_price * this.props.ConcertStore.concert.num_of_tickets}
                   onSuccess={(details, data) => {
@@ -152,7 +152,7 @@ class ConcertPage extends Component {
                      });
                   }}
                />
-            }
+            } */}
          </div>)
    }
 }
