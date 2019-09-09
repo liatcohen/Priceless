@@ -66,7 +66,6 @@ export class NewConcertStore {
    }
 
    @action handleInput = (name, value) => {
-      console.log(value)
       this.newConcert[name] = value
    }
 
@@ -76,14 +75,12 @@ export class NewConcertStore {
    // }
 
    @action chooseBid = () => {
-      console.log("chooseBid")
       let concert = { ...this.newConcert }
       concert.isBid = true
       this.newConcert = { ...concert }
    }
 
    @action chooseFixedPrice = () => {
-      console.log("chooseFixedPrice")
 
       let concert = { ...this.newConcert }
       concert.isBid = false

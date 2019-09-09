@@ -5,8 +5,8 @@
 }
 .concert-box {
   background-color: #000000;
-  height: 19.9vw;
-  width: 23vw;
+  height: 16.9vw;
+  width: 19vw;
   border-radius: 7px;
   margin: auto;
   display: grid;
@@ -36,7 +36,7 @@
   background-size: 200px 110px;
   background-repeat: no-repeat;
   display: grid;
-  grid-template-rows: 2fr 1.6fr;
+  grid-template-rows: 2.4fr 1.6fr;
   border-bottom-right-radius: 7px;
 }
 #concert-box-date #day {

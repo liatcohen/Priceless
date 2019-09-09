@@ -18,21 +18,11 @@ export class ConcertsStore {
     }
 
     @action getConcerts = async () => {
-      //   console.log("getConcerts")
             const response = await axios.get(`http://localhost:5000/concerts/`)
-            // console.log(response);
-            // console.log(response.data);
-
              this.concerts = [...response.data]
-        //     Sends get request getConcerts(‘/concerts’) 
         //     Get all concerts,array of objects.
         //     Each contains: {concertId, artists, number of tickets,date,price,image}
         // Optional query: artist, city, dateFrom, dateTo, priceFrom, priceTo, minTickets
-    }
-
-    @action postConcert = (concertInfo) => {
-        // (“/concert” body)
-        // Sends new concert to the server
     }
 
     //in UserStore
@@ -52,17 +42,17 @@ export class ConcertsStore {
             priceTo: this.formInputs["priceTo"],
             minTickets: this.formInputs["minTickets"]
         }} )
-            console.log(response.data);
+           
 
              this.concerts = [...response.data]
 
-        console.log(`SEARCH: 
-         artist: ${this.formInputs["artist"]}, 
-         city: ${this.formInputs["city"]}, 
-         dateFrom: ${this.formInputs["dateFrom"]}, 
-         dateTo: ${this.formInputs["dateTo"]}
-         minTickets: ${this.formInputs["minTickets"]},  
-         priceTo: ${this.formInputs["priceTo"]}, `)
+        // console.log(`SEARCH: 
+        //  artist: ${this.formInputs["artist"]}, 
+        //  city: ${this.formInputs["city"]}, 
+        //  dateFrom: ${this.formInputs["dateFrom"]}, 
+        //  dateTo: ${this.formInputs["dateTo"]}
+        //  minTickets: ${this.formInputs["minTickets"]},  
+        //  priceTo: ${this.formInputs["priceTo"]}, `)
     }
 
 }

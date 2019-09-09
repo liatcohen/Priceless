@@ -80,9 +80,6 @@ class ConcertPage extends Component {
 
    render() {
 
-      console.log(this.props.ConcertStore.concert.is_favorite);
-      console.log(this.props.ConcertStore.concert.id);
-
       return (
 
          <div className="concertSection">
