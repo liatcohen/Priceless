@@ -39,6 +39,9 @@ class UserStore {
    }
    @action getUser = async () => {
       console.log(this.user.email);
+      if(this.user.password == undefined ){
+        return alert("Enter correct email and password")
+      } else {
       let hashPass = await this.hashCode(this.user.password)
       console.log(hashPass);
       
@@ -54,10 +57,10 @@ class UserStore {
 
          
       } else {
-         alert("put dscd")
+         alert("Enter correct password")
       }
 
-
+   }
    }
 
 
@@ -100,6 +103,10 @@ class UserStore {
       console.log(hash.toString()); 
       return hash.toString();
     };
+
+    @action deleteFromFavorite = async (concertId) => {
+      await axios.delete(`http://localhost:5000/favorite/${this.user.id}/${concertId}`)
+    }
 
 }
 

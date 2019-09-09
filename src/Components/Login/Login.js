@@ -9,10 +9,20 @@ import image from '../../images/logo3.png'
 class login extends Component {
 
     inputHandler = (e) => {
+        if(e.target.value.length == 0){
+            return alert("slkfmkfdv")
+            
+        }
         this.props.UserStore.handleInput(e.target.name, e.target.value)
      }
   
      loginUser =() =>{
+        this.props.UserStore.getUser()
+     }
+
+     loginDemoUser = async () =>{
+       await this.props.UserStore.handleInput( "email","hadaralon3@gmail.com")
+       await this.props.UserStore.handleInput("password", "hadar" )
         this.props.UserStore.getUser()
      }
 
@@ -24,7 +34,10 @@ class login extends Component {
             <div id="login">
                <input name="email" type="text" placeholder="your email" value={this.props.UserStore.user.email} onChange={this.inputHandler} />
                <input name="password" type="password" placeholder="your password" value={this.props.UserStore.user.password} onChange={this.inputHandler} />
-               <div className="loginButton" onClick={this.loginUser}>Login!</div>
+               <div className="buttonSection">
+                   <span className="loginButton" onClick={this.loginUser}>Login!</span>
+                   <span className="loginButton" onClick={this.loginDemoUser}>Demo Account</span>
+               </div>
             </div>
             </div>
         )

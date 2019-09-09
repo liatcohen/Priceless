@@ -92,7 +92,7 @@ margin-top: 51px;
 
 .concerts{
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 0.7fr 0.4fr 0.7fr;
 }
 
 .favoriteTitle{
