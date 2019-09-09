@@ -56,8 +56,6 @@ class NewItem extends Component {
       await this.openModal()
    }
    radioButtonChanged = (e) => {
-      console.log("radioButtonChanged")
-      console.log(e.target.value)
       e.target.value === "fixed_price" ?
          this.props.NewConcertStore.chooseFixedPrice() :
          this.props.NewConcertStore.chooseBid()
@@ -97,9 +95,7 @@ class NewItem extends Component {
 
             </div>
          </div>)
-      // console.log(99)
 
-      console.log(moment(Date()).fromNow())
       return (
          <div>
             <div className="new-item">

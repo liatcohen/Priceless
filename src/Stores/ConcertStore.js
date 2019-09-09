@@ -34,12 +34,10 @@ export class ConcertStore {
 
         this.concert = { ...response.data }
         this.concert.id = concertId
-        console.log("response.data")
-        console.log(response.data)
+        // console.log(response.data)
 
     }
     @action handleBid = (value) => {
-        console.log(value)
         this.bid = value
 
         // const { amount, concertID, bidder } = req.body
@@ -49,9 +47,9 @@ export class ConcertStore {
     @action makeBid = async () => {
         console.log("store makeBid")
         // await axios.post(`http://localhost:5000/concert`, concert)
-        console.log("amount" + this.bid)
-        console.log("concertId" + this.concert.id)
-        console.log("bidder" + UserStore.user.id)
+        // console.log("amount" + this.bid)
+        // console.log("concertId" + this.concert.id)
+        // console.log("bidder" + UserStore.user.id)
         await axios.post(`http://localhost:5000/bid`, {
             amount: this.bid,
             concertID: this.concert.id,
