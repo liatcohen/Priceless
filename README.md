@@ -4,7 +4,7 @@
 Stuck with tickets for a concert you can’t attend? No worries! post your tickets for sale and let people bid on them, whoever suggests the highest price wins.
 
 ###### Home Page screen
-![alt text](src/images/front.png "Home Page screenshot")
+![alt text](src/images/homepage.png "Home Page screenshot")
 ###### Concert Page
 ![alt text](src/images/concertPage.png "Concert Page screenshot")
 
@@ -32,9 +32,5 @@ Stuck with tickets for a concert you can’t attend? No worries! post your ticke
 
 ### login:
 
-You can log in to the site via email and password.
-You can currently log in to the site with the following information:
-Email: hadaralon3@gmail.com 
-Password: hadar
-
+You can currently log in to the site with the demo account button
 *The option to add new user will be added later
